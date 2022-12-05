@@ -63,6 +63,39 @@ main {
   }
 }
 
+
+
+.dropdown {
+  height: 50%;
+  width: 75%;
+  background: pink;
+  position: fixed;
+  z-index: 10;
+
+  .drop-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    z-index: 10;
+
+
+    .drop-characters,
+    .drop-weapons,
+    .drop-rooms {
+      outline: 2px solid orangered;
+      display: flex;
+      flex-direction: column;
+      width: 30%;
+      z-index: 10;
+
+    }
+  }
+}
+
+// hide guess-box until guess-btn is clicked 
+.hidden {
+  display: none;
+}
+
 .dice {
   width: 60px;
   height: 60px;
@@ -72,7 +105,7 @@ main {
   background-color: rgb(255, 254, 171);
   height: 100%;
   width: 80%;
-
+  z-index: 0;
 
   .board-first-row {
     outline: 2px solid blue;
@@ -118,6 +151,7 @@ main {
 
 .wrapper {
   display: flex;
+  z-index: 0;
 
   .player1,
   .player2 {
