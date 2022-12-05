@@ -1,5 +1,5 @@
-@use "utils/a11y"; // Om det inte funkar, byt @use mot @import
-@use "vendor/reset";
+@import "utils/a11y"; // Om det inte funkar, byt @use mot @import
+@import "vendor/reset";
 
 :root {
   // TODO: Går bra att radera kod även här!
@@ -61,4 +61,87 @@ main {
       }
     }
   }
+}
+
+.dice {
+  width: 60px;
+  height: 60px;
+}
+
+.board {
+  background-color: rgb(255, 254, 171);
+  height: 100%;
+  width: 80%;
+
+
+  .board-first-row {
+    outline: 2px solid blue;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .board-middle-row {
+    outline: 2px solid orangered;
+    display: flex;
+    justify-content: space-around;
+
+
+    .board-envelope {
+      outline: 2px solid black;
+
+      .accuse-btn,
+      .guess-btn {
+        margin: 10px;
+        width: 200px;
+        height: 90px;
+      }
+    }
+
+    .board-small-room {
+      outline: 2px solid green;
+
+      .room-small {
+        margin: 10px;
+        width: 200px;
+        height: 90px;
+      }
+    }
+  }
+
+  .board-last-row {
+    outline: 2px solid pink;
+    display: flex;
+    justify-content: space-around;
+
+  }
+}
+
+.wrapper {
+  display: flex;
+
+  .player1,
+  .player2 {
+    outline: 2px solid white;
+    height: 50%;
+    width: 30rem;
+
+    .player1-hand,
+    .player2-hand {
+      display: flex;
+    }
+
+    .player-card {
+      border: 2px solid yellow;
+      width: 7rem;
+      height: 10rem;
+      margin: 5px;
+    }
+  }
+
+}
+
+.room {
+  height: 200px;
+  width: 200px;
+  margin: 10px;
 }

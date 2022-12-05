@@ -13,7 +13,59 @@
 <body>
   <main>
     <div class="app" id="app"></div> <!-- TODO: går bra att radera -->
-    <!-- TODO: skriv din kod här, innan script-taggen -->
+    <div class="wrapper">
+      <button class="dice">Dice</button>
+      <section class="player1">
+        <h2>Player 1</h2>
+        <article class="player1-hand">
+          <div class="player-card">Card 1</div>
+          <div class="player-card">Card 2</div>
+          <div class="player-card">Card 3</div>
+        </article>
+      </section>
+
+      <section class="board">
+        <article class="board-first-row">
+          <button class="room">Kitchen</button>
+          <button class="room">Ballroom</button>
+          <button class="room">Conservatory</button>
+        </article>
+        <article class="board-middle-row">
+          <button class="room">Dining Room</button>
+          <div class="board-envelope">
+            <button class="accuse-btn">Accuse</button><br>
+            <button class="guess-btn">Guess</button>
+          </div>
+          <div class="board-small-room">
+            <button class="room-small">Billiard Room</button><br>
+            <button class="room-small">Library</button>
+          </div>
+        </article>
+        <article class="board-last-row">
+          <button class="room">Lounge</button>
+          <button class="room">Hall</button>
+          <button class="room">Study</button>
+        </article>
+      </section>
+
+      <section class="player2">
+        <h2>Player 2</h2>
+        <article class="player2-hand">
+          <div class="player-card">Card 1</div>
+          <div class="player-card">Card 2</div>
+          <div class="player-card">Card 3</div>
+        </article>
+      </section>
+    </div>
+    <section class="player-you">
+      <h2>You</h2>
+      <article>
+        <div>Card 1</div>
+        <div>Card 2</div>
+        <div>Card 3</div>
+      </article>
+    </section>
+
   </main>
 
   <!-- TODO
