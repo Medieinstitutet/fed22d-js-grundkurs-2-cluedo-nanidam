@@ -70,6 +70,7 @@ h1 {
   font-size: 5rem;
 }
 
+//guess box
 .dropdown {
   height: auto;
   width: 75%;
@@ -79,19 +80,8 @@ h1 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
-  .dice-container {
-    display: inline-block;
-
-    .dice {
-      width: 60px;
-      height: 60px;
-    }
-  }
-
   text-align: center;
   z-index: 10;
-
 
   .drop-title {
     margin: 15px;
@@ -117,6 +107,7 @@ h1 {
     }
   }
 }
+
 
 // hide guess-box until guess-btn is clicked 
 .hidden {
@@ -205,15 +196,7 @@ h1 {
       margin: 5px;
     }
 
-    .dice-container {
-      display: inline-block;
 
-      .dice {
-        width: 60px;
-        height: 60px;
-        border-radius: 10px;
-      }
-    }
   }
 
 }
@@ -229,17 +212,30 @@ h1 {
   width: 100%;
   text-align: center;
 
-  .your-hand {
-    // outline: 2px solid blue;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
 
-    .your-card {
-      background-color: orange;
-      width: 7rem;
-      height: 10rem;
-      margin: 5px;
-    }
+}
+
+.your-hand {
+  // outline: 2px solid blue;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  .your-card {
+    background-color: orange;
+    width: 7rem;
+    height: 10rem;
+    margin: 5px;
+  }
+}
+
+.dice-container {
+  position: absolute;
+  left: 10%;
+
+  .dice {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
   }
 }
