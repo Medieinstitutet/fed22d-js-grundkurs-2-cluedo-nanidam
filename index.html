@@ -12,9 +12,10 @@
 
 <body>
   <main>
+    <h1>Cluedo</h1>
     <div class="app" id="app"></div> <!-- TODO: går bra att radera -->
     <section class="dropdown hidden">
-      <h2>Take a guess</h2>
+      <h2 class="drop-title">Take a guess</h2>
       <div class="drop-wrapper">
         <article class="drop-characters">
           <button>Miss Scarlett</button>
@@ -43,16 +44,19 @@
           <button>Study</button>
         </article>
       </div>
-      <button>Submit</button>
+      <button>Submit guess</button>
     </section>
+
     <div class="wrapper">
-      <button class="dice">Dice</button>
       <section class="player1">
         <h2>Player 1</h2>
         <article class="player1-hand">
           <div class="player-card">Card 1</div>
           <div class="player-card">Card 2</div>
           <div class="player-card">Card 3</div>
+        </article>
+        <article class="dice-container">
+          <button class="dice">Dice</button>
         </article>
       </section>
 
@@ -91,10 +95,10 @@
     </div>
     <section class="player-you">
       <h2>You</h2>
-      <article>
-        <div>Card 1</div>
-        <div>Card 2</div>
-        <div>Card 3</div>
+      <article class="your-hand">
+        <div class="your-card">Card 1</div>
+        <div class="your-card">Card 2</div>
+        <div class="your-card">Card 3</div>
       </article>
     </section>
 
