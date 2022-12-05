@@ -124,9 +124,18 @@ main {
 
       .accuse-btn,
       .guess-btn {
-        margin: 10px;
-        width: 200px;
-        height: 90px;
+        margin: 20px;
+        width: 180px;
+        height: 50px;
+        border-radius: 25px;
+      }
+
+      .accuse-btn {
+        background-color: red;
+      }
+
+      .guess-btn {
+        background: rgb(99, 0, 0);
       }
     }
 
