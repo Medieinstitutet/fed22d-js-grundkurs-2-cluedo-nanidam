@@ -114,34 +114,43 @@ h1 {
   display: none;
 }
 
+h2 {
+  text-align: center;
+}
 
 
 .board {
-  background-color: rgb(255, 254, 171);
+  background-color: rgb(69, 67, 67);
   height: 100%;
   width: 80%;
+
   z-index: 0;
 
   .board-first-row {
-    outline: 2px solid blue;
+    // outline: 2px solid blue;
     display: flex;
     justify-content: space-around;
+    margin-top: 10px;
   }
 
   .board-middle-row {
-    outline: 2px solid orangered;
+    // outline: 2px solid orangered;
     display: flex;
     justify-content: space-around;
 
+    margin-top: 10px;
+    margin-bottom: 10px;
 
     .board-envelope {
-      outline: 2px solid black;
+      //outline: 2px solid black;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
 
       .accuse-btn,
       .guess-btn {
-        margin: 20px;
-        width: 180px;
-        height: 50px;
+        min-height: 100px;
+        min-width: 250px;
         border-radius: 25px;
       }
 
@@ -155,21 +164,30 @@ h1 {
     }
 
     .board-small-room {
-      outline: 2px solid green;
+      // outline: 2px solid green;
+      display: flex;
+      flex-direction: column;
+      // justify-content: space-evenly;
 
       .room-small {
-        margin: 10px;
-        width: 200px;
-        height: 90px;
+        width: 250px;
+        height: 130px;
       }
     }
   }
 
   .board-last-row {
-    outline: 2px solid pink;
+    // outline: 2px solid pink;
     display: flex;
     justify-content: space-around;
+    margin-bottom: 10px;
+  }
 
+  .room {
+    min-height: 250px;
+    min-width: 250px;
+    margin-left: 5px;
+    margin-right: 5px;
   }
 }
 
@@ -201,18 +219,12 @@ h1 {
 
 }
 
-.room {
-  height: 200px;
-  width: 200px;
-  margin: 10px;
-}
+
 
 .player-you {
   // outline: 2px solid purple;
   width: 100%;
-  text-align: center;
-
-
+  margin: 10px;
 }
 
 .your-hand {
