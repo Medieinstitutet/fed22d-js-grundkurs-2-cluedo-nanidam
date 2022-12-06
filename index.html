@@ -12,8 +12,97 @@
 
 <body>
   <main>
-    <div class="app" id="app"></div> <!-- TODO: går bra att radera -->
-    <!-- TODO: skriv din kod här, innan script-taggen -->
+    <h1>Cluedo</h1>
+    <!-- <div class="app" id="app"></div> TODO: går bra att radera -->
+    <section class="dropdown hidden">
+      <h2 class="drop-title">Take a guess</h2>
+      <div class="drop-wrapper">
+        <article class="drop-characters">
+          <h3>Who?</h3>
+          <button>Miss Scarlett</button>
+          <button>Mr. Green</button>
+          <button>Colonel Mustard</button>
+          <button>Professor Plum</button>
+          <button>Mrs. Peacock</button>
+          <button>Mrs. White</button>
+        </article>
+        <article class="drop-weapons">
+          <h3>Which weapon?</h3>
+          <button>Candlestick</button>
+          <button>Knife</button>
+          <button>Lead Pipe</button>
+          <button>Revolver</button>
+          <button>Rope</button>
+          <button>Wrench</button>
+        </article>
+        <article class="drop-rooms">
+          <h3>Which room?</h3>
+          <button>Kitchen</button>
+          <button>Ballroom</button>
+          <button>Dining Room</button>
+          <button>Billiard Room</button>
+          <button>Library</button>
+          <button>Lounge</button>
+          <button>Hall</button>
+          <button>Study</button>
+        </article>
+      </div>
+      <button>Submit guess</button>
+    </section>
+    <div class="wrapper">
+      <section class="player1">
+        <h2>Player 1</h2>
+        <article class="player1-hand">
+          <div class="player-card">Card 1</div>
+          <div class="player-card">Card 2</div>
+          <div class="player-card">Card 3</div>
+        </article>
+      </section>
+      <section class="board">
+        <article class="board-first-row">
+          <button class="room">Kitchen</button>
+          <button class="room">Ballroom</button>
+          <button class="room">Conservatory</button>
+        </article>
+        <article class="board-middle-row">
+          <div class="room-holder">
+            <button class="room">Dining Room</button>
+          </div>
+          <div class="board-envelope">
+            <button class="accuse-btn">Accuse</button><br>
+            <button class="guess-btn">Guess</button>
+          </div>
+          <div class="board-small-room">
+            <button class="room-small">Billiard Room</button><br>
+            <button class="room-small">Library</button>
+          </div>
+        </article>
+        <article class="board-last-row">
+          <button class="room">Lounge</button>
+          <button class="room">Hall</button>
+          <button class="room">Study</button>
+        </article>
+      </section>
+      <section class="player2">
+        <h2>Player 2</h2>
+        <article class="player2-hand">
+          <div class="player-card">Card 1</div>
+          <div class="player-card">Card 2</div>
+          <div class="player-card">Card 3</div>
+        </article>
+      </section>
+    </div>
+    <section class="dice-container">
+      <button class="dice">Dice</button>
+    </section>
+    <section class="player-you">
+      <h2>You</h2>
+      <article class="your-hand">
+        <div class="your-card">Card 1</div>
+        <div class="your-card">Card 2</div>
+        <div class="your-card">Card 3</div>
+      </article>
+    </section>
   </main>
 
   <!-- TODO
