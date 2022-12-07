@@ -74,16 +74,87 @@ const roomDeck: string[] = [
 ];
 
 
-const accuseDeck: string[] = [];
+
 
 //shuffle a random number
-const shuffleCard =  () => {
-  return Math.floor(Math.random() * 5);
+const randomNum0to5 =  () => {
+  return Math.floor(Math.random() * 6);
 };
 
-accuseDeck.push(charDeck[shuffleCard()]);
-accuseDeck.push(weaponDeck[shuffleCard()]);
-accuseDeck.push(roomDeck[Math.floor(Math.random() * roomDeck.length)]);
+// draw 1 card from each deck and put then in "accuseDeck"
+const drawCharAccuse: string[] = charDeck.splice(randomNum0to5(), 1);
+const drawWeaponAccuse: string[] = weaponDeck.splice(randomNum0to5(), 1);
+const drawRoomAccuse: string[] = roomDeck.splice(Math.floor(Math.random() * roomDeck.length), 1);
+let accuseDeck = [];
+
+accuseDeck.push(drawCharAccuse);
+accuseDeck.push(drawWeaponAccuse);
+accuseDeck.push(drawRoomAccuse);
+
+// dice & counter
+const dice = document.getElementsByClassName("dice")[0];
+
+//when dice is clicked on -> add +1 on count
+let count:number = 0;
+const updateCount = () => {
+  count ++;
+}
+dice.addEventListener('click', updateCount);
+
+updateCount();
+
+//guess btn
+const guessBtn = document.getElementsByClassName('guess-btn')[0];
+
+const guess = () => {
+  alert("POP UP GUESS BOX SOMEWHERE")
+}
+guessBtn.addEventListener('click', guess);
+
+
+// players
+let playerOneHand = [];
+let playerTwoHand = [];
+let playerYouHand = [];
 
 
 
+const mergeWeapon: string[] = charDeck.concat(weaponDeck);
+const mergedDeck: string[] = mergeWeapon.concat(roomDeck);
+
+const shuffle = (array:string[]) =>{
+  let currentIndex = array.length,  randomIndex;
+  
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+    
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+    }
+    
+    return array;
+  }
+  
+  const shuffledCard: string[] = shuffle(mergedDeck)
+console.log(shuffledCard)
+
+while (shuffledCard.length > 0) {
+  playerOneHand.push(shuffledCard.shift());
+  playerTwoHand.push(shuffledCard.shift());
+  // if shuffledCard is not empty -> push
+  if (shuffledCard.length !== 0) {
+    playerYouHand.push(shuffledCard.shift());
+  }
+  
+}
+
+
+console.log(shuffledCard);
+console.log(playerOneHand);
+console.log(playerTwoHand);
+console.log(playerYouHand);
