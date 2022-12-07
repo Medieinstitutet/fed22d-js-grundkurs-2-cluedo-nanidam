@@ -46,7 +46,7 @@ const diningRoom = Array.from(document.getElementsByClassName('dining-room'));
 const mergeRooms = rooms.concat(smallRooms);
 const mergeAllRooms = mergeRooms.concat(diningRoom);
 
-const makeRoomActive = function makeRoomActive(e) {
+const makeRoomActive = function makeRoomActive(e:any) {
   mergeAllRooms.forEach((room) => {
     if (room.getAttribute('id') === e.currentTarget.id) {
       room.classList.add('active');
