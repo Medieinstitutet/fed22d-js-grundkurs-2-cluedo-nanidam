@@ -1,3 +1,4 @@
+/*eslint-disable */
 import './style/style.scss';
 
 // All kod härifrån och ner är bara ett exempel för att komma igång
@@ -37,10 +38,33 @@ import './style/style.scss';
 // document.querySelectorAll('.card').forEach((card) => {
 //   card.addEventListener('click', flipCard);
 // });
+const rooms = Array.from(document.getElementsByClassName('room'));
+const smallRooms = Array.from(document.getElementsByClassName('room-small'));
+const diningRoom = Array.from(document.getElementsByClassName('dining-room'));
 
+// merge all rooms to ONE array
+const mergeRooms = rooms.concat(smallRooms);
+const mergeAllRooms = mergeRooms.concat(diningRoom);
+
+const makeRoomActive = function makeRoomActive(e) {
+  mergeAllRooms.forEach((room) => {
+    if (room.getAttribute('id') === e.currentTarget.id) {
+      room.classList.add('active');
+    } else {
+      room.classList.remove('active');
+    }
+  });
+};
+
+mergeAllRooms.forEach((room: any) => {
+  room.addEventListener('click', makeRoomActive);
+});
+
+// characters deck
 const charDeck: string[] = [
   'Miss Scarlett', 'Mr. Green', 'Colonel Mustard', 'Professor Plum', 'Mrs. Peacock', 'Mrs. White',
 ];
+
 const weaponDeck: string[] = [
   'Candlestick', 'Knife', 'Lead Pipe', 'Revolver', 'Rope', 'Wrench',
 ];
@@ -49,17 +73,17 @@ const roomDeck: string[] = [
   'Kitchen', 'Ballroom', 'Dining Room', 'Billiard Room', 'Library', 'Lounge', 'Hall', 'Study',
 ];
 
-const shuffleCard = function shuffleCard() {
-  return Math.floor(Math.random() * 6);
-};
 
 const accuseDeck: string[] = [];
 
-const shuffleAccuse = function shuffleAccuse() {
-  accuseDeck.push(charDeck[shuffleCard()]);
-  accuseDeck.push(weaponDeck[shuffleCard()]);
-  accuseDeck.push(roomDeck[Math.floor(Math.random() * 8)]);
+//shuffle a random number
+const shuffleCard =  () => {
+  return Math.floor(Math.random() * 5);
 };
-shuffleAccuse();
-console.table(roomDeck);
-console.table(accuseDeck);
+
+accuseDeck.push(charDeck[shuffleCard()]);
+accuseDeck.push(weaponDeck[shuffleCard()]);
+accuseDeck.push(roomDeck[Math.floor(Math.random() * roomDeck.length)]);
+
+
+

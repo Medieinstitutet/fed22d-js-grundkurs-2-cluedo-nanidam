@@ -194,6 +194,23 @@ h2 {
     margin-right: 5px;
     cursor: pointer;
   }
+
+  .room.active,
+  .dining-room.active,
+  .room-small.active {
+    position: relative;
+
+    &::before {
+      content: '\2605';
+      display: block;
+      font-size: 5rem;
+      color: yellowgreen;
+      position: absolute;
+      top: 75%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
 }
 
 .wrapper {
