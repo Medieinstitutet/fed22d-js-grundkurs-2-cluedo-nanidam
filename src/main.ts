@@ -46,7 +46,7 @@ const mergeRooms = rooms.concat(smallRooms);
 const mergeAllRooms = mergeRooms.concat(diningRoom);
 
 // TODO: how to write TS lang
-const makeRoomActive = function makeRoomActive(e: Event) {
+function makeRoomActive(e: Event) {
   const target = e.target as HTMLButtonElement;
   if (target) {
     mergeAllRooms.forEach((room) => {
@@ -58,7 +58,7 @@ const makeRoomActive = function makeRoomActive(e: Event) {
       }
     });
   }
-};
+}
 
 mergeAllRooms.forEach((room) => {
   room.addEventListener('click', makeRoomActive);
