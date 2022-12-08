@@ -48,8 +48,9 @@ const mergeAllRooms = mergeRooms.concat(diningRoom);
 // TODO: how to write TS lang
 function makeRoomActive(e: Event) {
   const target = e.target as HTMLButtonElement;
+  // const target:HTMLButtonElement = e.target; FIXME: NOT WORKING??? eslint in the way?!
   if (target) {
-    mergeAllRooms.forEach((room) => {
+    mergeAllRooms.forEach((room):void => {
       console.log(room);
       if (room.getAttribute('id') === target.id) {
         room.classList.add('active');
@@ -79,8 +80,9 @@ const roomDeck: string[] = [
 
 // shuffle a random number
 // FIXME: does it really genreate 0-5 after spliced? or else -> RENAME
-const randomNum0to5 = () => Math.floor(Math.random() * charDeck.length);
-const randomNum0to8 = () => Math.floor(Math.random() * roomDeck.length);
+
+const randomNum0to5 = ():number => Math.floor(Math.random() * charDeck.length);
+const randomNum0to8 = ():number => Math.floor(Math.random() * roomDeck.length);
 
 // draw 1 card from each deck and put then in "accuseDeck"
 const drawCharAccuse: string[] = charDeck.splice(randomNum0to5(), 1);
@@ -94,7 +96,7 @@ accuseDeck.push(drawWeaponAccuse);
 accuseDeck.push(drawRoomAccuse);
 
 // assign start room for player-you
-const startRoom = () => {
+const startRoom = ():void => {
   const randomStartRoom:string = roomDeck[randomNum0to8()];
   const toLowerCase:string = randomStartRoom.toLowerCase();
 
@@ -115,7 +117,7 @@ const dice = document.getElementsByClassName('dice')[0];
 let count: number;
 count = 0;
 
-const updateCount = () => {
+const updateCount = ():void => {
   count += 1;
 };
 dice.addEventListener('click', updateCount);
@@ -139,7 +141,7 @@ const playerYouHand = [];
 const mergeWeapon: string[] = charDeck.concat(weaponDeck);
 const mergedDeck: string[] = mergeWeapon.concat(roomDeck);
 
-const shuffle = (array: string[]) => {
+const shuffle = (array: string[]):string[] => {
   const tempArray:string[] = [...array];
   let currentIndex:number = array.length;
   let randomIndex:number;
