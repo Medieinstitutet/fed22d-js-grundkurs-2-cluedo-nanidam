@@ -79,7 +79,7 @@ const randomNum0to5 = () => Math.floor(Math.random() * 6);
 const drawCharAccuse: string[] = charDeck.splice(randomNum0to5(), 1);
 const drawWeaponAccuse: string[] = weaponDeck.splice(randomNum0to5(), 1);
 const drawRoomAccuse: string[] = roomDeck.splice(Math.floor(Math.random() * roomDeck.length), 1);
-const accuseDeck = [];
+const accuseDeck:string[][] = [];
 
 accuseDeck.push(drawCharAccuse);
 accuseDeck.push(drawWeaponAccuse);
@@ -88,10 +88,13 @@ accuseDeck.push(drawRoomAccuse);
 // dice & counter
 const dice = document.getElementsByClassName('dice')[0];
 
+// FIXME: fix ++
 // when dice is clicked on -> add +1 on count
 let count = 0;
+
 const updateCount = () => {
-  count++;
+  count += 1;
+  console.log(count);
 };
 dice.addEventListener('click', updateCount);
 
@@ -100,7 +103,7 @@ updateCount();
 // guess btn
 const guessBtn = document.getElementsByClassName('guess-btn')[0];
 
-// FIXME: guess/accuse box
+// FIXME: guess/accuse box instead for alert
 const guess = () => {
   alert('POP UP GUESS BOX SOMEWHERE');
 };
@@ -123,7 +126,7 @@ const shuffle = (array: string[]) => {
   while (currentIndex !== 0) {
     // Pick a remaining element.
     randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+    currentIndex -= 1;
 
     // And swap it with the current element.
     [tempArray[currentIndex], tempArray[randomIndex]] = [
