@@ -1,4 +1,3 @@
-/*eslint-disable */
 import './style/style.scss';
 
 // All kod härifrån och ner är bara ett exempel för att komma igång
@@ -46,7 +45,7 @@ const diningRoom = Array.from(document.getElementsByClassName('dining-room'));
 const mergeRooms = rooms.concat(smallRooms);
 const mergeAllRooms = mergeRooms.concat(diningRoom);
 
-const makeRoomActive = function makeRoomActive(e:any) {
+const makeRoomActive = function makeRoomActive(e:unknown) {
   mergeAllRooms.forEach((room) => {
     if (room.getAttribute('id') === e.currentTarget.id) {
       room.classList.add('active');
@@ -56,7 +55,7 @@ const makeRoomActive = function makeRoomActive(e:any) {
   });
 };
 
-mergeAllRooms.forEach((room: any) => {
+mergeAllRooms.forEach((room) => {
   room.addEventListener('click', makeRoomActive);
 });
 
@@ -73,75 +72,69 @@ const roomDeck: string[] = [
   'Kitchen', 'Ballroom', 'Dining Room', 'Billiard Room', 'Library', 'Lounge', 'Hall', 'Study',
 ];
 
-
-
-
-//shuffle a random number
-const randomNum0to5 =  () => {
-  return Math.floor(Math.random() * 6);
-};
+// shuffle a random number
+const randomNum0to5 = () => Math.floor(Math.random() * 6);
 
 // draw 1 card from each deck and put then in "accuseDeck"
 const drawCharAccuse: string[] = charDeck.splice(randomNum0to5(), 1);
 const drawWeaponAccuse: string[] = weaponDeck.splice(randomNum0to5(), 1);
 const drawRoomAccuse: string[] = roomDeck.splice(Math.floor(Math.random() * roomDeck.length), 1);
-let accuseDeck = [];
+const accuseDeck = [];
 
 accuseDeck.push(drawCharAccuse);
 accuseDeck.push(drawWeaponAccuse);
 accuseDeck.push(drawRoomAccuse);
 
 // dice & counter
-const dice = document.getElementsByClassName("dice")[0];
+const dice = document.getElementsByClassName('dice')[0];
 
-//when dice is clicked on -> add +1 on count
-let count:number = 0;
+// when dice is clicked on -> add +1 on count
+let count = 0;
 const updateCount = () => {
-  count ++;
-}
+  count++;
+};
 dice.addEventListener('click', updateCount);
 
 updateCount();
 
-//guess btn
+// guess btn
 const guessBtn = document.getElementsByClassName('guess-btn')[0];
 
+// FIXME: guess/accuse box
 const guess = () => {
-  alert("POP UP GUESS BOX SOMEWHERE")
-}
+  alert('POP UP GUESS BOX SOMEWHERE');
+};
 guessBtn.addEventListener('click', guess);
 
-
 // players
-let playerOneHand = [];
-let playerTwoHand = [];
-let playerYouHand = [];
-
-
+const playerOneHand = [];
+const playerTwoHand = [];
+const playerYouHand = [];
 
 const mergeWeapon: string[] = charDeck.concat(weaponDeck);
 const mergedDeck: string[] = mergeWeapon.concat(roomDeck);
 
-const shuffle = (array:string[]) =>{
-  let currentIndex = array.length,  randomIndex;
-  
+const shuffle = (array: string[]) => {
+  const tempArray:string[] = [...array];
+  let currentIndex:number = array.length;
+  let randomIndex:number;
+
   // While there remain elements to shuffle.
-  while (currentIndex != 0) {
-    
+  while (currentIndex !== 0) {
     // Pick a remaining element.
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
-    
+
     // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
-    }
-    
-    return array;
+    [tempArray[currentIndex], tempArray[randomIndex]] = [
+      tempArray[randomIndex], tempArray[currentIndex]];
   }
-  
-  const shuffledCard: string[] = shuffle(mergedDeck)
-console.log(shuffledCard)
+
+  return array;
+};
+
+const shuffledCard: string[] = shuffle(mergedDeck);
+console.log(shuffledCard);
 
 while (shuffledCard.length > 0) {
   playerOneHand.push(shuffledCard.shift());
@@ -150,9 +143,7 @@ while (shuffledCard.length > 0) {
   if (shuffledCard.length !== 0) {
     playerYouHand.push(shuffledCard.shift());
   }
-  
 }
-
 
 console.log(shuffledCard);
 console.log(playerOneHand);
