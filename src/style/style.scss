@@ -195,11 +195,13 @@ h2 {
     cursor: pointer;
   }
 
+  //TODO: mark other players on board? 
   .room.active,
   .dining-room.active,
   .room-small.active {
     position: relative;
 
+    // mark which active room
     &::before {
       content: '\2605';
       display: block;
