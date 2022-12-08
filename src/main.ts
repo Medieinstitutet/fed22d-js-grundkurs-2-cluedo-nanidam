@@ -40,7 +40,6 @@ import './style/style.scss';
 const rooms = Array.from(document.getElementsByClassName('room'));
 const smallRooms = Array.from(document.getElementsByClassName('room-small'));
 const diningRoom = Array.from(document.getElementsByClassName('dining-room'));
-
 // merge all rooms to ONE array
 const mergeRooms = rooms.concat(smallRooms);
 const mergeAllRooms = mergeRooms.concat(diningRoom);
@@ -51,7 +50,6 @@ function makeRoomActive(e: Event) {
   // const target:HTMLButtonElement = e.target; FIXME: NOT WORKING??? eslint in the way?!
   if (target) {
     mergeAllRooms.forEach((room):void => {
-      console.log(room);
       if (room.getAttribute('id') === target.id) {
         room.classList.add('active');
       } else {
@@ -110,6 +108,36 @@ const startRoom = ():void => {
   }
 };
 startRoom();
+
+const startRoomBotOne = ():void => {
+  const randomStartRoom:string = roomDeck[randomNum0to8()];
+  const toLowerCase:string = randomStartRoom.toLowerCase();
+
+  if (toLowerCase.indexOf(' ') > -1) {
+    const replaceInLowerCase:string = toLowerCase.replace(' ', '-');
+    getStartRoom = document.getElementById(`${replaceInLowerCase}`);
+    getStartRoom?.classList.add('bot-one');
+  } else {
+    getStartRoom = document.getElementById(`${toLowerCase}`);
+    getStartRoom?.classList.add('bot-one');
+  }
+};
+startRoomBotOne();
+
+const startRoomBotTwo = ():void => {
+  const randomStartRoom:string = roomDeck[randomNum0to8()];
+  const toLowerCase:string = randomStartRoom.toLowerCase();
+
+  if (toLowerCase.indexOf(' ') > -1) {
+    const replaceInLowerCase:string = toLowerCase.replace(' ', '-');
+    getStartRoom = document.getElementById(`${replaceInLowerCase}`);
+    getStartRoom?.classList.add('bot-two');
+  } else {
+    getStartRoom = document.getElementById(`${toLowerCase}`);
+    getStartRoom?.classList.add('bot-two');
+  }
+};
+startRoomBotTwo();
 // dice & counter
 const dice = document.getElementsByClassName('dice')[0];
 

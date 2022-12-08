@@ -201,8 +201,8 @@ h2 {
   .room-small.active {
     position: relative;
 
-    // mark which active room
-    &::before {
+    // mark which room you are in
+    &::after {
       content: '\2605';
       display: block;
       font-size: 5rem;
@@ -213,6 +213,43 @@ h2 {
       transform: translate(-50%, -50%);
     }
   }
+
+  .room.bot-one,
+  .dining-room.bot-one,
+  .room-small.bot-one,
+  {
+  position: relative;
+
+  // mark which room player 1 is in
+  &::after {
+    content: '\2605';
+    display: block;
+    font-size: 5rem;
+    color: rgb(50, 58, 205);
+    position: absolute;
+    top: 45%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.room.bot-two,
+.dining-room.bot-two,
+.room-small.bot-two {
+  position: relative;
+
+  // mark which room player 2 is in
+  &::before {
+    content: '\2605';
+    display: block;
+    font-size: 5rem;
+    color: rgb(46, 172, 73);
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
 }
 
 .wrapper {
