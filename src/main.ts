@@ -45,14 +45,19 @@ const diningRoom = Array.from(document.getElementsByClassName('dining-room'));
 const mergeRooms = rooms.concat(smallRooms);
 const mergeAllRooms = mergeRooms.concat(diningRoom);
 
-const makeRoomActive = function makeRoomActive(e:unknown) {
-  mergeAllRooms.forEach((room) => {
-    if (room.getAttribute('id') === e.currentTarget.id) {
-      room.classList.add('active');
-    } else {
-      room.classList.remove('active');
-    }
-  });
+// TODO: how to write TS lang
+const makeRoomActive = function makeRoomActive(e: Event) {
+  const target = e.target as HTMLButtonElement;
+  if (target) {
+    mergeAllRooms.forEach((room) => {
+      console.log(room);
+      if (room.getAttribute('id') === target.id) {
+        room.classList.add('active');
+      } else {
+        room.classList.remove('active');
+      }
+    });
+  }
 };
 
 mergeAllRooms.forEach((room) => {
@@ -73,28 +78,45 @@ const roomDeck: string[] = [
 ];
 
 // shuffle a random number
-const randomNum0to5 = () => Math.floor(Math.random() * 6);
+// FIXME: does it really genreate 0-5 after spliced? or else -> RENAME
+const randomNum0to5 = () => Math.floor(Math.random() * charDeck.length);
+const randomNum0to8 = () => Math.floor(Math.random() * roomDeck.length);
 
 // draw 1 card from each deck and put then in "accuseDeck"
 const drawCharAccuse: string[] = charDeck.splice(randomNum0to5(), 1);
 const drawWeaponAccuse: string[] = weaponDeck.splice(randomNum0to5(), 1);
-const drawRoomAccuse: string[] = roomDeck.splice(Math.floor(Math.random() * roomDeck.length), 1);
+const drawRoomAccuse: string[] = roomDeck.splice(randomNum0to8(), 1);
 const accuseDeck:string[][] = [];
+let getStartRoom: HTMLElement | null;
 
 accuseDeck.push(drawCharAccuse);
 accuseDeck.push(drawWeaponAccuse);
 accuseDeck.push(drawRoomAccuse);
 
+// assign start room for player-you
+const startRoom = () => {
+  const randomStartRoom:string = roomDeck[randomNum0to8()];
+  const toLowerCase:string = randomStartRoom.toLowerCase();
+
+  if (toLowerCase.indexOf(' ') > -1) {
+    const replaceInLowerCase:string = toLowerCase.replace(' ', '-');
+    getStartRoom = document.getElementById(`${replaceInLowerCase}`);
+    getStartRoom?.classList.add('active');
+  } else {
+    getStartRoom = document.getElementById(`${toLowerCase}`);
+    getStartRoom?.classList.add('active');
+  }
+};
+startRoom();
 // dice & counter
 const dice = document.getElementsByClassName('dice')[0];
 
-// FIXME: fix ++
 // when dice is clicked on -> add +1 on count
-let count = 0;
+let count: number;
+count = 0;
 
 const updateCount = () => {
   count += 1;
-  console.log(count);
 };
 dice.addEventListener('click', updateCount);
 
@@ -103,7 +125,7 @@ updateCount();
 // guess btn
 const guessBtn = document.getElementsByClassName('guess-btn')[0];
 
-// FIXME: guess/accuse box instead for alert
+// TODO: guess/accuse box instead for alert
 const guess = () => {
   alert('POP UP GUESS BOX SOMEWHERE');
 };
@@ -137,8 +159,7 @@ const shuffle = (array: string[]) => {
 };
 
 const shuffledCard: string[] = shuffle(mergedDeck);
-console.log(shuffledCard);
-
+// FIXME: dealt all cards. What happens to the rest of the deck if only 3 each? How to play this game?
 while (shuffledCard.length > 0) {
   playerOneHand.push(shuffledCard.shift());
   playerTwoHand.push(shuffledCard.shift());
@@ -147,8 +168,3 @@ while (shuffledCard.length > 0) {
     playerYouHand.push(shuffledCard.shift());
   }
 }
-
-console.log(shuffledCard);
-console.log(playerOneHand);
-console.log(playerTwoHand);
-console.log(playerYouHand);
