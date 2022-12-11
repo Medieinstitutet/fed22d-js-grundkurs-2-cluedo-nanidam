@@ -1,6 +1,6 @@
 import './style/style.scss';
 import {
-  startGameBtn,
+  startGameBtn, guessBtn,
   createPlayerPieces, charDeck, weaponDeck, roomDeck,
   randomNum0to5, randomNum0to8,
   guess, shuffle, shuffledCard,
@@ -12,12 +12,11 @@ import {
   dice, count, updateCount, accuseDeck,
 } from './help-funcs';
 
+// TODO: move all addEventListener here
+// FIXME: all anonymus fn
 dice.addEventListener('click', updateCount);
 
 updateCount();
-
-// guess btn
-const guessBtn = document.getElementsByClassName('guess-btn')[0];
 
 guessBtn.addEventListener('click', guess);
 

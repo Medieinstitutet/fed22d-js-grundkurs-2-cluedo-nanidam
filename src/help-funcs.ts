@@ -31,6 +31,10 @@ export const roomDeck: string[] = [
 export const randomNum0to5 = ():number => Math.floor(Math.random() * charDeck.length);
 export const randomNum0to8 = ():number => Math.floor(Math.random() * roomDeck.length);
 
+// guess btn
+export const guessBtn = document.querySelector('.guess-btn');
+export const accuseBtn = document.querySelector('.accuse-btn');
+
 // draw 1 card from each deck and put then in "accuseDeck"
 const drawCharAccuse: string[] = charDeck.splice(randomNum0to5(), 1);
 const drawWeaponAccuse: string[] = weaponDeck.splice(randomNum0to5(), 1);
@@ -140,9 +144,25 @@ export const validatePlayerInput = () => {
   allRooms[randomNum0to8()].appendChild(player2);
 };
 
+const enableGuessAccuseBtns = () => {
+  guessBtn.disabled = false;
+  accuseBtn.disabled = false;
+};
+
+const disableGuessAccuseBtns = () => {
+  guessBtn.disabled = true;
+  accuseBtn.disabled = true;
+};
+
 // move player you to different rooms
 const movePlayer = (e: Event) => {
-  if (!e.target.contains(playerYou)) { e.target.appendChild(playerYou); } else {
+  disableRoomBtns();
+  if (!e.target.contains(playerYou)) {
+    e.target.appendChild(playerYou);
+    // TODO: enabled accuse and guess btn
+
+    enableGuessAccuseBtns();
+  } else {
     alert('Must choose another room');
   }
 };
@@ -188,11 +208,9 @@ function enableDice() {
 const rollDice = (e: Event) => {
   const diceNr = randomNum0to5() + 1;
   if (diceNr > 3) {
-    console.log('move');
     enableRoomBtns();
     disableDice();
   } else {
-    console.log('reroll');
     disableRoomBtns();
   }
 
@@ -298,5 +316,6 @@ submitBtn?.addEventListener('click', () => {
   }); guessRoomBtns.forEach((btn2: HTMLButtonElement) => {
     btn2.style.backgroundColor = 'grey';
   });
+  disableGuessAccuseBtns();
   guessBox?.classList.add('hidden');
 });
