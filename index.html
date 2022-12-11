@@ -12,10 +12,11 @@
 
 <body>
   <main>
+    <div class="bg-block"></div>
     <h1>Cluedo</h1>
     <!-- FIXME: create this in js/ts? 
       write a better description of the game! -->
-    <section class="intro-text hidden">
+    <section class="intro-text">
       <h2>Welcome to Cluedo</h2>
       <p>
         <b>How to play Cluedo:</b>
@@ -53,36 +54,36 @@
       <div class="drop-wrapper">
         <article class="drop-characters">
           <h3>Who?</h3>
-          <button>Miss Scarlett</button>
-          <button>Mr. Green</button>
-          <button>Colonel Mustard</button>
-          <button>Professor Plum</button>
-          <button>Mrs. Peacock</button>
-          <button>Mrs. White</button>
+          <button class="guess-name-btn">Miss Scarlett</button>
+          <button class="guess-name-btn">Mr. Green</button>
+          <button class="guess-name-btn">Colonel Mustard</button>
+          <button class="guess-name-btn">Professor Plum</button>
+          <button class="guess-name-btn">Mrs. Peacock</button>
+          <button class="guess-name-btn">Mrs. White</button>
         </article>
         <article class="drop-weapons">
           <h3>Which weapon?</h3>
-          <button>Candlestick</button>
-          <button>Knife</button>
-          <button>Lead Pipe</button>
-          <button>Revolver</button>
-          <button>Rope</button>
-          <button>Wrench</button>
+          <button class="guess-weapon-btn">Candlestick</button>
+          <button class="guess-weapon-btn">Knife</button>
+          <button class="guess-weapon-btn">Lead Pipe</button>
+          <button class="guess-weapon-btn">Revolver</button>
+          <button class="guess-weapon-btn">Rope</button>
+          <button class="guess-weapon-btn">Wrench</button>
         </article>
         <article class="drop-rooms">
           <h3>Which room?</h3>
-          <button>Kitchen</button>
-          <button>Ballroom</button>
-          <button>Conservatory</button>
-          <button>Dining Room</button>
-          <button>Billiard Room</button>
-          <button>Library</button>
-          <button>Lounge</button>
-          <button>Hall</button>
-          <button>Study</button>
+          <button class="guess-room-btn">Kitchen</button>
+          <button class="guess-room-btn">Ballroom</button>
+          <button class="guess-room-btn">Conservatory</button>
+          <button class="guess-room-btn">Dining Room</button>
+          <button class="guess-room-btn">Billiard Room</button>
+          <button class="guess-room-btn">Library</button>
+          <button class="guess-room-btn">Lounge</button>
+          <button class="guess-room-btn">Hall</button>
+          <button class="guess-room-btn">Study</button>
         </article>
       </div>
-      <button>Submit guess</button>
+      <button class="submit-btn" disabled>Submit guess</button>
     </section>
     <div class="wrapper">
       <section class="player1">

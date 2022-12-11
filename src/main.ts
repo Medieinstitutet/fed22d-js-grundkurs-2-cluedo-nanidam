@@ -1,5 +1,6 @@
 import './style/style.scss';
 import {
+  startGameBtn,
   createPlayerPieces, charDeck, weaponDeck, roomDeck,
   randomNum0to5, randomNum0to8,
   guess, shuffle, shuffledCard,
@@ -10,11 +11,6 @@ import {
   playerName, playerYou, player1, player2,
   dice, count, updateCount, accuseDeck,
 } from './help-funcs';
-
-startGameBtn.addEventListener('click', () => {
-  playerName.innerHTML = playerInput.value;
-  validatePlayerInput();
-});
 
 dice.addEventListener('click', updateCount);
 

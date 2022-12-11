@@ -31,11 +31,6 @@ export const roomDeck: string[] = [
 export const randomNum0to5 = ():number => Math.floor(Math.random() * charDeck.length);
 export const randomNum0to8 = ():number => Math.floor(Math.random() * roomDeck.length);
 
-// TODO: guess/accuse box instead for alert
-export const guess = () => {
-  alert('POP UP GUESS BOX SOMEWHERE');
-};
-
 // draw 1 card from each deck and put then in "accuseDeck"
 const drawCharAccuse: string[] = charDeck.splice(randomNum0to5(), 1);
 const drawWeaponAccuse: string[] = weaponDeck.splice(randomNum0to5(), 1);
@@ -72,7 +67,7 @@ const shuffle = (array: string[]):string[] => {
       tempArray[randomIndex], tempArray[currentIndex]];
   }
 
-  return array;
+  return tempArray;
 };
 
 const shuffledCard: string[] = shuffle(mergedDeck);
@@ -115,12 +110,18 @@ export const playerInput = document.querySelector('#input-name');
 export const startGameBtn = document.querySelector('.start-btn');
 export const introBox = document.querySelector('.intro-text');
 export const playerName = document.querySelector('.player-name');
+export const bgBlock = document.querySelector('.bg-block');
 
 // players
 export const playerYou:HTMLElement = createPlayerPieces('player-piece', 'public/animal-ape-apes-svgrepo-com.svg', 'An orange ape representing your board piece');
 export const player1 = createPlayerPieces('player1-piece', 'public/animal-cachorro-dog-svgrepo-com.svg', 'A brown dog representing player 2 board piece');
 export const player2 = createPlayerPieces('player2-piece', 'public/animal-elefante-elephant-svgrepo-com.svg', 'A grey elephant representing player 2 board piece');
 
+startGameBtn.addEventListener('click', () => {
+  playerName.innerHTML = playerInput.value;
+  validatePlayerInput();
+  bgBlock?.classList.add('hidden');
+});
 // validate player-input field.
 // If inputfield is left empty ->
 // show error msg until something is entered in inputfield
@@ -167,28 +168,135 @@ export const updateCount = ():void => {
   count += 1;
 };
 
-function disableButtons() {
+function disableRoomBtns() {
   allRooms.forEach((button) => {
     button.disabled = true;
   });
 }
-function enableButtons() {
+function enableRoomBtns() {
   allRooms.forEach((button) => {
     button.disabled = false;
   });
 }
+function disableDice() {
+  dice.disabled = true;
+}
+function enableDice() {
+  dice.disabled = false;
+}
 
 const rollDice = (e: Event) => {
-  const frudd = randomNum0to5() + 1;
-  if (frudd > 3) {
+  const diceNr = randomNum0to5() + 1;
+  if (diceNr > 3) {
     console.log('move');
-    enableButtons();
+    enableRoomBtns();
+    disableDice();
   } else {
     console.log('reroll');
-    disableButtons();
+    disableRoomBtns();
   }
 
   updateCount();
-  e.target.innerHTML = frudd;
+  e.target.innerHTML = diceNr;
 };
 dice.addEventListener('click', rollDice);
+
+const guessBox = document.querySelector('.dropdown');
+const guessNameBtns: NodeListOf<HTMLButtonElement> = document.querySelectorAll('.guess-name-btn');
+const guessWeaponBtns: NodeListOf<HTMLButtonElement> = document.querySelectorAll('.guess-weapon-btn');
+const guessRoomBtns: NodeListOf<HTMLButtonElement> = document.querySelectorAll('.guess-room-btn');
+
+export const guess = () => {
+  guessBox?.classList.remove('hidden');
+};
+
+const guessMade = { name: false, weapon: false, room: false };
+
+guessNameBtns.forEach((btn: HTMLButtonElement) => {
+  btn.addEventListener('click', (e: MouseEvent) => {
+    // Set the clicked button's background color to red
+    (e.target as HTMLButtonElement).style.backgroundColor = 'red';
+    guessMade.name = true;
+    checkGuessMade();
+    // Loop through the buttons again and set the background color to grey
+    // for all buttons that are not the clicked button
+    guessNameBtns.forEach((btn2: HTMLButtonElement) => {
+      if (btn2 !== e.target) {
+        btn2.style.backgroundColor = 'grey';
+      }
+    });
+  });
+});
+
+guessWeaponBtns.forEach((btn: HTMLButtonElement) => {
+  btn.addEventListener('click', (e: MouseEvent) => {
+    // Set the clicked button's background color to red
+    (e.target as HTMLButtonElement).style.backgroundColor = 'red';
+    guessMade.weapon = true;
+    checkGuessMade();
+    // Loop through the buttons again and set the background color to grey
+    // for all buttons that are not the clicked button
+    guessWeaponBtns.forEach((btn2: HTMLButtonElement) => {
+      if (btn2 !== e.target) {
+        btn2.style.backgroundColor = 'grey';
+      }
+    });
+  });
+});
+
+guessRoomBtns.forEach((btn: HTMLButtonElement) => {
+  btn.addEventListener('click', (e: MouseEvent) => {
+    // Set the clicked button's background color to red
+    (e.target as HTMLButtonElement).style.backgroundColor = 'red';
+    guessMade.room = true;
+    checkGuessMade();
+    // Loop through the buttons again and set the background color to grey
+    // for all buttons that are not the clicked button
+    guessRoomBtns.forEach((btn2: HTMLButtonElement) => {
+      if (btn2 !== e.target) {
+        btn2.style.backgroundColor = 'grey';
+      }
+    });
+  });
+});
+
+const checkGuessMade = () => {
+  if (guessMade.name === true && guessMade.weapon === true && guessMade.room === true) {
+    submitBtn.disabled = false;
+  }
+};
+console.table(playerOneHand);
+console.table(playerTwoHand);
+const submitBtn: Element | null = document.querySelector('.submit-btn');
+
+const playerOneCards: NodeListOf<Element> = document.querySelectorAll('.player1-card');
+const playerTwoCards: NodeListOf<Element> = document.querySelectorAll('.player2-card');
+
+// TODO: add timer for animation
+submitBtn?.addEventListener('click', () => {
+  const guessedName = document.querySelectorAll('.guess-name-btn[style*="background-color: red"]')[0].innerHTML;
+  const guessedWeapon = document.querySelectorAll('.guess-weapon-btn[style*="background-color: red"]')[0].innerHTML;
+  const guessedRoom = document.querySelectorAll('.guess-room-btn[style*="background-color: red"]')[0].innerHTML;
+
+  playerOneHand.forEach((card: string, i: number) => {
+    if (card === guessedName || card === guessedWeapon || card === guessedRoom) {
+      playerOneCards[i].innerHTML = playerOneHand[i];
+      playerOneCards[i].style.backgroundColor = 'green';
+    }
+  });
+  playerTwoHand.forEach((card: string, i: number) => {
+    if (card === guessedName || card === guessedWeapon || card === guessedRoom) {
+      playerTwoCards[i].innerHTML = playerTwoHand[i];
+      playerTwoCards[i].style.backgroundColor = 'green';
+    }
+  });
+  guessNameBtns.forEach((btn: HTMLButtonElement) => {
+    btn.style.backgroundColor = 'grey';
+  });
+  guessWeaponBtns.forEach((btn1: HTMLButtonElement) => {
+    btn1.style.backgroundColor = 'grey';
+  }); guessRoomBtns.forEach((btn2: HTMLButtonElement) => {
+    btn2.style.backgroundColor = 'grey';
+  });
+  guessBox?.classList.add('hidden');
+});
