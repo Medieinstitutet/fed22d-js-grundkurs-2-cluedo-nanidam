@@ -13,6 +13,39 @@
 <body>
   <main>
     <h1>Cluedo</h1>
+    <!-- FIXME: create this in js/ts? 
+      write a better description of the game! -->
+    <section class="intro-text hidden">
+      <h2>Welcome to Cluedo</h2>
+      <p>
+        <b>How to play Cluedo:</b>
+        Cluedo is a classic detective game in which player try to solve a murder by identifying the culprit, weapon,
+        and location. The game includes a deck of cards that includes 6 suspects, 6 weapons, and 9 rooms. At the
+        beginning of the game, one card from each category is placed away and the remaining cards are
+        shuffled and every player are dealt 3 cards each.
+      </p>
+      <p>
+        The players then take turns moving around the game board, which represents the rooms of a mansion, and making
+        accusations about the hidden cards. When a player enters a room, they can make a guess about which suspect,
+        weapon, and room are involved in the crime. The other players must then show the player any cards that match the
+        suggestion, and the player can use this information to narrow down the possibilities and make more informed
+        accusations.
+      </p>
+      <p>
+        If a player makes an accusation that matches the cards that were placed away, they win the game. Otherwise, they
+        lose!<br>
+
+        You are assign to play the orange monkey.<br>
+
+        Are you the dectetive that can solve Cluedo? When you press "Start game", a timer will start.<br>
+      </p>
+      <label for="input-name" class="input-field">
+        What is your name?<br>
+        <input id="input-name" type="text" name="name"><br>
+        <span class="error-name hidden">Please enter a valid name</span><br>
+      </label>
+      <button class="start-btn">Start game</button>
+    </section>
     <!-- <div class="app" id="app"></div> TODO: går bra att radera -->
     <!-- TODO: change drop-title to "Who do you accuse" in js  -->
     <section class="dropdown hidden">
@@ -40,6 +73,7 @@
           <h3>Which room?</h3>
           <button>Kitchen</button>
           <button>Ballroom</button>
+          <button>Conservatory</button>
           <button>Dining Room</button>
           <button>Billiard Room</button>
           <button>Library</button>
@@ -56,30 +90,20 @@
           <img class="player-pic" src="public/animal-cachorro-dog-svgrepo-com.svg" alt="A brown dog's head">
         </h2>
         <article class="player1-hand">
-          <div class="player-card">Card 1</div>
-          <div class="player-card">Card 2</div>
-          <div class="player-card">Card 3</div>
+          <div class="player-card player1-card">Card 1</div>
+          <div class="player-card player1-card">Card 2</div>
+          <div class="player-card player1-card">Card 3</div>
         </article>
       </section>
       <section class="board">
         <article class="board-first-row">
           <button class="room room-btn" id="kitchen">
-            <div class="player-piece">
-              <img src="public/animal-ape-apes-svgrepo-com.svg" alt="An orange ape representing your board piece">
-            </div>
             Kitchen
           </button>
           <button class="room room-btn" id="ballroom">
-            <div class="player1-piece">
-              <img src="public/animal-cachorro-dog-svgrepo-com.svg" alt="A brown dog representing player 2 board piece">
-            </div>
             Ballroom
           </button>
           <button class="room room-btn" id="conservatory">
-            <div class="player2-piece">
-              <img src="public/animal-elefante-elephant-svgrepo-com.svg"
-                alt="A grey elephant representing player 2 board piece">
-            </div>
             Conservatory
           </button>
         </article>
@@ -107,9 +131,9 @@
           <img class="player-pic" src="public/animal-elefante-elephant-svgrepo-com.svg" alt="A grey elephant's head">
         </h2>
         <article class="player2-hand">
-          <div class="player-card">Card 1</div>
-          <div class="player-card">Card 2</div>
-          <div class="player-card">Card 3</div>
+          <div class="player-card player2-card">Card 1</div>
+          <div class="player-card player2-card">Card 2</div>
+          <div class="player-card player2-card">Card 3</div>
         </article>
       </section>
     </div>
@@ -117,7 +141,7 @@
       <button class="dice">Dice</button>
     </section>
     <section class="player-you">
-      <h2>You
+      <h2><span class="player-name">Player</span>
         <img class="your-pic" src="public/animal-ape-apes-svgrepo-com.svg" alt="An orange ape's head">
       </h2>
       <article class="your-hand">
@@ -125,6 +149,9 @@
         <div class="your-card">Card 2</div>
         <div class="your-card">Card 3</div>
       </article>
+    </section>
+    <section class="timer">
+      Time: <span class="current-timer">00:00</span>
     </section>
     <!-- TODO: Under construction
       Highscore 
