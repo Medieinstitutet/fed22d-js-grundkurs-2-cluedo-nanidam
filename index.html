@@ -52,7 +52,9 @@
     </section>
     <div class="wrapper">
       <section class="player1">
-        <h2>Player 1</h2>
+        <h2>Player
+          <img class="player-pic" src="public/animal-cachorro-dog-svgrepo-com.svg" alt="A brown dog's head">
+        </h2>
         <article class="player1-hand">
           <div class="player-card">Card 1</div>
           <div class="player-card">Card 2</div>
@@ -61,34 +63,49 @@
       </section>
       <section class="board">
         <article class="board-first-row">
-          <button class="room" id="kitchen">
-            <div class="active"></div>
+          <button class="room room-btn" id="kitchen">
+            <div class="player-piece">
+              <img src="public/animal-ape-apes-svgrepo-com.svg" alt="An orange ape representing your board piece">
+            </div>
             Kitchen
           </button>
-          <button class="room" id="ballroom">Ballroom</button>
-          <button class="room" id="conservatory">Conservatory</button>
+          <button class="room room-btn" id="ballroom">
+            <div class="player1-piece">
+              <img src="public/animal-cachorro-dog-svgrepo-com.svg" alt="A brown dog representing player 2 board piece">
+            </div>
+            Ballroom
+          </button>
+          <button class="room room-btn" id="conservatory">
+            <div class="player2-piece">
+              <img src="public/animal-elefante-elephant-svgrepo-com.svg"
+                alt="A grey elephant representing player 2 board piece">
+            </div>
+            Conservatory
+          </button>
         </article>
         <article class="board-middle-row">
           <div class="room-wrapper">
-            <button class="dining-room" id="dining-room">Dining Room</button>
+            <button class="dining-room room-btn" id="dining-room">Dining Room</button>
           </div>
           <div class="board-envelope">
             <button class="accuse-btn">Accuse</button><br>
             <button class="guess-btn">Guess</button>
           </div>
           <div class="board-small-room">
-            <button class="room-small" id="billiard-room">Billiard Room</button><br>
-            <button class="room-small" id="library">Library</button>
+            <button class="room-small room-btn" id="billiard-room">Billiard Room</button><br>
+            <button class="room-small room-btn" id="library">Library</button>
           </div>
         </article>
         <article class="board-last-row">
-          <button class="room" id="lounge">Lounge</button>
-          <button class="room" id="hall">Hall</button>
-          <button class="room" id="study">Study</button>
+          <button class="room room-btn" id="lounge">Lounge</button>
+          <button class="room room-btn" id="hall">Hall</button>
+          <button class="room room-btn" id="study">Study</button>
         </article>
       </section>
       <section class="player2">
-        <h2>Player 2</h2>
+        <h2>Player
+          <img class="player-pic" src="public/animal-elefante-elephant-svgrepo-com.svg" alt="A grey elephant's head">
+        </h2>
         <article class="player2-hand">
           <div class="player-card">Card 1</div>
           <div class="player-card">Card 2</div>
@@ -100,7 +117,9 @@
       <button class="dice">Dice</button>
     </section>
     <section class="player-you">
-      <h2>You</h2>
+      <h2>You
+        <img class="your-pic" src="public/animal-ape-apes-svgrepo-com.svg" alt="An orange ape's head">
+      </h2>
       <article class="your-hand">
         <div class="your-card">Card 1</div>
         <div class="your-card">Card 2</div>

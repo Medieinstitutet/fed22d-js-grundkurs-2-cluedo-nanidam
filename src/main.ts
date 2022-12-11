@@ -43,25 +43,17 @@ const diningRoom = Array.from(document.getElementsByClassName('dining-room'));
 // merge all rooms to ONE array
 const mergeRooms = rooms.concat(smallRooms);
 const mergeAllRooms = mergeRooms.concat(diningRoom);
+const allBtns: NodeListOf<HTMLButtonElement> = document.querySelectorAll('.room-btn');
+const playerYou = document.querySelector('.player-piece');
 
-// TODO: how to write TS lang
-function makeRoomActive(e: Event) {
-  const target = e.target as HTMLButtonElement;
-  // const target:HTMLButtonElement = e.target; FIXME: NOT WORKING??? eslint in the way?!
-  if (target) {
-    mergeAllRooms.forEach((room):void => {
-      if (room.getAttribute('id') === target.id) {
-        room.classList.add('active');
-      } else {
-        room.classList.remove('active');
-      }
-    });
-  }
+// move player you to different rooms
+const frudd = (e:Event) => {
+  e.target.appendChild(playerYou);
+};
+
+for (const btn of allBtns) {
+  btn.addEventListener('click', frudd);
 }
-
-mergeAllRooms.forEach((room) => {
-  room.addEventListener('click', makeRoomActive);
-});
 
 // characters deck
 const charDeck: string[] = [
