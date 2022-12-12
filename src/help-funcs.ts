@@ -36,9 +36,9 @@ export const guessBtn = document.querySelector('.guess-btn');
 export const accuseBtn = document.querySelector('.accuse-btn');
 
 // draw 1 card from each deck and put then in "accuseDeck"
-const drawCharAccuse: string[] = charDeck.splice(randomNum0to5(), 1);
-const drawWeaponAccuse: string[] = weaponDeck.splice(randomNum0to5(), 1);
-const drawRoomAccuse: string[] = roomDeck.splice(randomNum0to8(), 1);
+const drawCharAccuse: string[] = [...charDeck].splice(randomNum0to5(), 1);
+const drawWeaponAccuse: string[] = [...weaponDeck].splice(randomNum0to5(), 1);
+const drawRoomAccuse: string[] = [...roomDeck].splice(randomNum0to8(), 1);
 export const accuseDeck:string[][] = [];
 
 // draw a card from each categories and put it accuse deck
@@ -126,6 +126,14 @@ startGameBtn.addEventListener('click', () => {
   validatePlayerInput();
   bgBlock?.classList.add('hidden');
 });
+
+const movePlayer1 = () => {
+  allRooms[randomNum0to8()].appendChild(player1);
+};
+
+const movePlayer2 = () => {
+  allRooms[randomNum0to8()].appendChild(player2);
+};
 // validate player-input field.
 // If inputfield is left empty ->
 // show error msg until something is entered in inputfield
@@ -140,8 +148,8 @@ export const validatePlayerInput = () => {
   timer();
 
   allRooms[randomNum0to8()].appendChild(playerYou);
-  allRooms[randomNum0to8()].appendChild(player1);
-  allRooms[randomNum0to8()].appendChild(player2);
+  movePlayer1();
+  movePlayer2();
 };
 
 const enableGuessAccuseBtns = () => {
@@ -205,7 +213,7 @@ function enableDice() {
   dice.disabled = false;
 }
 
-const rollDice = (e: Event) => {
+export const rollDice = (e: Event) => {
   const diceNr = randomNum0to5() + 1;
   if (diceNr > 3) {
     enableRoomBtns();
@@ -217,7 +225,10 @@ const rollDice = (e: Event) => {
   updateCount();
   e.target.innerHTML = diceNr;
 };
-dice.addEventListener('click', rollDice);
+
+const defaultDice = () => {
+  dice.innerHTML = 'Dice';
+};
 
 const guessBox = document.querySelector('.dropdown');
 const guessNameBtns: NodeListOf<HTMLButtonElement> = document.querySelectorAll('.guess-name-btn');
@@ -283,12 +294,33 @@ const checkGuessMade = () => {
     submitBtn.disabled = false;
   }
 };
-console.table(playerOneHand);
-console.table(playerTwoHand);
+
 const submitBtn: Element | null = document.querySelector('.submit-btn');
 
 const playerOneCards: NodeListOf<Element> = document.querySelectorAll('.player1-card');
 const playerTwoCards: NodeListOf<Element> = document.querySelectorAll('.player2-card');
+
+// player 1 guesses
+const player1GuessBox = document.querySelector('.player1-guess');
+const player1GuessName = document.querySelector('.pl1-guess-name');
+const player1GuessWeapon = document.querySelector('.pl1-guess-weapon');
+const player1GuessRoom = document.querySelector('.pl1-guess-room');
+console.log(player1GuessName?.innerHTML);
+// player 1 action after you make a guess
+const player1Actions = () => {
+  // [] pl1 roll the dice
+  const diceNr = randomNum0to5() + 1;
+  dice.innerHTML = diceNr;
+  if (diceNr > 3) {
+    setTimeout(movePlayer1, 1000 * 3);
+    player1GuessName.innerHTML = charDeck[randomNum0to5()];
+    player1GuessWeapon.innerHTML = weaponDeck[randomNum0to5()];
+    player1GuessRoom.innerHTML = roomDeck[randomNum0to8()];
+    setTimeout(() => { player1GuessBox?.classList.remove('hidden'); }, 1000 * 5);
+  } else {
+    player1Actions();
+  }
+};
 
 // TODO: add timer for animation
 submitBtn?.addEventListener('click', () => {
@@ -318,4 +350,13 @@ submitBtn?.addEventListener('click', () => {
   });
   disableGuessAccuseBtns();
   guessBox?.classList.add('hidden');
+  defaultDice();
+
+  setTimeout(player1Actions, 1000 * 3);
 });
+
+// [] pl1 moves to room
+// [] pl1 makes random guess
+// [] show everybody the guess
+// [] show the backcard if something matches
+// [] pl2 starts

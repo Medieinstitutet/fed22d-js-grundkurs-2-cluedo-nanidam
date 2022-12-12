@@ -73,6 +73,30 @@
   z-index: 5;
 }
 
+.player1-guess {
+  background-color: blue;
+  position: absolute;
+  height: 8%;
+  width: 23%;
+  bottom: 27%;
+  margin: 10px;
+  padding: 10px;
+  z-index: 20;
+}
+
+.player2-guess {
+  background-color: green;
+  position: absolute;
+  height: 8%;
+  width: 23%;
+  bottom: 27%;
+  right: 0;
+  margin: 10px;
+  padding: 10px;
+  z-index: 20;
+}
+
+
 h1 {
   text-align: center;
   font-size: 5rem;

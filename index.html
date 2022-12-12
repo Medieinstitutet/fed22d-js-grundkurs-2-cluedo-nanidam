@@ -14,11 +14,11 @@
 
 <body>
   <main>
-    <div class="bg-block"></div>
+    <div class="bg-block hidden"></div>
     <h1>Cluedo</h1>
     <!-- FIXME: create this in js/ts? 
       write a better description of the game! -->
-    <section class="intro-text">
+    <section class="intro-text hidden">
       <h2>Welcome to Cluedo</h2>
       <p>
         <b>How to play Cluedo:</b>
@@ -98,6 +98,11 @@
           <div class="player-card player1-card">Card 3</div>
         </article>
       </section>
+      <section class="player1-guess hidden">
+        I guess <b><span class="pl1-guess-name">name</span></b>,
+        killed the victim with a <b><span class="pl1-guess-weapon">weapon</span></b>
+        in the <b><span class="pl1-guess-room">room</span></b>.
+      </section>
       <section class="board">
         <article class="board-first-row">
           <button class="room room-btn" id="kitchen" disabled>
@@ -138,6 +143,11 @@
           <div class="player-card player2-card">Card 2</div>
           <div class="player-card player2-card">Card 3</div>
         </article>
+      </section>
+      <section class="player2-guess hidden">
+        I guess <b><span class="pl2-guess-name">name</span></b>,
+        killed the victim with a <b><span class="pl2-guess-weapon">weapon</span></b>
+        in the <b><span class="pl2-guess-room">room</span></b>.
       </section>
     </div>
     <section class="dice-container">

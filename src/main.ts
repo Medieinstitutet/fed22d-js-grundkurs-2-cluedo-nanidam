@@ -9,14 +9,15 @@ import {
   currentTimer, minutes, seconds, timer,
   errorMsgName, allRooms, playerInput, startGameBtn, introBox, validatePlayerInput,
   playerName, playerYou, player1, player2,
-  dice, count, updateCount, accuseDeck,
+  dice, count, updateCount, accuseDeck, rollDice,
 } from './help-funcs';
 
 // TODO: move all addEventListener here
 // FIXME: all anonymus fn
-dice.addEventListener('click', updateCount);
 
 updateCount();
+
+dice.addEventListener('click', rollDice);
 
 guessBtn.addEventListener('click', guess);
 
