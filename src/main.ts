@@ -1,4 +1,8 @@
 import './style/style.scss';
+
+// import {
+//   createDropdownSection, appendToMain, main,
+// } from './render';
 import {
   startGameBtn, guessBtn,
   createPlayerPieces, charDeck, weaponDeck, roomDeck,
@@ -12,10 +16,10 @@ import {
   dice, count, updateCount, accuseDeck, rollDice,
 } from './help-funcs';
 
+// appendToMain();
+
 // TODO: move all addEventListener here
 // FIXME: all anonymus fn
-
-updateCount();
 
 dice.addEventListener('click', rollDice);
 
