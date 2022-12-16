@@ -48,6 +48,7 @@ const guessBtn: HTMLButtonElement | null = document.querySelector('.guess-btn');
 const submitGuessBtn: HTMLButtonElement | null = document.querySelector('.submit-guess-btn');
 const accuseBtn: HTMLButtonElement | null = document.querySelector('.accuse-btn');
 const submitAccuseBtn: HTMLButtonElement | null = document.querySelector('.submit-accuse-btn');
+const guessMade = { name: false, weapon: false, room: false };
 const accuseMade = { name: false, weapon: false, room: false };
 
 const introBox = document.querySelector('.intro-text');
@@ -63,14 +64,15 @@ const gameOverWinBox = document.querySelector('.game-over-win');
 
 // player you
 const playerYou:HTMLElement = createPlayerPieces('player-piece', 'public/animal-ape-apes-svgrepo-com.svg', 'An orange ape representing your board piece');
-const guessNameBtns: NodeListOf<HTMLButtonElement> = document.querySelectorAll('.guess-name-btn');
-const guessWeaponBtns: NodeListOf<HTMLButtonElement> = document.querySelectorAll('.guess-weapon-btn');
-const guessRoomBtns: NodeListOf<HTMLButtonElement> = document.querySelectorAll('.guess-room-btn');
+const playerYouCards = document.querySelectorAll('.your-card');
+const guessNameBtns: HTMLButtonElement[] = document.querySelectorAll('.guess-name-btn');
+const guessWeaponBtns: HTMLButtonElement[] = document.querySelectorAll('.guess-weapon-btn');
+const guessRoomBtns: HTMLButtonElement[] = document.querySelectorAll('.guess-room-btn');
 const guessBox = document.querySelector('.guess-box');
 
-const accuseNameBtns: NodeListOf<HTMLButtonElement> = document.querySelectorAll('.accuse-name-btn');
-const accuseWeaponBtns: NodeListOf<HTMLButtonElement> = document.querySelectorAll('.accuse-weapon-btn');
-const accuseRoomBtns: NodeListOf<HTMLButtonElement> = document.querySelectorAll('.accuse-room-btn');
+const accuseNameBtns: HTMLButtonElement[] = document.querySelectorAll('.accuse-name-btn');
+const accuseWeaponBtns: HTMLButtonElement[] = document.querySelectorAll('.accuse-weapon-btn');
+const accuseRoomBtns: HTMLButtonElement[] = document.querySelectorAll('.accuse-room-btn');
 const accuseBox = document.querySelector('.accuse-box');
 
 // player 1
@@ -257,30 +259,35 @@ const validatePlayerInput = (): void => {
   }
 };
 
-if (startGameBtn !== null) {
-  startGameBtn.addEventListener('click', () => {
-    defaultDice();
-    enableDice();
+const startGame = () => {
+  defaultDice();
+  enableDice();
 
-    accuseNameBtns.forEach((name: HTMLButtonElement) => {
-      name.style.backgroundColor = 'grey';
-    });
-    accuseWeaponBtns.forEach((weapon: HTMLButtonElement) => {
-      weapon.style.backgroundColor = 'grey';
-    }); accuseRoomBtns.forEach((room: HTMLButtonElement) => {
-      room.style.backgroundColor = 'grey';
-    });
+  // sets the background color of the button to grey
+  const setButtonColor = (btn: HTMLButtonElement) => {
+    btn.style.backgroundColor = 'grey';
+  };
 
-    if (playerName !== null && playerInput !== null) {
-      playerName.innerHTML = playerInput.value;
-      validatePlayerInput();
-      resetTimer();
-      setTimer = setInterval(timer, 1000);
-      if (commentatorText !== null) {
-        commentatorText.innerHTML = 'Roll the dice!';
-      }
+  // Set the background color of all the buttons in the  array to grey
+  accuseNameBtns.forEach(setButtonColor);
+  accuseWeaponBtns.forEach(setButtonColor);
+  accuseRoomBtns.forEach(setButtonColor);
+
+  if (playerName !== null && playerInput !== null) {
+    playerName.innerHTML = playerInput.value;
+    validatePlayerInput();
+    resetTimer();
+    // Start a new timer
+    setTimer = setInterval(timer, 1000);
+
+    if (commentatorText !== null) {
+      commentatorText.innerHTML = 'Roll the dice!';
     }
-  });
+  }
+};
+
+if (startGameBtn !== null) {
+  startGameBtn.addEventListener('click', startGame);
 }
 
 const enableGuessAccuseBtns = () => {
@@ -313,8 +320,9 @@ const enableRoomBtns = ():void => {
 
 // move player you to different rooms
 const movePlayer = (e?: Event) => {
-  if (!e?.currentTarget.contains(playerYou)) {
-    e?.currentTarget.appendChild(playerYou);
+  const target = e?.currentTarget;
+  if (!target.contains(playerYou)) {
+    target.appendChild(playerYou);
     disableRoomBtns();
     enableGuessAccuseBtns();
     if (commentatorText !== null) {
@@ -329,8 +337,6 @@ for (const btn of allRooms) {
   btn.addEventListener('click', movePlayer);
 }
 
-const playerYouCards = document.querySelectorAll('.your-card');
-
 playerYouCards.forEach((card, i) => {
   card.innerHTML = playerYouHand[i];
 });
@@ -344,7 +350,7 @@ const updateCount = ():void => {
 };
 
 const rollDice = (e: Event) => {
-  const diceText = e.target;
+  const diceText: EventTarget | null | HTMLElement = e.target;
   const diceNr = randomNum0to5() + 1;
 
   if (diceNr > 3) {
@@ -372,12 +378,16 @@ const rollDice = (e: Event) => {
 // ------------------------------------------------------------
 // ------------------------------------------------------------
 
+accuseBtn?.addEventListener('click', () => {
+  bgBlock?.classList.remove('hidden');
+  accuseBox?.classList.remove('hidden');
+});
+
 const guess = () => {
   guessBox?.classList.remove('hidden');
   bgBlock?.classList.remove('hidden');
 };
 
-const guessMade = { name: false, weapon: false, room: false };
 const checkGuessMade = () => {
   if (guessMade.name === true && guessMade.weapon === true && guessMade.room === true) {
     if (submitGuessBtn !== null) {
@@ -386,63 +396,6 @@ const checkGuessMade = () => {
   }
 };
 
-guessNameBtns.forEach((btn: HTMLButtonElement) => {
-  btn.addEventListener('click', (e: MouseEvent) => {
-    // Set the clicked button's background color to red
-    (e.target as HTMLButtonElement).style.backgroundColor = 'red';
-    guessMade.name = true;
-    checkGuessMade();
-    // Loop through the buttons again and set the background color to grey
-    // for all buttons that are not the clicked button
-    guessNameBtns.forEach((btn2: HTMLButtonElement) => {
-      if (btn2 !== btn) {
-        btn2.style.backgroundColor = 'grey';
-      }
-    });
-  });
-});
-
-guessWeaponBtns.forEach((btn: HTMLButtonElement) => {
-  btn.addEventListener('click', (e: MouseEvent) => {
-    // Set the clicked button's background color to red
-    (e.target as HTMLButtonElement).style.backgroundColor = 'red';
-    guessMade.weapon = true;
-    checkGuessMade();
-    // Loop through the buttons again and set the background color to grey
-    // for all buttons that are not the clicked button
-    guessWeaponBtns.forEach((btn2: HTMLButtonElement) => {
-      if (btn2 !== btn) {
-        btn2.style.backgroundColor = 'grey';
-      }
-    });
-  });
-});
-
-guessRoomBtns.forEach((btn: HTMLButtonElement) => {
-  btn.addEventListener('click', (e: MouseEvent) => {
-    // Set the clicked button's background color to red
-    (e.target as HTMLButtonElement).style.backgroundColor = 'red';
-    guessMade.room = true;
-    checkGuessMade();
-    // Loop through the buttons again and set the background color to grey
-    // for all buttons that are not the clicked button
-    guessRoomBtns.forEach((btn2: HTMLButtonElement) => {
-      if (btn2 !== btn) {
-        btn2.style.backgroundColor = 'grey';
-      }
-    });
-  });
-});
-
-// accuse btn
-accuseBtn?.addEventListener('click', () => {
-  accuseBox?.classList.remove('hidden');
-  bgBlock?.classList.remove('hidden');
-  if (commentatorText !== null) {
-    commentatorText.innerHTML = 'Are you sure you know the answer? There is no turning back now...';
-  }
-});
-
 const checkAccuseMade = () => {
   if (accuseMade.name === true && accuseMade.weapon === true && accuseMade.room === true) {
     if (submitAccuseBtn !== null) {
@@ -450,77 +403,88 @@ const checkAccuseMade = () => {
     }
   }
 };
-accuseNameBtns.forEach((btn: HTMLButtonElement) => {
-  btn.addEventListener('click', (e: MouseEvent) => {
-    // Set the clicked button's background color to red
-    (e.target as HTMLButtonElement).style.backgroundColor = 'red';
-    accuseMade.name = true;
-    checkAccuseMade();
-    // Loop through the buttons again and set the background color to grey
-    // for all buttons that are not the clicked button
-    accuseNameBtns.forEach((btn2: HTMLButtonElement) => {
-      if (btn2 !== e.target) {
+
+// mark one answer with backgroundcolor red in each categories
+const handleClick = (btns: HTMLButtonElement[], property: 'name' | 'weapon' | 'room', checkFn: () => void) => {
+  const handleButtonClick = (e: MouseEvent) => {
+    const button = e.target as HTMLButtonElement;
+    button.style.backgroundColor = 'red';
+    guessMade[property] = true;
+    accuseMade[property] = true;
+    checkFn();
+    btns.forEach((btn2) => {
+      if (btn2 !== button) {
         btn2.style.backgroundColor = 'grey';
       }
     });
-  });
-});
-
-const markPlayersAccuseWeapon = (e: MouseEvent) => {
-  const markedWeapon = e.target;
-  const defaultOptions = (btn2: HTMLButtonElement) => {
-    if (btn2 !== markedWeapon) {
-      btn2.style.backgroundColor = 'grey';
-    }
   };
-  markedWeapon.style.backgroundColor = 'red';
-  accuseMade.weapon = true;
-  checkAccuseMade();
-  // Loop through the buttons again and set the background color to grey
-  // for all buttons that are not the clicked button
-  accuseWeaponBtns.forEach(defaultOptions);
-};
 
-const playersAccuseWeapon = (btn: HTMLButtonElement) => {
-  btn.addEventListener('click', markPlayersAccuseWeapon);
-};
-
-accuseWeaponBtns.forEach(playersAccuseWeapon);
-
-accuseRoomBtns.forEach((btn: HTMLButtonElement) => {
-  btn.addEventListener('click', (e: MouseEvent) => {
-    // Set the clicked button's background color to red
-    (e.target as HTMLButtonElement).style.backgroundColor = 'red';
-    accuseMade.room = true;
-    checkAccuseMade();
-    // Loop through the buttons again and set the background color to grey
-    // for all buttons that are not the clicked button
-    accuseRoomBtns.forEach((btn2: HTMLButtonElement) => {
-      if (btn2 !== e.target) {
-        btn2.style.backgroundColor = 'grey';
-      }
-    });
+  btns.forEach((btn) => {
+    btn.addEventListener('click', handleButtonClick);
   });
-});
+};
 
-submitAccuseBtn?.addEventListener('click', () => {
+handleClick(guessNameBtns, 'name', checkGuessMade);
+handleClick(guessWeaponBtns, 'weapon', checkGuessMade);
+handleClick(guessRoomBtns, 'room', checkGuessMade);
+handleClick(accuseNameBtns, 'name', checkAccuseMade);
+handleClick(accuseWeaponBtns, 'weapon', checkAccuseMade);
+handleClick(accuseRoomBtns, 'room', checkAccuseMade);
+
+// Function to update the highscore board
+const updateHighscoreBoard = () => {
+  if (winnersTable !== null) {
+    winnersTable.innerHTML = ''; // Clear the current highscore board
+
+    // Add the updated highscores to the table
+    for (let i = 0; i < highscores.length; i++) {
+      const highscore = highscores[i];
+      winnersTable.innerHTML += `
+        <tr>
+          <td>${i + 1}</td>
+          <td>${highscore.name}</td>
+          <td>${highscore.score}</td>
+          <td>${highscore.time} min</td>
+        </tr>
+      `;
+    }
+  }
+};
+
+// add a new highscore
+const addHighscore = (name: string, score: number, time: string): void => {
+  const highscore: { name: string, score: number, time: string } = { name, score, time };
+  highscores.push(highscore);
+  highscores.sort((a: { score: number }, b: { score: number }) => a.score - b.score); // Sort the highscores by score in descending order
+  highscores = highscores.slice(0, 3); // Keep only the top 3 highscores
+  updateHighscoreBoard();
+};
+
+// Initialize the highscore board
+updateHighscoreBoard();
+
+const handlingSubmitAccuse = () => {
+  // Stop the timer
   clearInterval(setTimer);
 
-  const accusedName = String(document.querySelectorAll('.accuse-name-btn[style*="background-color: red"]')[0].innerHTML);
-  const accusedWeapon = String(document.querySelectorAll('.accuse-weapon-btn[style*="background-color: red"]')[0].innerHTML);
-  const accusedRoom = String(document.querySelectorAll('.accuse-room-btn[style*="background-color: red"]')[0].innerHTML);
+  // Get players accusations: name, weapon, and room
+  const accusedName = String(document.querySelector('.accuse-name-btn[style*="background-color: red"]')?.innerHTML);
+  const accusedWeapon = String(document.querySelector('.accuse-weapon-btn[style*="background-color: red"]')?.innerHTML);
+  const accusedRoom = String(document.querySelector('.accuse-room-btn[style*="background-color: red"]')?.innerHTML);
 
+  // If the user's accusation is correct, show the win screen and add the score to the high scores
   if (accusedName === accuseDeck[0][0] && accusedWeapon === accuseDeck[1][0] && accusedRoom === accuseDeck[2][0]) {
     accuseBox?.classList.add('hidden');
-    gameOverWinBox?.classList.remove('hidden');
+    gameOverWinBox.classList.remove('hidden');
     sumDraws.innerHTML = String(count);
     clearInterval(setTimer);
     sumTime.innerHTML = currentTimer.innerHTML;
-    addHighscore(playerInput.value, count, sumTime?.innerHTML);
+    addHighscore(playerInput.value, count, sumTime.innerHTML);
     commentatorText.innerHTML = 'You are the next Sherlock Holmes.';
-  } else if (rightName !== null && rightWeapon !== null && rightRoom !== null && gameOverLoseBox !== null && commentatorText !== null) {
+  }
+  // If the user's accusation is incorrect, show the lose screen and reveal the correct answers
+  else if (rightName !== null && rightWeapon !== null && rightRoom !== null && gameOverLoseBox !== null && commentatorText !== null) {
     const [[name], [weapon], [room]] = accuseDeck;
-    // change to the correct answers. shown in lost-box
     rightName.innerHTML = name;
     rightWeapon.innerHTML = weapon;
     rightRoom.innerHTML = room;
@@ -528,28 +492,51 @@ submitAccuseBtn?.addEventListener('click', () => {
     gameOverLoseBox.classList.remove('hidden');
     commentatorText.innerHTML = 'You thought you were clever, huh?';
   }
-});
-
-// default player 1 hand after each turn
-const defaultPl1Hand = () => {
-  playerOneHand.forEach((card: string, i: number) => {
-    playerOneCards[i].innerHTML = `Card ${i + 1}`;
-    playerOneCards[i].style.backgroundColor = 'grey';
-  });
 };
 
-// default player 2 hand after each turn
+submitAccuseBtn?.addEventListener('click', handlingSubmitAccuse);
+
+// FIXME: for loop instead of .forEach? Dont use the property "card", only index
+// // default player 1 hand after each turn
+// const defaultPl1Hand = () => {
+//   playerOneHand.forEach((card: string, i: number) => {
+//     playerOneCards[i].innerHTML = `Card ${i + 1}`;
+//     playerOneCards[i].style.backgroundColor = 'grey';
+//   });
+// };
+
+// // default player 2 hand after each turn
+// const defaultPl2Hand = () => {
+//   playerTwoHand.forEach((card: string, i: number) => {
+//     playerTwoCards[i].innerHTML = `Card ${i + 1}`;
+//     playerTwoCards[i].style.backgroundColor = 'grey';
+//   });
+// };
+
+// const defaultYouHand = () => {
+//   playerYouHand.forEach((card: string, i: number) => {
+//     playerYouCards[i].style.backgroundColor = 'orange';
+//   });
+// };
+
+const defaultPl1Hand = () => {
+  for (let i = 0; i < playerOneHand.length; i++) {
+    playerOneCards[i].innerHTML = `Card ${i + 1}`;
+    playerOneCards[i].style.backgroundColor = 'grey';
+  }
+};
+
 const defaultPl2Hand = () => {
-  playerTwoHand.forEach((card: string, i: number) => {
+  for (let i = 0; i < playerTwoHand.length; i++) {
     playerTwoCards[i].innerHTML = `Card ${i + 1}`;
     playerTwoCards[i].style.backgroundColor = 'grey';
-  });
+  }
 };
 
 const defaultYouHand = () => {
-  playerYouHand.forEach((card: string, i: number) => {
+  for (let i = 0; i < playerYouHand.length; i++) {
     playerYouCards[i].style.backgroundColor = 'orange';
-  });
+  }
 };
 
 // ------------------------------------------------------------
@@ -572,7 +559,7 @@ const player1Actions = () => {
 
     player1GuessName.innerHTML = guessedName;
     player1GuessWeapon.innerHTML = guessedWeapon;
-    player1GuessRoom.innerHTML = guessedRoom;
+    player1GuessRoom.innerHTML = guessedRoom; guessedname;
     setTimeout(() => {
       player1GuessBox?.classList.remove('hidden');
       commentatorText.innerHTML = 'The Dog is making a guess';
@@ -677,19 +664,15 @@ const player2Actions = () => {
   }
 };
 
-// TODO: add CORRECT timer AND  animation
-submitGuessBtn?.addEventListener('click', () => {
+const handlingSubmitGuess = () => {
   bgBlock?.classList.add('hidden');
 
-  const guessedName = document.querySelectorAll('.guess-name-btn[style*="background-color: red"]')[0].innerHTML;
-  const guessedWeapon = document.querySelectorAll('.guess-weapon-btn[style*="background-color: red"]')[0].innerHTML;
-  const guessedRoom = document.querySelectorAll('.guess-room-btn[style*="background-color: red"]')[0].innerHTML;
+  const guessedName:string = document.querySelectorAll('.guess-name-btn[style*="background-color: red"]')[0].innerHTML;
+  const guessedWeapon:string = document.querySelectorAll('.guess-weapon-btn[style*="background-color: red"]')[0].innerHTML;
+  const guessedRoom:string = document.querySelectorAll('.guess-room-btn[style*="background-color: red"]')[0].innerHTML;
 
   playerOneHand.forEach((card: string, i: number) => {
     if (card === guessedName || card === guessedWeapon || card === guessedRoom) {
-      console.log(card);
-      console.log(guessedName);
-
       playerOneCards[i].innerHTML = playerOneHand[i];
       playerOneCards[i].style.backgroundColor = 'orange';
     }
@@ -720,13 +703,16 @@ submitGuessBtn?.addEventListener('click', () => {
   defaultDice();
   setTimeout(player1Actions, 1000 * 3);
   setTimeout(player2Actions, 1000 * 12);
-});
+};
+
+submitGuessBtn?.addEventListener('click', handlingSubmitGuess);
 
 // ------------------------------------------------------------
 // ------------------------------------------------------------
 // ---------------------highscore btn--------------------------
 // ------------------------------------------------------------
 // ------------------------------------------------------------
+
 const showHighscore = () => {
   highscoreBox?.classList.remove('hidden');
   gameOverLoseBox?.classList.add('hidden');
@@ -737,54 +723,16 @@ highscoreBtns.forEach((btn) => {
   btn.addEventListener('click', showHighscore);
 });
 
-// Function to update the highscore board
-function updateHighscoreBoard() {
-  if (winnersTable !== null) {
-    winnersTable.innerHTML = ''; // Clear the current highscore board
-
-    // Add the updated highscores to the table
-    for (let i = 0; i < highscores.length; i++) {
-      const highscore = highscores[i];
-      winnersTable.innerHTML += `
-        <tr>
-          <td>${i + 1}</td>
-          <td>${highscore.name}</td>
-          <td>${highscore.score}</td>
-          <td>${highscore.time} min</td>
-        </tr>
-      `;
-    }
-  }
-}
-
-// add a new highscore
-const addHighscore = (name: string, score: number, time: string): void => {
-  const highscore: { name: string, score: number, time: string } = { name, score, time };
-  highscores.push(highscore);
-  highscores.sort((a: { score: number }, b: { score: number }) => a.score - b.score); // Sort the highscores by score in descending order
-  highscores = highscores.slice(0, 3); // Keep only the top 3 highscores
-  updateHighscoreBoard();
-};
-
-// Initialize the highscore board
-updateHighscoreBoard();
-
 // ------------------------------------------------------------
 // ------------------------------------------------------------
 // ---------------------Play aghain----------------------------
 // ------------------------------------------------------------
 // ------------------------------------------------------------
-const restartGame = (e:Event) => {
-  if (e.target !== null) {
-    e.target.parentElement.classList.add('hidden');
-    count = 0;
-    introBox?.classList.remove('hidden');
-  }
+const restartGame = (e: Event) => {
+  e.target?.parentElement.classList.add('hidden');
+  count = 0;
+  introBox?.classList.remove('hidden');
 };
-
-// const clickRestartGame = (btn:HTMLButtonElement):void => {
-//   btn.addEventListener('click', restartGame);
-// };
 
 playAgainBtn.forEach((btn) => {
   btn.addEventListener('click', restartGame);
