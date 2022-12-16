@@ -553,49 +553,69 @@ const player1Actions = () => {
   dice.innerHTML = diceNr;
   if (diceNr > 3) {
     movePlayer1();
-    const guessedName = charDeck[randomNum0to5()];
-    const guessedWeapon = weaponDeck[randomNum0to5()];
-    const guessedRoom = roomDeck[randomNum0to8()];
+    const guessedName:string = charDeck[randomNum0to5()];
+    const guessedWeapon:string = weaponDeck[randomNum0to5()];
+    const guessedRoom:string = roomDeck[randomNum0to8()];
 
     player1GuessName.innerHTML = guessedName;
     player1GuessWeapon.innerHTML = guessedWeapon;
-    player1GuessRoom.innerHTML = guessedRoom; guessedname;
+    player1GuessRoom.innerHTML = guessedRoom;
+
     setTimeout(() => {
       player1GuessBox?.classList.remove('hidden');
       commentatorText.innerHTML = 'The Dog is making a guess';
     }, 1000 * 6);
 
-    const indexOfNameMatchPl2 = playerTwoHand.indexOf(guessedName);
-    const indexOfWeaponMatchPl2 = playerTwoHand.indexOf(guessedWeapon);
-    const indexOfRoomMatchPl2 = playerTwoHand.indexOf(guessedRoom);
-
-    const indexOfNameMatchPlU = playerYouHand.indexOf(guessedName);
-    const indexOfWeaponMatchPlU = playerYouHand.indexOf(guessedWeapon);
-    const indexOfRoomMatchPlU = playerYouHand.indexOf(guessedRoom);
+    const setBlue = (hand: string[], cards: HTMLCollectionOf<HTMLElement>, guess: string) => {
+      const index: number = hand.indexOf(guess);
+      if (index > -1) {
+        cards[index].style.backgroundColor = 'blue';
+      }
+    };
 
     setTimeout(() => {
-      if (indexOfNameMatchPl2 > -1) {
-        playerTwoCards[indexOfNameMatchPl2].style.backgroundColor = 'blue';
-      }
-      if (indexOfWeaponMatchPl2 > -1) {
-        playerTwoCards[indexOfWeaponMatchPl2].style.backgroundColor = 'blue';
-      }
-      if (indexOfRoomMatchPl2 > -1) {
-        playerTwoCards[indexOfRoomMatchPl2].style.backgroundColor = 'blue';
-      }
+      setBlue(playerTwoHand, playerTwoCards, guessedName);
+      setBlue(playerTwoHand, playerTwoCards, guessedWeapon);
+      setBlue(playerTwoHand, playerTwoCards, guessedRoom);
     }, 1000 * 6);
 
     setTimeout(() => {
-      if (indexOfNameMatchPlU > -1) {
-        playerYouCards[indexOfNameMatchPlU].style.backgroundColor = 'blue';
-      }
-      if (indexOfWeaponMatchPlU > -1) {
-        playerYouCards[indexOfWeaponMatchPlU].style.backgroundColor = 'blue';
-      }
-      if (indexOfRoomMatchPlU > -1) {
-        playerYouCards[indexOfRoomMatchPlU].style.backgroundColor = 'blue';
-      }
+      setBlue(playerYouHand, playerYouCards, guessedName);
+      setBlue(playerYouHand, playerYouCards, guessedWeapon);
+      setBlue(playerYouHand, playerYouCards, guessedRoom);
     }, 1000 * 6);
+
+    // const indexOfNameMatchPl2 = playerTwoHand.indexOf(guessedName);
+    // const indexOfWeaponMatchPl2 = playerTwoHand.indexOf(guessedWeapon);
+    // const indexOfRoomMatchPl2 = playerTwoHand.indexOf(guessedRoom);
+
+    // const indexOfNameMatchPlU = playerYouHand.indexOf(guessedName);
+    // const indexOfWeaponMatchPlU = playerYouHand.indexOf(guessedWeapon);
+    // const indexOfRoomMatchPlU = playerYouHand.indexOf(guessedRoom);
+
+    // setTimeout(() => {
+    //   if (indexOfNameMatchPl2 > -1) {
+    //     playerTwoCards[indexOfNameMatchPl2].style.backgroundColor = 'blue';
+    //   }
+    //   if (indexOfWeaponMatchPl2 > -1) {
+    //     playerTwoCards[indexOfWeaponMatchPl2].style.backgroundColor = 'blue';
+    //   }
+    //   if (indexOfRoomMatchPl2 > -1) {
+    //     playerTwoCards[indexOfRoomMatchPl2].style.backgroundColor = 'blue';
+    //   }
+    // }, 1000 * 6);
+
+    // setTimeout(() => {
+    //   if (indexOfNameMatchPlU > -1) {
+    //     playerYouCards[indexOfNameMatchPlU].style.backgroundColor = 'blue';
+    //   }
+    //   if (indexOfWeaponMatchPlU > -1) {
+    //     playerYouCards[indexOfWeaponMatchPlU].style.backgroundColor = 'blue';
+    //   }
+    //   if (indexOfRoomMatchPlU > -1) {
+    //     playerYouCards[indexOfRoomMatchPlU].style.backgroundColor = 'blue';
+    //   }
+    // }, 1000 * 6);
     setTimeout(() => {
       player1GuessBox?.classList.add('hidden');
       defaultPl2Hand();
@@ -607,48 +627,41 @@ const player1Actions = () => {
 };
 
 const player2Actions = () => {
-  const diceNr = randomNum0to5() + 1;
+  const diceNr:number = randomNum0to5() + 1;
   dice.innerHTML = diceNr;
   if (diceNr > 3) {
     movePlayer2();
-    const guessedName = charDeck[randomNum0to5()];
-    const guessedWeapon = weaponDeck[randomNum0to5()];
-    const guessedRoom = roomDeck[randomNum0to8()];
+    const guessedName: string = charDeck[randomNum0to5()];
+    const guessedWeapon: string = weaponDeck[randomNum0to5()];
+    const guessedRoom: string = roomDeck[randomNum0to8()];
+
     player2GuessName.innerHTML = guessedName;
     player2GuessWeapon.innerHTML = guessedWeapon;
     player2GuessRoom.innerHTML = guessedRoom;
-    setTimeout(() => { player2GuessBox?.classList.remove('hidden'); commentatorText.innerHTML = 'The Elephant is making a guess'; }, 1000 * 6);
-    const indexOfNameMatchPl1 = playerOneHand.indexOf(guessedName);
-    const indexOfWeaponMatchPl1 = playerOneHand.indexOf(guessedWeapon);
-    const indexOfRoomMatchPl1 = playerOneHand.indexOf(guessedRoom);
-
-    const indexOfNameMatchPlU = playerYouHand.indexOf(guessedName);
-    const indexOfWeaponMatchPlU = playerYouHand.indexOf(guessedWeapon);
-    const indexOfRoomMatchPlU = playerYouHand.indexOf(guessedRoom);
 
     setTimeout(() => {
-      if (indexOfNameMatchPl1 > -1) {
-        playerOneCards[indexOfNameMatchPl1].style.backgroundColor = 'green';
+      player2GuessBox?.classList.remove('hidden');
+      commentatorText.innerHTML = 'The Elephant is making a guess';
+    }, 1000 * 6);
+
+    const setGreen = (hand: HTMLCollectionOf<HTMLElement>, index: number) => {
+      if (index > -1) {
+        hand[index].style.backgroundColor = 'green';
       }
-      if (indexOfWeaponMatchPl1 > -1) {
-        playerOneCards[indexOfWeaponMatchPl1].style.backgroundColor = 'green';
-      }
-      if (indexOfRoomMatchPl1 > -1) {
-        playerOneCards[indexOfRoomMatchPl1].style.backgroundColor = 'green';
-      }
+    };
+
+    setTimeout(() => {
+      setGreen(playerOneCards, playerOneHand.indexOf(guessedName));
+      setGreen(playerOneCards, playerOneHand.indexOf(guessedWeapon));
+      setGreen(playerOneCards, playerOneHand.indexOf(guessedRoom));
     }, 1000 * 6);
 
     setTimeout(() => {
-      if (indexOfNameMatchPlU > -1) {
-        playerYouCards[indexOfNameMatchPlU].style.backgroundColor = 'green';
-      }
-      if (indexOfWeaponMatchPlU > -1) {
-        playerYouCards[indexOfWeaponMatchPlU].style.backgroundColor = 'green';
-      }
-      if (indexOfRoomMatchPlU > -1) {
-        playerYouCards[indexOfRoomMatchPlU].style.backgroundColor = 'green';
-      }
+      setGreen(playerYouCards, playerYouHand.indexOf(guessedName));
+      setGreen(playerYouCards, playerYouHand.indexOf(guessedWeapon));
+      setGreen(playerYouCards, playerYouHand.indexOf(guessedRoom));
     }, 1000 * 6);
+
     setTimeout(() => {
       player2GuessBox?.classList.add('hidden');
       defaultPl1Hand();
