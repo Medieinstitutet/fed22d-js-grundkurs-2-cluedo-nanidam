@@ -549,7 +549,7 @@ const defaultYouHand = () => {
 const player1Actions = () => {
   defaultPl1Hand();
   defaultPl2Hand();
-  const diceNr = randomNum0to5() + 1;
+  const diceNr:number = randomNum0to5() + 1;
   dice.innerHTML = diceNr;
   if (diceNr > 3) {
     movePlayer1();
