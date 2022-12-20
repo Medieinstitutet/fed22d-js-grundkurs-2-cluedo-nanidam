@@ -61,7 +61,7 @@ const bgBlock = document.querySelector('.bg-block');
 const allRooms: NodeListOf<HTMLButtonElement> | null = document.querySelectorAll('.room-btn');
 const playAgainBtn = document.querySelectorAll('.restart-game-btn');
 const gameOverLoseBox = document.querySelector('.game-over-lose');
-const gameOverWinBox = document.querySelector('.game-over-win');
+const gameOverWinBox: Element | null = document.querySelector('.game-over-win');
 
 // player you
 const playerYou:HTMLElement = createPlayerPieces('player-piece', 'public/animal-ape-apes-svgrepo-com.svg', 'An orange ape representing your board piece');
@@ -348,8 +348,9 @@ allRooms.forEach((btn: HTMLButtonElement) => {
   btn.addEventListener('click', movePlayer);
 });
 
-playerYouCards.forEach((card, i) => {
-  card.innerHTML = playerYouHand[i];
+playerYouCards.forEach((card: Element, i) => {
+  const tempCard = card;
+  tempCard.innerHTML = playerYouHand[i];
 });
 
 // when dice is clicked on -> add +1 on count
@@ -484,7 +485,8 @@ const handlingSubmitAccuse = () => {
   const accusedRoom = String(document.querySelector('.accuse-room-btn[style*="background-color: red"]')?.innerHTML);
 
   // If the user's accusation is correct, show the win screen and add the score to the high scores
-  if (accusedName === accuseDeck[0][0] && accusedWeapon === accuseDeck[1][0] && accusedRoom === accuseDeck[2][0]) {
+  if (accusedName === accuseDeck[0][0] && accusedWeapon === accuseDeck[1][0] && accusedRoom === accuseDeck[2][0]
+    && gameOverWinBox !== null && sumDraws !== null && sumTime !== null && commentatorText !== null && currentTimer !== null && playerInput !== null) {
     accuseBox?.classList.add('hidden');
     gameOverWinBox.classList.remove('hidden');
     sumDraws.innerHTML = String(count);
@@ -534,6 +536,8 @@ const defaultPl1Hand = () => {
   for (let i = 0; i < playerOneHand.length; i++) {
     playerOneCards[i].innerHTML = `Card ${i + 1}`;
     playerOneCards[i].style.backgroundColor = 'grey';
+
+    // playerOneCards[i].style.backgroundColor = 'grey';
   }
 };
 
@@ -698,25 +702,28 @@ const handlingSubmitGuess = () => {
   playerOneHand.forEach((card: string, i: number) => {
     if (card === guessedName || card === guessedWeapon || card === guessedRoom) {
       playerOneCards[i].innerHTML = playerOneHand[i];
-      playerOneCards[i].style.backgroundColor = 'orange';
+      playerOneCards[i].classList.add('marked-player1-card');
+
+      // playerOneCards[i].style.backgroundColor = 'orange';
     }
   });
   playerTwoHand.forEach((card: string, i: number) => {
     if (card === guessedName || card === guessedWeapon || card === guessedRoom) {
       playerTwoCards[i].innerHTML = playerTwoHand[i];
-      playerTwoCards[i].style.backgroundColor = 'orange';
+      playerTwoCards[i].classList.add('marked-player1-card');
     }
   });
   guessNameBtns.forEach((name: HTMLButtonElement) => {
-    name.style.backgroundColor = 'grey';
+    name.classList.remove('marked-option');
+    // name.style.backgroundColor = 'grey';
   });
 
   guessWeaponBtns.forEach((weapon: HTMLButtonElement) => {
-    weapon.style.backgroundColor = 'grey';
+    weapon.classList.remove('marked-option');
   });
 
   guessRoomBtns.forEach((room: HTMLButtonElement) => {
-    room.style.backgroundColor = 'grey';
+    room.classList.remove('marked-option');
   });
 
   disableGuessAccuseBtns();
