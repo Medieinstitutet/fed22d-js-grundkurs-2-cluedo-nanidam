@@ -96,7 +96,7 @@ const player1GuessRoom = document.querySelector('.pl1-guess-room');
 
 // player 2
 const player2 = createPlayerPieces('player2-piece', 'public/animal-elefante-elephant-svgrepo-com.svg', 'A grey elephant representing player 2 board piece');
-const playerTwoCards: HTMLCollectionOf<HTMLElement> = document.querySelectorAll('.player2-card');
+const playerTwoCards: HTMLCollectionOf<Element> = document.querySelectorAll('.player2-card');
 const player2GuessBox = document.querySelector('.player2-guess');
 const player2GuessName: Element | null = document.querySelector('.pl2-guess-name');
 const player2GuessWeapon = document.querySelector('.pl2-guess-weapon');
@@ -362,7 +362,7 @@ const updateCount = ():void => {
 };
 
 const rollDice = (e: Event) => {
-  const diceText: EventTarget | null = e.target;
+  const diceText = e.target as HTMLElement;
   const diceNr = randomNum0to5() + 1;
 
   if (diceNr > 3) {
@@ -380,7 +380,7 @@ const rollDice = (e: Event) => {
 
   updateCount();
   if (diceText !== null) {
-    diceText.innerHTML = diceNr;
+    diceText.innerHTML = String(diceNr);
   }
 };
 
@@ -576,7 +576,7 @@ const player1Actions = () => {
   defaultPl1Hand();
   defaultPl2Hand();
   const diceNr:number = randomNum0to5() + 1;
-  dice.innerHTML = diceNr;
+  dice.innerHTML = String(diceNr);
   if (diceNr > 3 && player1GuessName !== null && player1GuessWeapon !== null && player1GuessRoom !== null && player1GuessBox !== null && commentatorText !== null) {
     movePlayer1();
     const guessedName:string = charDeck[randomNum0to5()];
@@ -773,9 +773,13 @@ highscoreBtns.forEach((btn) => {
 // ------------------------------------------------------------
 // ------------------------------------------------------------
 const restartGame = (e: Event) => {
-  e.target?.parentElement.classList.add('hidden');
-  count = 0;
-  introBox?.classList.remove('hidden');
+  const target = e.target as HTMLElement;
+
+  if (target !== null && target.parentElement !== null) {
+    target.parentElement.classList.add('hidden');
+    count = 0;
+    introBox?.classList.remove('hidden');
+  }
 };
 
 playAgainBtn.forEach((btn) => {
