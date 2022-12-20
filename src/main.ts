@@ -76,16 +76,6 @@ const accuseWeaponBtns: HTMLButtonElement[] = Array.from(document.querySelectorA
 const accuseRoomBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll('.accuse-room-btn'));
 const accuseBox: HTMLElement | null = document.querySelector('.accuse-box');
 
-// const guessNameBtns: HTMLButtonElement[] = document.querySelectorAll('.guess-name-btn');
-// const guessWeaponBtns: HTMLButtonElement[] = document.querySelectorAll('.guess-weapon-btn');
-// const guessRoomBtns: HTMLButtonElement[] = document.querySelectorAll('.guess-room-btn');
-// const guessBox = document.querySelector('.guess-box');
-
-// const accuseNameBtns: HTMLButtonElement[] = document.querySelectorAll('.accuse-name-btn');
-// const accuseWeaponBtns: HTMLButtonElement[] = document.querySelectorAll('.accuse-weapon-btn');
-// const accuseRoomBtns: HTMLButtonElement[] = document.querySelectorAll('.accuse-room-btn');
-// const accuseBox = document.querySelector('.accuse-box');
-
 // player 1
 const player1 = createPlayerPieces('player1-piece', 'public/animal-cachorro-dog-svgrepo-com.svg', 'A brown dog representing player 2 board piece');
 const playerOneCards: NodeListOf<Element> = document.querySelectorAll('.player1-card');
@@ -519,33 +509,10 @@ const handlingSubmitAccuse = () => {
 
 submitAccuseBtn?.addEventListener('click', handlingSubmitAccuse);
 
-// FIXME: for loop instead of .forEach? Dont use the property "card", only index
-// // default player 1 hand after each turn
-// const defaultPl1Hand = () => {
-//   playerOneHand.forEach((card: string, i: number) => {
-//     playerOneCards[i].innerHTML = `Card ${i + 1}`;
-//     playerOneCards[i].style.backgroundColor = 'grey';
-//   });
-// };
-
-// // default player 2 hand after each turn
-// const defaultPl2Hand = () => {
-//   playerTwoHand.forEach((card: string, i: number) => {
-//     playerTwoCards[i].innerHTML = `Card ${i + 1}`;
-//     playerTwoCards[i].style.backgroundColor = 'grey';
-//   });
-// };
-
-// const defaultYouHand = () => {
-//   playerYouHand.forEach((card: string, i: number) => {
-//     playerYouCards[i].style.backgroundColor = 'orange';
-//   });
-// };
-
 const defaultPl1Hand = () => {
   for (let i = 0; i < playerOneHand.length; i++) {
     playerOneCards[i].innerHTML = `Card ${i + 1}`;
-    playerOneCards[i].classList.remove('guess-match');
+    playerOneCards[i].classList.remove('guess-match', 'player1-match', 'player2-match');
 
     // playerOneCards[i].style.backgroundColor = 'grey';
   }
@@ -554,14 +521,16 @@ const defaultPl1Hand = () => {
 const defaultPl2Hand = () => {
   for (let i = 0; i < playerTwoHand.length; i++) {
     playerTwoCards[i].innerHTML = `Card ${i + 1}`;
-    playerTwoCards[i].style.backgroundColor = 'grey';
+    playerTwoCards[i].classList.remove('guess-match', 'player1-match', 'player2-match');
+
+    // playerTwoCards[i].style.backgroundColor = 'grey';
   }
 };
 
 const defaultYouHand = () => {
   for (let i = 0; i < playerYouHand.length; i++) {
-    // playerYouCards[i].classList.remove("marked-")
-    playerYouCards[i].style.backgroundColor = 'orange';
+    playerYouCards[i].classList.remove('guess-match', 'player1-match', 'player2-match');
+    // playerYouCards[i].style.backgroundColor = 'orange';
   }
 };
 
@@ -596,7 +565,7 @@ const player1Actions = () => {
       const index: number = hand.indexOf(tempGuess);
       if (index > -1) {
         const tempCards = cards;
-        tempCards[index].style.backgroundColor = 'blue';
+        tempCards[index].classList.add('player1-match');
       }
     };
 
@@ -612,37 +581,6 @@ const player1Actions = () => {
       setBlue(playerYouHand, playerYouCards, guessedRoom);
     }, 1000 * 6);
 
-    // const indexOfNameMatchPl2 = playerTwoHand.indexOf(guessedName);
-    // const indexOfWeaponMatchPl2 = playerTwoHand.indexOf(guessedWeapon);
-    // const indexOfRoomMatchPl2 = playerTwoHand.indexOf(guessedRoom);
-
-    // const indexOfNameMatchPlU = playerYouHand.indexOf(guessedName);
-    // const indexOfWeaponMatchPlU = playerYouHand.indexOf(guessedWeapon);
-    // const indexOfRoomMatchPlU = playerYouHand.indexOf(guessedRoom);
-
-    // setTimeout(() => {
-    //   if (indexOfNameMatchPl2 > -1) {
-    //     playerTwoCards[indexOfNameMatchPl2].style.backgroundColor = 'blue';
-    //   }
-    //   if (indexOfWeaponMatchPl2 > -1) {
-    //     playerTwoCards[indexOfWeaponMatchPl2].style.backgroundColor = 'blue';
-    //   }
-    //   if (indexOfRoomMatchPl2 > -1) {
-    //     playerTwoCards[indexOfRoomMatchPl2].style.backgroundColor = 'blue';
-    //   }
-    // }, 1000 * 6);
-
-    // setTimeout(() => {
-    //   if (indexOfNameMatchPlU > -1) {
-    //     playerYouCards[indexOfNameMatchPlU].style.backgroundColor = 'blue';
-    //   }
-    //   if (indexOfWeaponMatchPlU > -1) {
-    //     playerYouCards[indexOfWeaponMatchPlU].style.backgroundColor = 'blue';
-    //   }
-    //   if (indexOfRoomMatchPlU > -1) {
-    //     playerYouCards[indexOfRoomMatchPlU].style.backgroundColor = 'blue';
-    //   }
-    // }, 1000 * 6);
     setTimeout(() => {
       player1GuessBox?.classList.add('hidden');
       defaultPl2Hand();
@@ -655,7 +593,7 @@ const player1Actions = () => {
 
 const player2Actions = () => {
   const diceNr:number = randomNum0to5() + 1;
-  dice.innerHTML = diceNr;
+  dice.innerHTML = String(diceNr);
   if (diceNr > 3 && player2GuessName !== null && player2GuessWeapon !== null && player2GuessRoom !== null && commentatorText !== null) {
     movePlayer2();
     const guessedName: string = charDeck[randomNum0to5()];
@@ -674,7 +612,9 @@ const player2Actions = () => {
     const setGreen = (hand: HTMLCollectionOf<HTMLElement>, index: number) => {
       if (index > -1) {
         const tempHand = hand;
-        tempHand[index].style.backgroundColor = 'green';
+        tempHand[index].classList.add('player2-match');
+
+        // tempHand[index].style.backgroundColor = 'green';
       }
     };
 
@@ -741,8 +681,6 @@ const handlingSubmitGuess = () => {
 
   disableGuessAccuseBtns();
   guessBox?.classList.add('hidden');
-  // defaultPl1Hand();
-  // defaultPl2Hand();
   defaultYouHand();
   defaultDice();
   setTimeout(player1Actions, 1000 * 3);

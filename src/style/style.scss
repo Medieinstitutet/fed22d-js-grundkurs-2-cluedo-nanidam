@@ -307,6 +307,36 @@ h2 {
   }
 }
 
+.player-you {
+  // outline: 2px solid purple;
+  width: 100%;
+  margin: 10px;
+
+
+  .your-hand {
+    // outline: 2px solid blue;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .your-card {
+    background-color: orange;
+    width: 7rem;
+    height: 10rem;
+    margin: 5px;
+
+  }
+
+  .player1-match {
+    background-color: blue;
+  }
+
+  .player2-match {
+    background-color: green;
+  }
+}
+
 .wrapper {
   display: flex;
   align-items: center;
@@ -319,8 +349,21 @@ h2 {
     width: 30rem;
 
     .player1-hand,
-    .player2-hand {
+    .player2-hand,
+    .your-hand {
       display: flex;
+
+      .guess-match {
+        background-color: orangered;
+      }
+
+      .player1-match {
+        background-color: blue;
+      }
+
+      .player2-match {
+        background-color: green;
+      }
     }
 
     .player-card {
@@ -330,36 +373,11 @@ h2 {
       margin: 5px;
       transition: transform 0.5s;
     }
-
-    .guess-match {
-      background-color: orangered;
-    }
   }
 }
 
 .flip {
   transform: rotateY(180deg);
-}
-
-
-.player-you {
-  // outline: 2px solid purple;
-  width: 100%;
-  margin: 10px;
-}
-
-.your-hand {
-  // outline: 2px solid blue;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-
-  .your-card {
-    background-color: orange;
-    width: 7rem;
-    height: 10rem;
-    margin: 5px;
-  }
 }
 
 .dice-container {
@@ -424,7 +442,7 @@ h2 {
 }
 
 .highscore {
-  background-color: rgb(146, 40, 1);
+  background-color: rgb(146 40 1);
   min-height: 400px;
   width: 700px;
   position: absolute;
