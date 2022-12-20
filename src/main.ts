@@ -454,7 +454,18 @@ const updateHighscoreBoard = () => {
 const addHighscore = (name: string, score: number, time: string): void => {
   const highscore: { name: string, score: number, time: string } = { name, score, time };
   highscores.push(highscore);
-  highscores.sort((a: { score: number }, b: { score: number }) => a.score - b.score); // Sort the highscores by score in descending order
+
+  highscores.sort((a: { score: number, time:string }, b: { score: number, time:string }) => {
+    // sort by score in descending order
+    if (a.score !== b.score) {
+      return a.score - b.score;
+    }
+    // if scores are equal, sort by time in ascending order
+    const timeA = Date.parse(a.time);
+    const timeB = Date.parse(b.time);
+    return (timeA - timeB) / 1000;
+  });
+
   highscores = highscores.slice(0, 3); // Keep only the top 3 highscores
   updateHighscoreBoard();
 };
