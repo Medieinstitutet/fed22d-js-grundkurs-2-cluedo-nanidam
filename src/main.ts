@@ -133,9 +133,6 @@ const drawRoomAccuse: string[] = [...roomDeck].splice(randomNum0to8(), 1);
 const accuseDeck:string[][] = [drawCharAccuse, drawWeaponAccuse, drawRoomAccuse];
 
 // draw a card from each categories and put it accuse deck
-accuseDeck.push(drawCharAccuse);
-accuseDeck.push(drawWeaponAccuse);
-accuseDeck.push(drawRoomAccuse);
 
 // players hands
 const playerOneHand: string[] = [];
@@ -470,9 +467,9 @@ const handlingSubmitAccuse = () => {
   clearInterval(setTimer);
 
   // Get players accusations: name, weapon, and room
-  const accusedName = String(document.querySelector('.accuse-name-btn[style*="background-color: red"]')?.innerHTML);
-  const accusedWeapon = String(document.querySelector('.accuse-weapon-btn[style*="background-color: red"]')?.innerHTML);
-  const accusedRoom = String(document.querySelector('.accuse-room-btn[style*="background-color: red"]')?.innerHTML);
+  const accusedName = String(document.querySelector('.accuse-name-btn.marked-option')?.innerHTML);
+  const accusedWeapon = String(document.querySelector('.accuse-weapon-btn.marked-option')?.innerHTML);
+  const accusedRoom = String(document.querySelector('.accuse-room-btn.marked-option')?.innerHTML);
   const accusedNameMatch = accusedName === accuseDeck[0][0];
   const accusedWeaponMatch = accusedWeapon === accuseDeck[1][0];
   const accusedRoomMatch = accusedRoom === accuseDeck[2][0];
@@ -764,9 +761,9 @@ if (guessBtn !== null) {
 //   card.addEventListener('click', flipCard);
 // });
 
-console.table(playerOneHand);
-console.log('player1 hand');
-console.table(playerTwoHand);
-console.log('player2 hand');
+// console.table(playerOneHand);
+// console.log('player1 hand');
+// console.table(playerTwoHand);
+// console.log('player2 hand');
 console.table(accuseDeck);
-console.log('accused deck');
+// console.log('accused deck');
