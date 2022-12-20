@@ -65,7 +65,7 @@ const gameOverWinBox: Element | null = document.querySelector('.game-over-win');
 
 // player you
 const playerYou:HTMLElement = createPlayerPieces('player-piece', 'public/animal-ape-apes-svgrepo-com.svg', 'An orange ape representing your board piece');
-const playerYouCards:NodeListOf<Element> | HTMLCollectionOf<HTMLElement> = document.querySelectorAll('.your-card');
+const playerYouCards:NodeListOf<Element> = document.querySelectorAll('.your-card');
 const guessNameBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll('.guess-name-btn'));
 const guessWeaponBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll('.guess-weapon-btn'));
 const guessRoomBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll('.guess-room-btn'));
@@ -86,7 +86,7 @@ const player1GuessRoom = document.querySelector('.pl1-guess-room');
 
 // player 2
 const player2 = createPlayerPieces('player2-piece', 'public/animal-elefante-elephant-svgrepo-com.svg', 'A grey elephant representing player 2 board piece');
-const playerTwoCards: HTMLCollectionOf<Element> = document.querySelectorAll('.player2-card');
+const playerTwoCards: NodeListOf<Element> = document.querySelectorAll('.player2-card');
 const player2GuessBox = document.querySelector('.player2-guess');
 const player2GuessName: Element | null = document.querySelector('.pl2-guess-name');
 const player2GuessWeapon = document.querySelector('.pl2-guess-weapon');
@@ -522,15 +522,12 @@ const defaultPl2Hand = () => {
   for (let i = 0; i < playerTwoHand.length; i++) {
     playerTwoCards[i].innerHTML = `Card ${i + 1}`;
     playerTwoCards[i].classList.remove('guess-match', 'player1-match', 'player2-match');
-
-    // playerTwoCards[i].style.backgroundColor = 'grey';
   }
 };
 
 const defaultYouHand = () => {
   for (let i = 0; i < playerYouHand.length; i++) {
     playerYouCards[i].classList.remove('guess-match', 'player1-match', 'player2-match');
-    // playerYouCards[i].style.backgroundColor = 'orange';
   }
 };
 
@@ -561,7 +558,7 @@ const player1Actions = () => {
       commentatorText.innerHTML = 'The Dog is making a guess';
     }, 1000 * 6);
 
-    const setBlue = (hand: string[], cards: HTMLCollectionOf<HTMLElement>, tempGuess: string) => {
+    const setBlue = (hand: string[], cards: NodeListOf<Element>, tempGuess: string) => {
       const index: number = hand.indexOf(tempGuess);
       if (index > -1) {
         const tempCards = cards;
@@ -609,7 +606,7 @@ const player2Actions = () => {
       commentatorText.innerHTML = 'The Elephant is making a guess';
     }, 1000 * 6);
 
-    const setGreen = (hand: HTMLCollectionOf<HTMLElement>, index: number) => {
+    const setGreen = (hand: NodeListOf<Element>, index: number) => {
       if (index > -1) {
         const tempHand = hand;
         tempHand[index].classList.add('player2-match');
