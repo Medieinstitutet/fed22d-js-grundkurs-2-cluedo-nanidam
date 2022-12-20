@@ -58,7 +58,7 @@ const playerName = document.querySelector('.player-name');
 const errorMsgName = document.querySelector('.error-name');
 const startGameBtn: HTMLButtonElement | null = document.querySelector('.start-btn');
 const bgBlock = document.querySelector('.bg-block');
-const allRooms: NodeListOf<Element> = document.querySelectorAll('.room-btn');
+const allRooms: NodeListOf<HTMLButtonElement> | null = document.querySelectorAll('.room-btn');
 const playAgainBtn = document.querySelectorAll('.restart-game-btn');
 const gameOverLoseBox = document.querySelector('.game-over-lose');
 const gameOverWinBox = document.querySelector('.game-over-win');
@@ -273,7 +273,7 @@ const startGame = () => {
 
   // sets the background color of the button to grey
   const setButtonColor = (btn: HTMLButtonElement) => {
-    btn.style.backgroundColor = 'grey';
+    btn.classList.remove('marked-option');
   };
 
   // Set the background color of all the buttons in the  array to grey
@@ -316,34 +316,37 @@ const disableGuessAccuseBtns = () => {
   }
 };
 const disableRoomBtns = ():void => {
-  allRooms.forEach((button: Element) => {
-    button.disabled = true;
+  allRooms.forEach((button: HTMLButtonElement) => {
+    button.setAttribute('disabled', 'true');
   });
 };
 const enableRoomBtns = ():void => {
-  allRooms.forEach((button) => {
-    button.disabled = false;
+  allRooms.forEach((button: HTMLButtonElement) => {
+    button.removeAttribute('disabled');
   });
 };
 
 // move player you to different rooms
-const movePlayer = (e?: Event) => {
-  const target = e?.currentTarget;
-  if (!target.contains(playerYou)) {
-    target.appendChild(playerYou);
-    disableRoomBtns();
-    enableGuessAccuseBtns();
-    if (commentatorText !== null) {
-      commentatorText.innerHTML = 'Cowards guess. Idiot accuse. Which one are you?';
+const movePlayer = (e: Event) => {
+  const target: EventTarget | null = e.currentTarget;
+  if (target !== null && commentatorText !== null && target instanceof HTMLElement) {
+    if (!target.contains(playerYou)) {
+      target.appendChild(playerYou);
+      disableRoomBtns();
+      enableGuessAccuseBtns();
+      commentatorText.innerHTML = 'Cowards guess. Idiots accuse. Which one are you?';
     }
   } else if (commentatorText !== null) {
     commentatorText.innerHTML = "Can't choose the same room! Choose another room.";
   }
 };
 
-for (const btn of allRooms) {
+// for (const btn of allRooms) {
+//   btn.addEventListener('click', movePlayer);
+// }
+allRooms.forEach((btn: HTMLButtonElement) => {
   btn.addEventListener('click', movePlayer);
-}
+});
 
 playerYouCards.forEach((card, i) => {
   card.innerHTML = playerYouHand[i];
@@ -358,7 +361,7 @@ const updateCount = ():void => {
 };
 
 const rollDice = (e: Event) => {
-  const diceText: EventTarget | null | HTMLElement = e.target;
+  const diceText: EventTarget | null = e.target;
   const diceNr = randomNum0to5() + 1;
 
   if (diceNr > 3) {
@@ -416,13 +419,13 @@ const checkAccuseMade = () => {
 const handleClick = (btns: HTMLButtonElement[], property: 'name' | 'weapon' | 'room', checkFn: () => void) => {
   const handleButtonClick = (e: MouseEvent) => {
     const button = e.target as HTMLButtonElement;
-    button.style.backgroundColor = 'red';
+    button.classList.add('marked-option');
     guessMade[property] = true;
     accuseMade[property] = true;
     checkFn();
     btns.forEach((btn2) => {
       if (btn2 !== button) {
-        btn2.style.backgroundColor = 'grey';
+        btn2.classList.remove('marked-option');
       }
     });
   };
@@ -688,9 +691,9 @@ const player2Actions = () => {
 const handlingSubmitGuess = () => {
   bgBlock?.classList.add('hidden');
 
-  const guessedName:string = document.querySelectorAll('.guess-name-btn[style*="background-color: red"]')[0].innerHTML;
-  const guessedWeapon:string = document.querySelectorAll('.guess-weapon-btn[style*="background-color: red"]')[0].innerHTML;
-  const guessedRoom:string = document.querySelectorAll('.guess-room-btn[style*="background-color: red"]')[0].innerHTML;
+  const guessedName:string = document.querySelectorAll('.guess-name-btn.marked-option')[0].innerHTML;
+  const guessedWeapon:string = document.querySelectorAll('.guess-weapon-btn.marked-option')[0].innerHTML;
+  const guessedRoom:string = document.querySelectorAll('.guess-room-btn.marked-option')[0].innerHTML;
 
   playerOneHand.forEach((card: string, i: number) => {
     if (card === guessedName || card === guessedWeapon || card === guessedRoom) {
