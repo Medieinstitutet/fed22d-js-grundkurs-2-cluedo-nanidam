@@ -65,7 +65,7 @@ const gameOverWinBox: Element | null = document.querySelector('.game-over-win');
 
 // player you
 const playerYou:HTMLElement = createPlayerPieces('player-piece', 'public/animal-ape-apes-svgrepo-com.svg', 'An orange ape representing your board piece');
-const playerYouCards = document.querySelectorAll('.your-card');
+const playerYouCards:NodeListOf<Element> | HTMLCollectionOf<HTMLElement> = document.querySelectorAll('.your-card');
 const guessNameBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll('.guess-name-btn'));
 const guessWeaponBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll('.guess-weapon-btn'));
 const guessRoomBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll('.guess-room-btn'));
@@ -96,9 +96,9 @@ const player1GuessRoom = document.querySelector('.pl1-guess-room');
 
 // player 2
 const player2 = createPlayerPieces('player2-piece', 'public/animal-elefante-elephant-svgrepo-com.svg', 'A grey elephant representing player 2 board piece');
-const playerTwoCards: NodeListOf<Element> = document.querySelectorAll('.player2-card');
+const playerTwoCards: HTMLCollectionOf<HTMLElement> = document.querySelectorAll('.player2-card');
 const player2GuessBox = document.querySelector('.player2-guess');
-const player2GuessName = document.querySelector('.pl2-guess-name');
+const player2GuessName: Element | null = document.querySelector('.pl2-guess-name');
 const player2GuessWeapon = document.querySelector('.pl2-guess-weapon');
 const player2GuessRoom = document.querySelector('.pl2-guess-room');
 
@@ -483,10 +483,21 @@ const handlingSubmitAccuse = () => {
   const accusedName = String(document.querySelector('.accuse-name-btn[style*="background-color: red"]')?.innerHTML);
   const accusedWeapon = String(document.querySelector('.accuse-weapon-btn[style*="background-color: red"]')?.innerHTML);
   const accusedRoom = String(document.querySelector('.accuse-room-btn[style*="background-color: red"]')?.innerHTML);
+  const accusedNameMatch = accusedName === accuseDeck[0][0];
+  const accusedWeaponMatch = accusedWeapon === accuseDeck[1][0];
+  const accusedRoomMatch = accusedRoom === accuseDeck[2][0];
+  const checkAllAccuse = accusedNameMatch && accusedWeaponMatch && accusedRoomMatch;
+
+  const checkGameOverWinBox = gameOverWinBox !== null;
+  const checkSumDraws = sumDraws !== null;
+  const checkSumtime = sumTime !== null;
+  const checkCommentatorText = commentatorText !== null;
+  const checkCurrentTimer = currentTimer !== null;
+  const checkPlayerInput = playerInput !== null;
+  const checkNull = checkGameOverWinBox && checkSumDraws && checkSumtime && checkCommentatorText && checkCurrentTimer && checkPlayerInput;
 
   // If the user's accusation is correct, show the win screen and add the score to the high scores
-  if (accusedName === accuseDeck[0][0] && accusedWeapon === accuseDeck[1][0] && accusedRoom === accuseDeck[2][0]
-    && gameOverWinBox !== null && sumDraws !== null && sumTime !== null && commentatorText !== null && currentTimer !== null && playerInput !== null) {
+  if (checkAllAccuse && checkNull) {
     accuseBox?.classList.add('hidden');
     gameOverWinBox.classList.remove('hidden');
     sumDraws.innerHTML = String(count);
@@ -494,9 +505,8 @@ const handlingSubmitAccuse = () => {
     sumTime.innerHTML = currentTimer.innerHTML;
     addHighscore(playerInput.value, count, sumTime.innerHTML);
     commentatorText.innerHTML = 'You are the next Sherlock Holmes.';
-  }
-  // If the user's accusation is incorrect, show the lose screen and reveal the correct answers
-  else if (rightName !== null && rightWeapon !== null && rightRoom !== null && gameOverLoseBox !== null && commentatorText !== null) {
+    // If the user's accusation is incorrect, show the lose screen and reveal the correct answers
+  } else if (rightName !== null && rightWeapon !== null && rightRoom !== null && gameOverLoseBox !== null && commentatorText !== null) {
     const [[name], [weapon], [room]] = accuseDeck;
     rightName.innerHTML = name;
     rightWeapon.innerHTML = weapon;
@@ -535,7 +545,7 @@ submitAccuseBtn?.addEventListener('click', handlingSubmitAccuse);
 const defaultPl1Hand = () => {
   for (let i = 0; i < playerOneHand.length; i++) {
     playerOneCards[i].innerHTML = `Card ${i + 1}`;
-    playerOneCards[i].style.backgroundColor = 'grey';
+    playerOneCards[i].classList.remove('guess-match');
 
     // playerOneCards[i].style.backgroundColor = 'grey';
   }
@@ -550,6 +560,7 @@ const defaultPl2Hand = () => {
 
 const defaultYouHand = () => {
   for (let i = 0; i < playerYouHand.length; i++) {
+    // playerYouCards[i].classList.remove("marked-")
     playerYouCards[i].style.backgroundColor = 'orange';
   }
 };
@@ -566,7 +577,7 @@ const player1Actions = () => {
   defaultPl2Hand();
   const diceNr:number = randomNum0to5() + 1;
   dice.innerHTML = diceNr;
-  if (diceNr > 3) {
+  if (diceNr > 3 && player1GuessName !== null && player1GuessWeapon !== null && player1GuessRoom !== null && player1GuessBox !== null && commentatorText !== null) {
     movePlayer1();
     const guessedName:string = charDeck[randomNum0to5()];
     const guessedWeapon:string = weaponDeck[randomNum0to5()];
@@ -577,14 +588,15 @@ const player1Actions = () => {
     player1GuessRoom.innerHTML = guessedRoom;
 
     setTimeout(() => {
-      player1GuessBox?.classList.remove('hidden');
+      player1GuessBox.classList.remove('hidden');
       commentatorText.innerHTML = 'The Dog is making a guess';
     }, 1000 * 6);
 
-    const setBlue = (hand: string[], cards: HTMLCollectionOf<HTMLElement>, guess: string) => {
-      const index: number = hand.indexOf(guess);
+    const setBlue = (hand: string[], cards: HTMLCollectionOf<HTMLElement>, tempGuess: string) => {
+      const index: number = hand.indexOf(tempGuess);
       if (index > -1) {
-        cards[index].style.backgroundColor = 'blue';
+        const tempCards = cards;
+        tempCards[index].style.backgroundColor = 'blue';
       }
     };
 
@@ -644,7 +656,7 @@ const player1Actions = () => {
 const player2Actions = () => {
   const diceNr:number = randomNum0to5() + 1;
   dice.innerHTML = diceNr;
-  if (diceNr > 3) {
+  if (diceNr > 3 && player2GuessName !== null && player2GuessWeapon !== null && player2GuessRoom !== null && commentatorText !== null) {
     movePlayer2();
     const guessedName: string = charDeck[randomNum0to5()];
     const guessedWeapon: string = weaponDeck[randomNum0to5()];
@@ -661,7 +673,8 @@ const player2Actions = () => {
 
     const setGreen = (hand: HTMLCollectionOf<HTMLElement>, index: number) => {
       if (index > -1) {
-        hand[index].style.backgroundColor = 'green';
+        const tempHand = hand;
+        tempHand[index].style.backgroundColor = 'green';
       }
     };
 
@@ -702,7 +715,7 @@ const handlingSubmitGuess = () => {
   playerOneHand.forEach((card: string, i: number) => {
     if (card === guessedName || card === guessedWeapon || card === guessedRoom) {
       playerOneCards[i].innerHTML = playerOneHand[i];
-      playerOneCards[i].classList.add('marked-player1-card');
+      playerOneCards[i].classList.add('guess-match');
 
       // playerOneCards[i].style.backgroundColor = 'orange';
     }
@@ -710,7 +723,7 @@ const handlingSubmitGuess = () => {
   playerTwoHand.forEach((card: string, i: number) => {
     if (card === guessedName || card === guessedWeapon || card === guessedRoom) {
       playerTwoCards[i].innerHTML = playerTwoHand[i];
-      playerTwoCards[i].classList.add('marked-player1-card');
+      playerTwoCards[i].classList.add('guess-match');
     }
   });
   guessNameBtns.forEach((name: HTMLButtonElement) => {
