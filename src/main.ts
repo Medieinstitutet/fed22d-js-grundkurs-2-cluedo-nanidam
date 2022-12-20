@@ -52,7 +52,8 @@ const guessMade = { name: false, weapon: false, room: false };
 const accuseMade = { name: false, weapon: false, room: false };
 
 const introBox = document.querySelector('.intro-text');
-const playerInput = document.querySelector('#input-name');
+const playerInput = document.querySelector<HTMLInputElement>('#input-name');
+
 const playerName = document.querySelector('.player-name');
 const errorMsgName = document.querySelector('.error-name');
 const startGameBtn: HTMLButtonElement | null = document.querySelector('.start-btn');
@@ -65,15 +66,25 @@ const gameOverWinBox = document.querySelector('.game-over-win');
 // player you
 const playerYou:HTMLElement = createPlayerPieces('player-piece', 'public/animal-ape-apes-svgrepo-com.svg', 'An orange ape representing your board piece');
 const playerYouCards = document.querySelectorAll('.your-card');
-const guessNameBtns: HTMLButtonElement[] = document.querySelectorAll('.guess-name-btn');
-const guessWeaponBtns: HTMLButtonElement[] = document.querySelectorAll('.guess-weapon-btn');
-const guessRoomBtns: HTMLButtonElement[] = document.querySelectorAll('.guess-room-btn');
-const guessBox = document.querySelector('.guess-box');
+const guessNameBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll('.guess-name-btn'));
+const guessWeaponBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll('.guess-weapon-btn'));
+const guessRoomBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll('.guess-room-btn'));
+const guessBox: HTMLElement | null = document.querySelector('.guess-box');
 
-const accuseNameBtns: HTMLButtonElement[] = document.querySelectorAll('.accuse-name-btn');
-const accuseWeaponBtns: HTMLButtonElement[] = document.querySelectorAll('.accuse-weapon-btn');
-const accuseRoomBtns: HTMLButtonElement[] = document.querySelectorAll('.accuse-room-btn');
-const accuseBox = document.querySelector('.accuse-box');
+const accuseNameBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll('.accuse-name-btn'));
+const accuseWeaponBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll('.accuse-weapon-btn'));
+const accuseRoomBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll('.accuse-room-btn'));
+const accuseBox: HTMLElement | null = document.querySelector('.accuse-box');
+
+// const guessNameBtns: HTMLButtonElement[] = document.querySelectorAll('.guess-name-btn');
+// const guessWeaponBtns: HTMLButtonElement[] = document.querySelectorAll('.guess-weapon-btn');
+// const guessRoomBtns: HTMLButtonElement[] = document.querySelectorAll('.guess-room-btn');
+// const guessBox = document.querySelector('.guess-box');
+
+// const accuseNameBtns: HTMLButtonElement[] = document.querySelectorAll('.accuse-name-btn');
+// const accuseWeaponBtns: HTMLButtonElement[] = document.querySelectorAll('.accuse-weapon-btn');
+// const accuseRoomBtns: HTMLButtonElement[] = document.querySelectorAll('.accuse-room-btn');
+// const accuseBox = document.querySelector('.accuse-box');
 
 // player 1
 const player1 = createPlayerPieces('player1-piece', 'public/animal-cachorro-dog-svgrepo-com.svg', 'A brown dog representing player 2 board piece');
@@ -92,7 +103,7 @@ const player2GuessWeapon = document.querySelector('.pl2-guess-weapon');
 const player2GuessRoom = document.querySelector('.pl2-guess-room');
 
 // dice
-const dice = document.getElementsByClassName('dice')[0];
+const dice = document.getElementsByClassName('dice')[0] as HTMLButtonElement;
 
 // counter
 let minutes: number;
@@ -129,7 +140,7 @@ const sumTime = document.querySelector('.game-over-time');
 const drawCharAccuse: string[] = [...charDeck].splice(randomNum0to5(), 1);
 const drawWeaponAccuse: string[] = [...weaponDeck].splice(randomNum0to5(), 1);
 const drawRoomAccuse: string[] = [...roomDeck].splice(randomNum0to8(), 1);
-const accuseDeck:string[][] = [];
+const accuseDeck:string[][] = [drawCharAccuse, drawWeaponAccuse, drawRoomAccuse];
 
 // draw a card from each categories and put it accuse deck
 accuseDeck.push(drawCharAccuse);
@@ -141,8 +152,9 @@ const playerOneHand: string[] = [];
 const playerTwoHand: string[] = [];
 const playerYouHand: string[] = [];
 
-const mergeWeapon: string[] = charDeck.concat(weaponDeck);
-const mergedDeck: string[] = mergeWeapon.concat(roomDeck);
+const mergedDeck: string[] = charDeck.concat(weaponDeck, roomDeck);
+// const mergeWeapon: string[] = charDeck.concat(weaponDeck);
+// const mergedDeck: string[] = mergeWeapon.concat(roomDeck);
 
 const shuffle = (array: string[]):string[] => {
   const tempArray:string[] = [...array];
@@ -165,14 +177,10 @@ const shuffle = (array: string[]):string[] => {
 
 const shuffledCard: string[] = shuffle(mergedDeck);
 
-while (playerYouHand.length < 3) {
-  playerOneHand.push(shuffledCard.shift());
-  playerTwoHand.push(shuffledCard.shift());
-
-  // if shuffledCard is not empty -> push
-  if (shuffledCard.length !== 0) {
-    playerYouHand.push(shuffledCard.shift());
-  }
+while (playerYouHand.length < 3 && shuffledCard.length) {
+  playerOneHand.push(shuffledCard.shift() as string);
+  playerTwoHand.push(shuffledCard.shift() as string);
+  playerYouHand.push(shuffledCard.shift() as string);
 }
 
 // ------------------------------------------------------------
@@ -308,7 +316,7 @@ const disableGuessAccuseBtns = () => {
   }
 };
 const disableRoomBtns = ():void => {
-  allRooms.forEach((button) => {
+  allRooms.forEach((button: Element) => {
     button.disabled = true;
   });
 };
