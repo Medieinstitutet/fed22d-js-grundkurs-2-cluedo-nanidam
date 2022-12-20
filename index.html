@@ -13,12 +13,12 @@
 <!-- //FIXME: HIDDEN CLASS EVERYWHERE -->
 
 <body>
-  <main>
-    <div class="bg-block hidden"></div>
+  <main class="main">
+    <div class="bg-block "></div>
     <h1>Cluedo</h1>
     <!-- FIXME: create this in js/ts? 
       write a better description of the game! -->
-    <section class="intro-text hidden">
+    <section class="intro-text ">
       <h2>Welcome to Cluedo</h2>
       <p>
         <b>How to play Cluedo:</b>
@@ -38,9 +38,9 @@
         If a player makes an accusation that matches the cards that were placed away, they win the game. Otherwise, they
         lose!<br>
 
-        You are assign to play the orange monkey.<br>
+        You are assigned to play the orange monkey.<br>
 
-        Are you the dectetive that can solve Cluedo? When you press "Start game", a timer will start.<br>
+        Are you the detective that can solve Cluedo? When you press "Start game", a timer will start.<br>
       </p>
       <label for="input-name" class="input-field">
         What is your name?<br>
@@ -50,11 +50,11 @@
       <button class="start-btn">Start game</button>
     </section>
     <!-- <div class="app" id="app"></div> TODO: går bra att radera -->
-    <!-- TODO: change drop-title to "Who do you accuse" in js  -->
-    <section class="dropdown hidden">
-      <h2 class="drop-title">Take a guess</h2>
-      <div class="drop-wrapper">
-        <article class="drop-characters">
+    <!-- TODO: create boxes in js -->
+    <section class="guess-box hidden">
+      <h2 class="guess-title">Make a guess</h2>
+      <div class="guess-wrapper">
+        <article class="guess-characters">
           <h3>Who?</h3>
           <button class="guess-name-btn">Miss Scarlett</button>
           <button class="guess-name-btn">Mr. Green</button>
@@ -63,7 +63,7 @@
           <button class="guess-name-btn">Mrs. Peacock</button>
           <button class="guess-name-btn">Mrs. White</button>
         </article>
-        <article class="drop-weapons">
+        <article class="guess-weapons">
           <h3>Which weapon?</h3>
           <button class="guess-weapon-btn">Candlestick</button>
           <button class="guess-weapon-btn">Knife</button>
@@ -72,7 +72,7 @@
           <button class="guess-weapon-btn">Rope</button>
           <button class="guess-weapon-btn">Wrench</button>
         </article>
-        <article class="drop-rooms">
+        <article class="guess-rooms">
           <h3>Which room?</h3>
           <button class="guess-room-btn">Kitchen</button>
           <button class="guess-room-btn">Ballroom</button>
@@ -85,7 +85,43 @@
           <button class="guess-room-btn">Study</button>
         </article>
       </div>
-      <button class="submit-btn" disabled>Submit guess</button>
+      <button class="submit-guess-btn" disabled>Submit guess</button>
+    </section>
+    <section class="accuse-box hidden">
+      <h2 class="accuse-title">Make an accusation!</h2>
+      <div class="accuse-wrapper">
+        <article class="accuse-characters">
+          <h3>Who?</h3>
+          <button class="accuse-name-btn">Miss Scarlett</button>
+          <button class="accuse-name-btn">Mr. Green</button>
+          <button class="accuse-name-btn">Colonel Mustard</button>
+          <button class="accuse-name-btn">Professor Plum</button>
+          <button class="accuse-name-btn">Mrs. Peacock</button>
+          <button class="accuse-name-btn">Mrs. White</button>
+        </article>
+        <article class="accuse-weapons">
+          <h3>Which weapon?</h3>
+          <button class="accuse-weapon-btn">Candlestick</button>
+          <button class="accuse-weapon-btn">Knife</button>
+          <button class="accuse-weapon-btn">Lead Pipe</button>
+          <button class="accuse-weapon-btn">Revolver</button>
+          <button class="accuse-weapon-btn">Rope</button>
+          <button class="accuse-weapon-btn">Wrench</button>
+        </article>
+        <article class="accuse-rooms">
+          <h3>Which room?</h3>
+          <button class="accuse-room-btn">Kitchen</button>
+          <button class="accuse-room-btn">Ballroom</button>
+          <button class="accuse-room-btn">Conservatory</button>
+          <button class="accuse-room-btn">Dining Room</button>
+          <button class="accuse-room-btn">Billiard Room</button>
+          <button class="accuse-room-btn">Library</button>
+          <button class="accuse-room-btn">Lounge</button>
+          <button class="accuse-room-btn">Hall</button>
+          <button class="accuse-room-btn">Study</button>
+        </article>
+      </div>
+      <button class="submit-accuse-btn" disabled>Submit my accusation!</button>
     </section>
     <div class="wrapper">
       <section class="player1">
@@ -158,7 +194,7 @@
         <img class="your-pic" src="public/animal-ape-apes-svgrepo-com.svg" alt="An orange ape's head">
       </h2>
       <article class="your-hand">
-        <div class="your-card">Card 1</div>
+        <div class="your-card ">Card 1</div>
         <div class="your-card">Card 2</div>
         <div class="your-card">Card 3</div>
       </article>
@@ -166,45 +202,66 @@
     <section class="timer">
       Time: <span class="current-timer">00:00</span>
     </section>
-    <!-- TODO: Under construction
-      Highscore 
-      [] make version "better luck next time" in ts/js by changing h2? 
-      [] appendChild results? 
-      [] add class hidden when section's not shown
-    -->
-    <!-- <section>
-      <h2>You solved it!</h2>
-      <article>
-        You did <span>0</span> draws!
-        Your time: <span>0</span> mins.
-      </article>
-      <label>Your name:
-        <input type="text">
-      </label>
-      <button>Play again</button>
-      <button>See highscore</button>
+    <section class="commentator-box">
+      <p class="commentator-text">It's time to solve the mystery!</p>
     </section>
-    <section>
+    <!-- TODO: Under construction -->
+
+    <section class="game-over-win hidden">
+      <h2>You win!<br>You've solved it! :)</h2>
+      <p>
+        You did <span class="game-over-draws">0</span> draws!<br>
+        Your time: <span class="game-over-time">0</span> mins.
+      </p>
+      <button class="restart-game-btn">Play again</button>
+      <button class="highscore-btn">See highscore</button>
+    </section>
+    <section class="highscore hidden">
       <h2>Highscore</h2>
-      <table>
-        <tr>
-          <th>Name:</th>
-          <th>Draws:</th>
-          <th>Time:</th>
-        </tr>
-        <tr>
-          <td>Player 1</td>
-          <td>11</td>
-          <td>110 min</td>
-        </tr>
-        <tr>
-          <td>Player 2</td>
-          <td>22</td>
-          <td>220 min</td>
-        </tr>
+      <table class="highscore-table">
+        <thead>
+          <tr>
+            <th>Ranking*:</th>
+            <th>Name:</th>
+            <th>Draws:</th>
+            <th>Time:</th>
+          </tr>
+        </thead>
+        <tbody class="winners">
+          <tr>
+            <td><span>1</span></td>
+            <td><span>Player</span></td>
+            <td><span>11</span></td>
+            <td><span>110</span> min</td>
+          </tr>
+          <tr>
+            <td><span>2</span></td>
+            <td><span>Player</span></td>
+            <td><span>11</span></td>
+            <td><span>110</span> min</td>
+          </tr>
+          <tr>
+            <td><span>3</span></td>
+            <td><span>Player</span></td>
+            <td><span>11</span></td>
+            <td><span>110</span> min</td>
+          </tr>
+
       </table>
-      <button>Play again</button>
-    </section> -->
+      </tbody>
+      <p><i>*Ranking is based on sum of draws a player makes during a won game</i></p>
+      <button class="restart-game-btn">Play again</button>
+    </section>
+    <section class="game-over-lose hidden">
+      <h2>You have lost the game! <br>Your accusation was wrong :(</h2>
+      <p>
+        The murderer is <b><span class="right-answer-name">INSERT HERE </span></b>
+        and used a <b><span class="right-answer-weapon">INSERT HERE </span></b> as a weapon
+        in the <b class="right-answer-room"><span>INSERT HERE</span></b>.
+      </p>
+      <button class="highscore-btn">See highscore</button>
+      <button class="restart-game-btn">Play again</button>
+    </section>
   </main>
 
   <!-- TODO
