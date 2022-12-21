@@ -9,37 +9,20 @@ import './style/style.scss';
 //   appendDropdownToMain,
 // } from './render';
 
-function createPlayerPieces(className: string, source: string, altText: string): HTMLElement {
-  // Create a div element with the "player-piece" class
-  const div: HTMLDivElement = document.createElement('div');
-  div.classList.add(className);
-
-  // Create an img element with the specified src and alt attributes
-  const img: HTMLImageElement = document.createElement('img');
-  img.src = source;
-  img.alt = altText;
-
-  // Append the img element to the div element
-  div.appendChild(img);
-
-  // Return the div element
-  return div;
-}
-
 // character deck
 const charDeck: string[] = [
   'Miss Scarlett', 'Mr. Green', 'Colonel Mustard', 'Professor Plum', 'Mrs. Peacock', 'Mrs. White',
 ];
-
+// weapon deck
 const weaponDeck: string[] = [
   'Candlestick', 'Knife', 'Lead Pipe', 'Revolver', 'Rope', 'Wrench',
 ];
-
+// room deck
 const roomDeck: string[] = [
   'Kitchen', 'Ballroom', 'Conservatory', 'Dining Room', 'Billiard Room', 'Library', 'Lounge', 'Hall', 'Study',
 ];
 
-// get random nr 0-5
+// get random nr 0-5 and random nr 0-8
 const randomNum0to5 = ():number => Math.floor(Math.random() * charDeck.length);
 const randomNum0to8 = ():number => Math.floor(Math.random() * roomDeck.length);
 
@@ -62,6 +45,22 @@ const allRooms: NodeListOf<HTMLButtonElement> | null = document.querySelectorAll
 const playAgainBtn = document.querySelectorAll('.restart-game-btn');
 const gameOverLoseBox = document.querySelector('.game-over-lose');
 const gameOverWinBox: Element | null = document.querySelector('.game-over-win');
+
+// needs to come before "const playerYou"
+const createPlayerPieces = (className: string, source: string, altText: string): HTMLElement => {
+  // Create a div element with the "player-piece" class
+  const div: HTMLDivElement = document.createElement('div');
+  div.classList.add(className);
+
+  // Create an img element with the specified src and alt attributes
+  const img: HTMLImageElement = document.createElement('img');
+  img.src = source;
+  img.alt = altText;
+
+  div.appendChild(img);
+
+  return div;
+};
 
 // player you
 const playerYou:HTMLElement = createPlayerPieces('player-piece', 'public/animal-ape-apes-svgrepo-com.svg', 'An orange ape representing your board piece');
@@ -132,16 +131,12 @@ const drawWeaponAccuse: string[] = [...weaponDeck].splice(randomNum0to5(), 1);
 const drawRoomAccuse: string[] = [...roomDeck].splice(randomNum0to8(), 1);
 const accuseDeck:string[][] = [drawCharAccuse, drawWeaponAccuse, drawRoomAccuse];
 
-// draw a card from each categories and put it accuse deck
-
 // players hands
 const playerOneHand: string[] = [];
 const playerTwoHand: string[] = [];
 const playerYouHand: string[] = [];
 
 const mergedDeck: string[] = charDeck.concat(weaponDeck, roomDeck);
-// const mergeWeapon: string[] = charDeck.concat(weaponDeck);
-// const mergedDeck: string[] = mergeWeapon.concat(roomDeck);
 
 const shuffle = (array: string[]):string[] => {
   const tempArray:string[] = [...array];
@@ -170,12 +165,6 @@ while (playerYouHand.length < 3 && shuffledCard.length) {
   playerYouHand.push(shuffledCard.shift() as string);
 }
 
-// ------------------------------------------------------------
-// ------------------------------------------------------------
-// ---------------------timer/counter--------------------------
-// ------------------------------------------------------------
-// ------------------------------------------------------------
-
 const timer = () => {
   seconds += 1;
 
@@ -202,11 +191,6 @@ const resetTimer = () => {
   }
 };
 
-// ------------------------------------------------------------
-// ------------------------------------------------------------
-// ---------------------when game starts:----------------------
-// ------------------------------------------------------------
-// ------------------------------------------------------------
 let setTimer: number;
 
 const movePlayer1 = () => {
@@ -328,17 +312,25 @@ const movePlayer = (e: Event) => {
   }
 };
 
-// for (const btn of allRooms) {
+// // FIXME: refactoring fn
+// allRooms.forEach((btn: HTMLButtonElement) => {
 //   btn.addEventListener('click', movePlayer);
-// }
-allRooms.forEach((btn: HTMLButtonElement) => {
-  btn.addEventListener('click', movePlayer);
-});
+// });
 
-playerYouCards.forEach((card: Element, i) => {
+// // FIXME: refactoring fn
+// playerYouCards.forEach((card: Element, i) => {
+//   const tempCard = card;
+//   tempCard.innerHTML = playerYouHand[i];
+// });
+
+const movePlayerForEach = (btn: HTMLButtonElement): void => {
+  btn.addEventListener('click', movePlayer);
+};
+
+const addCardToHand = (card: Element, i: number): void => {
   const tempCard = card;
   tempCard.innerHTML = playerYouHand[i];
-});
+};
 
 // when dice is clicked on -> add +1 on count
 let count: number;
@@ -371,16 +363,12 @@ const rollDice = (e: Event) => {
   }
 };
 
-// ------------------------------------------------------------
-// ------------------------------------------------------------
-// ---------------------guess & accuse btns--------------------
-// ------------------------------------------------------------
-// ------------------------------------------------------------
-
-accuseBtn?.addEventListener('click', () => {
-  bgBlock?.classList.remove('hidden');
-  accuseBox?.classList.remove('hidden');
-});
+const showAccuseBox = (): void => {
+  if (bgBlock !== null && accuseBox !== null) {
+    bgBlock.classList.remove('hidden');
+    accuseBox.classList.remove('hidden');
+  }
+};
 
 const guess = () => {
   guessBox?.classList.remove('hidden');
@@ -403,6 +391,7 @@ const checkAccuseMade = () => {
   }
 };
 
+// TODO: kan man flytta ut handleButtonClick utanför handClick? KOLLA UPP!
 // mark one answer with backgroundcolor red in each categories
 const handleClick = (btns: HTMLButtonElement[], property: 'name' | 'weapon' | 'room', checkFn: () => void) => {
   const handleButtonClick = (e: MouseEvent) => {
@@ -411,24 +400,30 @@ const handleClick = (btns: HTMLButtonElement[], property: 'name' | 'weapon' | 'r
     guessMade[property] = true;
     accuseMade[property] = true;
     checkFn();
-    btns.forEach((btn2) => {
+
+    // btns.forEach((btn2) => {
+    //   if (btn2 !== button) {
+    //     btn2.classList.remove('marked-option');
+    //   }
+    // });
+    const removeMarkedOption = (btn2: HTMLElement):void => {
       if (btn2 !== button) {
         btn2.classList.remove('marked-option');
       }
-    });
+    };
+
+    btns.forEach(removeMarkedOption);
   };
 
-  btns.forEach((btn) => {
+  // btns.forEach((btn) => {
+  //   btn.addEventListener('click', handleButtonClick);
+  // });
+  const handleButtonClickForEach = (btn: HTMLElement):void => {
     btn.addEventListener('click', handleButtonClick);
-  });
-};
+  };
 
-handleClick(guessNameBtns, 'name', checkGuessMade);
-handleClick(guessWeaponBtns, 'weapon', checkGuessMade);
-handleClick(guessRoomBtns, 'room', checkGuessMade);
-handleClick(accuseNameBtns, 'name', checkAccuseMade);
-handleClick(accuseWeaponBtns, 'weapon', checkAccuseMade);
-handleClick(accuseRoomBtns, 'room', checkAccuseMade);
+  btns.forEach(handleButtonClickForEach);
+};
 
 // Function to update the highscore board
 const updateHighscoreBoard = () => {
@@ -469,9 +464,6 @@ const addHighscore = (name: string, score: number, time: string): void => {
   highscores = highscores.slice(0, 3); // Keep only the top 3 highscores
   updateHighscoreBoard();
 };
-
-// Initialize the highscore board
-updateHighscoreBoard();
 
 const handlingSubmitAccuse = () => {
   // Stop the timer
@@ -515,17 +507,14 @@ const handlingSubmitAccuse = () => {
   }
 };
 
-submitAccuseBtn?.addEventListener('click', handlingSubmitAccuse);
-
+// default backside text of card. TODO: maybe change to 2 different cards and add/remove classlist when defaulting instead?
 const defaultPl1Hand = () => {
   for (let i = 0; i < playerOneHand.length; i++) {
     playerOneCards[i].innerHTML = `Card ${i + 1}`;
     playerOneCards[i].classList.remove('guess-match', 'player1-match', 'player2-match');
-
-    // playerOneCards[i].style.backgroundColor = 'grey';
   }
 };
-
+// default backside text of card. TODO: maybe change to 2 different cards and add/remove classlist when defaulting instead?
 const defaultPl2Hand = () => {
   for (let i = 0; i < playerTwoHand.length; i++) {
     playerTwoCards[i].innerHTML = `Card ${i + 1}`;
@@ -539,150 +528,191 @@ const defaultYouHand = () => {
   }
 };
 
-// ------------------------------------------------------------
-// ------------------------------------------------------------
-// ---------------------auto bot 1 & 2 ------------------------
-// ------------------------------------------------------------
-// ------------------------------------------------------------
+// fn to change matching card blue
+const setBlue = (hand: string[], cards: NodeListOf<Element>, tempGuess: string) => {
+  const index: number = hand.indexOf(tempGuess);
+  if (index > -1) {
+    const tempCards = cards;
+    tempCards[index].classList.add('player1-match');
+  }
+};
+// shows a text box of player 1's guess
+const showPlayer1GuessBox1 = ():void => {
+  if (player1GuessBox !== null && commentatorText !== null) {
+    player1GuessBox.classList.remove('hidden');
+    commentatorText.innerHTML = 'The Dog is making a guess';
+  }
+};
+// default after turns. Otherwise highlighted cards still shows
+const defaultHandsAfterPl1 = ():void => {
+  player1GuessBox?.classList.add('hidden');
+  defaultPl2Hand();
+  defaultYouHand();
+};
+// fn to turn the matching card green
+const setGreen = (hand: NodeListOf<Element>, index: number):void => {
+  if (index > -1) {
+    const tempHand = hand;
+    tempHand[index].classList.add('player2-match');
+  }
+};
+// shows a text box of player 2's guess
+const showPlayer2GuessBox = ():void => {
+  if (player2GuessBox !== null && commentatorText !== null) {
+    player2GuessBox?.classList.remove('hidden');
+    commentatorText.innerHTML = 'The Elephant is making a guess';
+  }
+};
 
+const defaultHandsAfterPl2 = ():void => {
+  player2GuessBox?.classList.add('hidden');
+  defaultPl1Hand();
+  defaultYouHand();
+  enableDice();
+  defaultDice();
+  if (commentatorText !== null) {
+    commentatorText.innerHTML = 'Guess you were too scared to accuse... Coward! Now, roll the dice.';
+  }
+};
 // player 1 action after you make a guess
-const player1Actions = () => {
+const player1Actions = ():void => {
   defaultPl1Hand();
   defaultPl2Hand();
   const diceNr:number = randomNum0to5() + 1;
   dice.innerHTML = String(diceNr);
+
   if (diceNr > 3 && player1GuessName !== null && player1GuessWeapon !== null && player1GuessRoom !== null && player1GuessBox !== null && commentatorText !== null) {
     movePlayer1();
     const guessedName:string = charDeck[randomNum0to5()];
     const guessedWeapon:string = weaponDeck[randomNum0to5()];
-    const guessedRoom:string = roomDeck[randomNum0to8()];
+    const guessedRoom: string = roomDeck[randomNum0to8()];
 
+    // change innerHTML in players guess box that displays players guess
     player1GuessName.innerHTML = guessedName;
     player1GuessWeapon.innerHTML = guessedWeapon;
     player1GuessRoom.innerHTML = guessedRoom;
 
-    setTimeout(() => {
-      player1GuessBox.classList.remove('hidden');
-      commentatorText.innerHTML = 'The Dog is making a guess';
-    }, 1000 * 6);
-
-    const setBlue = (hand: string[], cards: NodeListOf<Element>, tempGuess: string) => {
-      const index: number = hand.indexOf(tempGuess);
-      if (index > -1) {
-        const tempCards = cards;
-        tempCards[index].classList.add('player1-match');
-      }
-    };
-
-    setTimeout(() => {
+    // if a card from player 2's hand matches => change to blue
+    const highlightPlayerTwoCards = () => {
       setBlue(playerTwoHand, playerTwoCards, guessedName);
       setBlue(playerTwoHand, playerTwoCards, guessedWeapon);
       setBlue(playerTwoHand, playerTwoCards, guessedRoom);
-    }, 1000 * 6);
-
-    setTimeout(() => {
+    };
+    // if a card form your hand matches => change to blue
+    const highlightUrHandFromPl1 = () => {
       setBlue(playerYouHand, playerYouCards, guessedName);
       setBlue(playerYouHand, playerYouCards, guessedWeapon);
       setBlue(playerYouHand, playerYouCards, guessedRoom);
-    }, 1000 * 6);
+    };
 
-    setTimeout(() => {
-      player1GuessBox?.classList.add('hidden');
-      defaultPl2Hand();
-      defaultYouHand();
-    }, 1000 * 10);
+    setTimeout(showPlayer1GuessBox1, 1000 * 6);
+    setTimeout(highlightPlayerTwoCards, 1000 * 6);
+    setTimeout(highlightUrHandFromPl1, 1000 * 6);
+    setTimeout(defaultHandsAfterPl1, 1000 * 10);
   } else {
     player1Actions();
   }
 };
-
-const player2Actions = () => {
+// player 2 (elephant) moves after player 1 is finish with its moves
+const player2Actions = ():void => {
   const diceNr:number = randomNum0to5() + 1;
   dice.innerHTML = String(diceNr);
+
   if (diceNr > 3 && player2GuessName !== null && player2GuessWeapon !== null && player2GuessRoom !== null && commentatorText !== null) {
     movePlayer2();
+
+    // makes a random guess
     const guessedName: string = charDeck[randomNum0to5()];
     const guessedWeapon: string = weaponDeck[randomNum0to5()];
     const guessedRoom: string = roomDeck[randomNum0to8()];
 
+    // change innerHTML in players guess box that displays players guess
     player2GuessName.innerHTML = guessedName;
     player2GuessWeapon.innerHTML = guessedWeapon;
     player2GuessRoom.innerHTML = guessedRoom;
 
-    setTimeout(() => {
-      player2GuessBox?.classList.remove('hidden');
-      commentatorText.innerHTML = 'The Elephant is making a guess';
-    }, 1000 * 6);
-
-    const setGreen = (hand: NodeListOf<Element>, index: number) => {
-      if (index > -1) {
-        const tempHand = hand;
-        tempHand[index].classList.add('player2-match');
-
-        // tempHand[index].style.backgroundColor = 'green';
-      }
-    };
-
-    setTimeout(() => {
+    // if player 1's card matches with the guess => change to color green
+    const highlightPlayerOneCards = () => {
       setGreen(playerOneCards, playerOneHand.indexOf(guessedName));
       setGreen(playerOneCards, playerOneHand.indexOf(guessedWeapon));
       setGreen(playerOneCards, playerOneHand.indexOf(guessedRoom));
-    }, 1000 * 6);
-
-    setTimeout(() => {
+    };
+    // if any cards from your hand matches with the guess => change to color green
+    const highlightUrHandFromPl2 = () => {
       setGreen(playerYouCards, playerYouHand.indexOf(guessedName));
       setGreen(playerYouCards, playerYouHand.indexOf(guessedWeapon));
       setGreen(playerYouCards, playerYouHand.indexOf(guessedRoom));
-    }, 1000 * 6);
-
-    setTimeout(() => {
-      player2GuessBox?.classList.add('hidden');
-      defaultPl1Hand();
-      defaultYouHand();
-      enableDice();
-      defaultDice();
-      if (commentatorText !== null) {
-        commentatorText.innerHTML = 'Guess you were too scared to accuse... Coward! Now, roll the dice.';
-      }
-    }, 1000 * 10);
+    };
+    setTimeout(showPlayer2GuessBox, 1000 * 6);
+    setTimeout(highlightPlayerOneCards, 1000 * 6);
+    setTimeout(highlightUrHandFromPl2, 1000 * 6);
+    setTimeout(defaultHandsAfterPl2, 1000 * 10);
   } else {
     player2Actions();
   }
 };
 
-const handlingSubmitGuess = () => {
+const resetGuessOption = (name: HTMLButtonElement) => {
+  name.classList.remove('marked-option');
+};
+
+const handlingSubmitGuess = ():void => {
   bgBlock?.classList.add('hidden');
 
+  // variables for marked answer
   const guessedName:string = document.querySelectorAll('.guess-name-btn.marked-option')[0].innerHTML;
   const guessedWeapon:string = document.querySelectorAll('.guess-weapon-btn.marked-option')[0].innerHTML;
   const guessedRoom:string = document.querySelectorAll('.guess-room-btn.marked-option')[0].innerHTML;
 
-  playerOneHand.forEach((card: string, i: number) => {
-    if (card === guessedName || card === guessedWeapon || card === guessedRoom) {
+  // playerOneHand.forEach((card: string, i: number) => {
+  //   if (card === guessedName || card === guessedWeapon || card === guessedRoom) {
+  //     playerOneCards[i].innerHTML = playerOneHand[i];
+  //     playerOneCards[i].classList.add('guess-match');
+  //   }
+  // });
+
+  // playerTwoHand.forEach((card: string, i: number) => {
+
+  //   if (card === guessedName || card === guessedWeapon || card === guessedRoom) {
+  //     playerTwoCards[i].innerHTML = playerTwoHand[i];
+  //     playerTwoCards[i].classList.add('guess-match');
+  //   }
+  // });
+
+  // guessNameBtns.forEach((name: HTMLButtonElement) => {
+  //   name.classList.remove('marked-option');
+  // });
+
+  // guessWeaponBtns.forEach((weapon: HTMLButtonElement) => {
+  //   weapon.classList.remove('marked-option');
+  // });
+
+  // guessRoomBtns.forEach((room: HTMLButtonElement) => {
+  //   room.classList.remove('marked-option');
+  // });
+
+  // reveal the card in player 1's hand if it matches with the guess
+  const revealPlayerOneCard = (card: string, i: number) => {
+    const guessedCards: string[] = [guessedName, guessedWeapon, guessedRoom];
+    if (guessedCards.includes(card)) {
       playerOneCards[i].innerHTML = playerOneHand[i];
       playerOneCards[i].classList.add('guess-match');
-
-      // playerOneCards[i].style.backgroundColor = 'orange';
     }
-  });
-  playerTwoHand.forEach((card: string, i: number) => {
-    if (card === guessedName || card === guessedWeapon || card === guessedRoom) {
+  };
+  // reveal the card in player 2's hand if it matches with the guess
+  const revealPlayerTwoCard = (card: string, i: number) => {
+    const guessedCards: string[] = [guessedName, guessedWeapon, guessedRoom];
+    if (guessedCards.includes(card)) {
       playerTwoCards[i].innerHTML = playerTwoHand[i];
       playerTwoCards[i].classList.add('guess-match');
     }
-  });
-  guessNameBtns.forEach((name: HTMLButtonElement) => {
-    name.classList.remove('marked-option');
-    // name.style.backgroundColor = 'grey';
-  });
+  };
 
-  guessWeaponBtns.forEach((weapon: HTMLButtonElement) => {
-    weapon.classList.remove('marked-option');
-  });
-
-  guessRoomBtns.forEach((room: HTMLButtonElement) => {
-    room.classList.remove('marked-option');
-  });
+  playerOneHand.forEach(revealPlayerOneCard);
+  playerTwoHand.forEach(revealPlayerTwoCard);
+  guessNameBtns.forEach(resetGuessOption);
+  guessWeaponBtns.forEach(resetGuessOption);
+  guessRoomBtns.forEach(resetGuessOption);
 
   disableGuessAccuseBtns();
   guessBox?.classList.add('hidden');
@@ -692,29 +722,18 @@ const handlingSubmitGuess = () => {
   setTimeout(player2Actions, 1000 * 12);
 };
 
-submitGuessBtn?.addEventListener('click', handlingSubmitGuess);
-
-// ------------------------------------------------------------
-// ------------------------------------------------------------
-// ---------------------highscore btn--------------------------
-// ------------------------------------------------------------
-// ------------------------------------------------------------
-
-const showHighscore = () => {
+const showHighscore = ():void => {
   highscoreBox?.classList.remove('hidden');
   gameOverLoseBox?.classList.add('hidden');
   gameOverWinBox?.classList.add('hidden');
 };
 
-highscoreBtns.forEach((btn) => {
-  btn.addEventListener('click', showHighscore);
-});
+// when clicking on highscore btn => show highscore
+const openHighscore = (value: Element): void => {
+  const highscoreBtn = value;
+  highscoreBtn.addEventListener('click', showHighscore);
+};
 
-// ------------------------------------------------------------
-// ------------------------------------------------------------
-// ---------------------Play aghain----------------------------
-// ------------------------------------------------------------
-// ------------------------------------------------------------
 const restartGame = (e: Event) => {
   const target = e.target as HTMLElement;
 
@@ -729,19 +748,42 @@ playAgainBtn.forEach((btn) => {
   btn.addEventListener('click', restartGame);
 });
 
-// flip function
-const cardElement = document.querySelector('.player-card');
-
-function flipCard(card: HTMLElement) {
-  card.classList.toggle('flip');
-}
-
 dice.addEventListener('click', rollDice);
 
 if (guessBtn !== null) {
   guessBtn.addEventListener('click', guess);
 }
 
+//
+//
+//
+allRooms.forEach(movePlayerForEach);
+playerYouCards.forEach(addCardToHand);
+
+handleClick(guessNameBtns, 'name', checkGuessMade);
+handleClick(guessWeaponBtns, 'weapon', checkGuessMade);
+handleClick(guessRoomBtns, 'room', checkGuessMade);
+handleClick(accuseNameBtns, 'name', checkAccuseMade);
+handleClick(accuseWeaponBtns, 'weapon', checkAccuseMade);
+handleClick(accuseRoomBtns, 'room', checkAccuseMade);
+
+if (accuseBtn !== null) {
+  accuseBtn.addEventListener('click', showAccuseBox);
+}
+
+submitGuessBtn?.addEventListener('click', handlingSubmitGuess);
+submitAccuseBtn?.addEventListener('click', handlingSubmitAccuse);
+
+// Initialize the highscore board
+updateHighscoreBoard();
+highscoreBtns.forEach(openHighscore);
+
+// flip function
+const cardElement = document.querySelector('.player-card');
+
+function flipCard(card: HTMLElement) {
+  card.classList.toggle('flip');
+}
 // // Blanda kortleken
 // const myShuffledCardDeck = shuffle(exampleCardDeck);
 
@@ -772,9 +814,9 @@ if (guessBtn !== null) {
 //   card.addEventListener('click', flipCard);
 // });
 
-// console.table(playerOneHand);
-// console.log('player1 hand');
-// console.table(playerTwoHand);
-// console.log('player2 hand');
+console.table(playerOneHand);
+console.log('player1 hand');
+console.table(playerTwoHand);
+console.log('player2 hand');
 console.table(accuseDeck);
-// console.log('accused deck');
+console.log('accused deck');
