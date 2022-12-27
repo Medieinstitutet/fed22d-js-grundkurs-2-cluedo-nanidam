@@ -7,6 +7,10 @@
   <link rel="icon" type="image/ico" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Projekt</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="src/style/style.css">
 </head>
 
@@ -16,18 +20,21 @@
   <main class="main">
     <div class="bg-block "></div>
     <h1>Cluedo</h1>
-    <!-- FIXME: create this in js/ts? 
-      write a better description of the game! -->
     <section class="intro-text ">
       <h2>Welcome to Cluedo</h2>
       <p>
-        <b>How to play Cluedo:</b>
+        <span class="disclaimer-text">
+          <i>
+            This game is made primarly to work on a desktop display <br>
+          </i>
+        </span>
         Cluedo is a classic detective game in which player try to solve a murder by identifying the culprit, weapon,
         and location. The game includes a deck of cards that includes 6 suspects, 6 weapons, and 9 rooms. At the
         beginning of the game, one card from each category is placed away and the remaining cards are
         shuffled and every player are dealt 3 cards each.
       </p>
       <p>
+        <b>How to play Cluedo:</b>
         The players then take turns moving around the game board, which represents the rooms of a mansion, and making
         accusations about the hidden cards. When a player enters a room, they can make a guess about which suspect,
         weapon, and room are involved in the crime. The other players must then show the player any cards that match the
@@ -37,10 +44,10 @@
       <p>
         If a player makes an accusation that matches the cards that were placed away, they win the game. Otherwise, they
         lose!<br>
-
+        Are you the detective that can solve Cluedo? <br>
+        The highscore is based on number of draws.
         You are assigned to play the orange monkey.<br>
-
-        Are you the detective that can solve Cluedo? When you press "Start game", a timer will start.<br>
+        Good luck!
       </p>
       <label for="input-name" class="input-field">
         What is your name?<br>
@@ -48,80 +55,6 @@
         <span class="error-name hidden">Please enter a valid name</span><br>
       </label>
       <button class="start-btn">Start game</button>
-    </section>
-    <!-- <div class="app" id="app"></div> TODO: går bra att radera -->
-    <!-- TODO: create boxes in js -->
-    <section class="guess-box hidden">
-      <h2 class="guess-title">Make a guess</h2>
-      <div class="guess-wrapper">
-        <article class="guess-characters">
-          <h3>Who?</h3>
-          <button class="guess-name-btn">Miss Scarlett</button>
-          <button class="guess-name-btn">Mr. Green</button>
-          <button class="guess-name-btn">Colonel Mustard</button>
-          <button class="guess-name-btn">Professor Plum</button>
-          <button class="guess-name-btn">Mrs. Peacock</button>
-          <button class="guess-name-btn">Mrs. White</button>
-        </article>
-        <article class="guess-weapons">
-          <h3>Which weapon?</h3>
-          <button class="guess-weapon-btn">Candlestick</button>
-          <button class="guess-weapon-btn">Knife</button>
-          <button class="guess-weapon-btn">Lead Pipe</button>
-          <button class="guess-weapon-btn">Revolver</button>
-          <button class="guess-weapon-btn">Rope</button>
-          <button class="guess-weapon-btn">Wrench</button>
-        </article>
-        <article class="guess-rooms">
-          <h3>Which room?</h3>
-          <button class="guess-room-btn">Kitchen</button>
-          <button class="guess-room-btn">Ballroom</button>
-          <button class="guess-room-btn">Conservatory</button>
-          <button class="guess-room-btn">Dining Room</button>
-          <button class="guess-room-btn">Billiard Room</button>
-          <button class="guess-room-btn">Library</button>
-          <button class="guess-room-btn">Lounge</button>
-          <button class="guess-room-btn">Hall</button>
-          <button class="guess-room-btn">Study</button>
-        </article>
-      </div>
-      <button class="submit-guess-btn" disabled>Submit guess</button>
-    </section>
-    <section class="accuse-box hidden">
-      <h2 class="accuse-title">Make an accusation!</h2>
-      <div class="accuse-wrapper">
-        <article class="accuse-characters">
-          <h3>Who?</h3>
-          <button class="accuse-name-btn">Miss Scarlett</button>
-          <button class="accuse-name-btn">Mr. Green</button>
-          <button class="accuse-name-btn">Colonel Mustard</button>
-          <button class="accuse-name-btn">Professor Plum</button>
-          <button class="accuse-name-btn">Mrs. Peacock</button>
-          <button class="accuse-name-btn">Mrs. White</button>
-        </article>
-        <article class="accuse-weapons">
-          <h3>Which weapon?</h3>
-          <button class="accuse-weapon-btn">Candlestick</button>
-          <button class="accuse-weapon-btn">Knife</button>
-          <button class="accuse-weapon-btn">Lead Pipe</button>
-          <button class="accuse-weapon-btn">Revolver</button>
-          <button class="accuse-weapon-btn">Rope</button>
-          <button class="accuse-weapon-btn">Wrench</button>
-        </article>
-        <article class="accuse-rooms">
-          <h3>Which room?</h3>
-          <button class="accuse-room-btn">Kitchen</button>
-          <button class="accuse-room-btn">Ballroom</button>
-          <button class="accuse-room-btn">Conservatory</button>
-          <button class="accuse-room-btn">Dining Room</button>
-          <button class="accuse-room-btn">Billiard Room</button>
-          <button class="accuse-room-btn">Library</button>
-          <button class="accuse-room-btn">Lounge</button>
-          <button class="accuse-room-btn">Hall</button>
-          <button class="accuse-room-btn">Study</button>
-        </article>
-      </div>
-      <button class="submit-accuse-btn" disabled>Submit my accusation!</button>
     </section>
     <div class="wrapper">
       <section class="player1">
@@ -205,8 +138,6 @@
     <section class="commentator-box">
       <p class="commentator-text">It's time to solve the mystery!</p>
     </section>
-    <!-- TODO: Under construction -->
-
     <section class="game-over-win hidden">
       <h2>You win!<br>You've solved it! :)</h2>
       <p>
@@ -249,15 +180,15 @@
 
       </table>
       </tbody>
-      <p><i>*Ranking is based on sum of draws a player makes during a won game</i></p>
+      <p class="disclaimer-highscore"><i>*Ranking is based on sum of draws a player makes during a won game</i></p>
       <button class="restart-game-btn">Play again</button>
     </section>
     <section class="game-over-lose hidden">
       <h2>You have lost the game! <br>Your accusation was wrong :(</h2>
       <p>
-        The murderer is <b><span class="right-answer-name">INSERT HERE </span></b>
-        and used a <b><span class="right-answer-weapon">INSERT HERE </span></b> as a weapon
-        in the <b class="right-answer-room"><span>INSERT HERE</span></b>.
+        The murderer is <b><span class="right-answer-name">""</span></b>
+        and used a <b><span class="right-answer-weapon">""</span></b> as a weapon
+        in the <b class="right-answer-room"><span>""</span></b>.
       </p>
       <button class="highscore-btn">See highscore</button>
       <button class="restart-game-btn">Play again</button>
@@ -269,6 +200,8 @@
     - Kontrollera tillgänglighet: https://www.a11yproject.com/checklist/ & Chrome Lighthouse/Firefox Accessibility Tools
     - Validera genererade CSS: https://jigsaw.w3.org/css-validator/#validate_by_input
     -->
+  <script type="module" src="/src/renderHTML.ts"></script>
+
   <script type="module" src="/src/main.ts"></script>
 </body>
 

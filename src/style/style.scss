@@ -100,17 +100,30 @@
 h1 {
   text-align: center;
   font-size: 5rem;
+  font-family: 'Playfair Display', serif;
 }
 
 .intro-text {
-  background-color: orange;
+  background-color: rgb(54 54 54);
   position: absolute;
-  top: 40%;
+  padding: 20px;
+  top: 15%;
   left: 20%;
   width: 70%;
   z-index: 10;
+  border-radius: 15px;
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: 1.2rem;
 
-  // FIXME: choose font + ally color
+  .disclaimer-text {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 15px;
+    font-family: 'Playfair Display', serif;
+
+  }
+
   p {
     margin: 15px;
   }
@@ -143,19 +156,21 @@ h1 {
   transform: translate(-50%, -50%);
   text-align: center;
   z-index: 20;
+  border-radius: 15px;
 
   .guess-title,
   .accuse-title {
     margin: 15px;
-
+    font-size: 2rem;
+    font-family: 'Playfair Display', serif;
   }
 
   &.guess-box {
-    background-color: pink;
+    background-color: rgb(127 121 121);
   }
 
   &.accuse-box {
-    background-color: purple;
+    background-color: rgb(127 121 121);
   }
 
   .guess-wrapper,
@@ -175,22 +190,43 @@ h1 {
       flex-direction: column;
       width: 32%;
       z-index: 10;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
 
       >button {
         margin: 1px;
         background-color: rgb(62 62 62);
         border-radius: 10px;
+        font-family: 'Playfair Display', serif;
+        font-size: 1rem;
       }
 
       .marked-option {
-        background-color: red;
+        background-color: rgb(110 68 235);
+        font-weight: 900;
       }
     }
   }
 }
 
+.submit-guess-btn,
+.submit-accuse-btn {
+  background-color: rgb(110 68 235);
+  height: 50px;
+  width: 200px;
+  border-radius: 15px;
+  font-family: 'Playfair Display', serif;
 
-// hide guess-box until guess-btn is clicked 
+  &.submit-guess-btn {
+    font-size: 1.4rem;
+  }
+
+  &.submit-accuse-btn {
+    font-size: 1rem;
+    font-weight: 900;
+  }
+}
+
 .hidden {
   display: none;
 }
@@ -199,12 +235,13 @@ h2 {
   text-align: center;
 }
 
-
 .board {
   background-color: rgb(69 67 67);
   height: 100%;
   width: 80%;
   z-index: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
 
   .board-first-row {
     // outline: 2px solid blue;
@@ -311,7 +348,7 @@ h2 {
   // outline: 2px solid purple;
   width: 100%;
   margin: 10px;
-
+  font-family: 'Playfair Display', serif;
 
   .your-hand {
     // outline: 2px solid blue;
@@ -325,7 +362,10 @@ h2 {
     width: 7rem;
     height: 10rem;
     margin: 5px;
-
+    text-align: center;
+    padding-top: 3%;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
   }
 
   .player1-match {
@@ -344,14 +384,17 @@ h2 {
 
   .player1,
   .player2 {
-    outline: 2px solid white;
+    // outline: 2px solid white;
     height: 50%;
     width: 30rem;
+    font-family: 'Playfair Display', serif;
 
     .player1-hand,
     .player2-hand,
     .your-hand {
       display: flex;
+      margin: 10px;
+      gap: 10px;
 
       .guess-match {
         background-color: orangered;
@@ -367,17 +410,17 @@ h2 {
     }
 
     .player-card {
-      border: 2px solid yellow;
-      width: 7rem;
-      height: 10rem;
-      margin: 5px;
-      transition: transform 0.5s;
+      background-color: #2b2a2a;
+      border: 1px solid black;
+      width: 100px;
+      height: 150px;
+      padding-top: 15%;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      box-shadow: 0 10px 20px rgba(0 0 0), 0 6px 6px rgba(0 0 0);
     }
   }
-}
-
-.flip {
-  transform: rotateY(180deg);
 }
 
 .dice-container {
@@ -389,7 +432,32 @@ h2 {
     height: 100px;
     border-radius: 10px;
     cursor: pointer;
+    background-color: rgb(244 244 244);
+    border: 1px solid black;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    font-weight: 900;
+    color: black;
   }
+}
+
+.dice-rolling {
+  animation: dice-roll 0.5s linear;
+}
+
+@keyframes dice-roll {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Apply to the dice when it is clicked 
+.dice:active {
+  animation: dice-roll 0.5s linear;
 }
 
 .player-pic {
@@ -408,6 +476,7 @@ h2 {
   right: 0;
   padding: 30px;
   font-size: 2rem;
+  font-family: 'Playfair Display', serif;
 }
 
 .game-over-win,
@@ -415,15 +484,18 @@ h2 {
   height: 400px;
   width: 700px;
   position: absolute;
-  top: 40%;
+  top: 30%;
   left: 30%;
   padding: 10px;
   text-align: center;
   z-index: 20;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  border-radius: 15px;
+  border: 1px solid black;
 
   &.game-over-win {
     background-color: rgb(52 0 124);
-
   }
 
   &.game-over-lose {
@@ -433,6 +505,7 @@ h2 {
 
   >h2 {
     font-size: 3rem;
+    margin-top: 20px;
   }
 
   >p {
@@ -442,7 +515,7 @@ h2 {
 }
 
 .highscore {
-  background-color: rgb(146 40 1);
+  background-color: rgb(68 60 91);
   min-height: 400px;
   width: 700px;
   position: absolute;
@@ -450,6 +523,10 @@ h2 {
   left: 30%;
   padding: 10px;
   text-align: center;
+  border-radius: 15px;
+  border: 1px solid black;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
   z-index: 20;
 
   .highscore-table {
@@ -460,14 +537,26 @@ h2 {
   >p {
     text-align: end;
   }
+
+  .disclaimer-highscore {
+    margin: 20px;
+  }
 }
 
 .highscore-btn,
 .restart-game-btn {
+  position: absolute;
+  bottom: 0;
+  left: 30%;
   width: 30%;
   height: 15%;
   margin: 30px;
+  border-radius: 10px;
+  background-color: rgb(50 48 49);
+  font-size: 1.5rem;
+  font-family: 'Playfair Display', serif;
 }
+
 
 .commentator-box {
   position: absolute;
@@ -479,4 +568,6 @@ h2 {
   border: 2px solid white;
   border-radius: 10px;
   padding: 10px;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
 }
