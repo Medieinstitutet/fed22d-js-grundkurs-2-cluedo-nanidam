@@ -1,4 +1,7 @@
 import './style/style.scss';
+import createGuessAccuseBoxes from './renderHTML';
+
+createGuessAccuseBoxes();
 
 // character deck
 const charDeck: string[] = [
@@ -150,11 +153,14 @@ const shuffle = (array: string[]):string[] => {
 
 const shuffledCard: string[] = shuffle(mergedDeck);
 
+// TODO: refactoring for restart game aswell?
+// const dealCards = ():void => {
 while (playerYouHand.length < 3 && shuffledCard.length) {
   playerOneHand.push(shuffledCard.shift() as string);
   playerTwoHand.push(shuffledCard.shift() as string);
   playerYouHand.push(shuffledCard.shift() as string);
 }
+// };
 
 const setCardText = (card: string | HTMLElement | null, text: string): void => {
   const tempCard = card;
@@ -322,8 +328,8 @@ const movePlayerForEach = (btn: HTMLButtonElement): void => {
 };
 
 const addCardToHand = (card: Element, i: number): void => {
-  const tempCard = card;
-  tempCard.innerHTML = playerYouHand[i];
+  const yourCard = card;
+  yourCard.innerHTML = playerYouHand[i];
 };
 
 // when dice is clicked on -> add +1 on count
@@ -726,6 +732,8 @@ const restartGame = (e: Event) => {
   drawWeaponAccuse = [...weaponDeck].splice(randomNum0to5(), 1);
   drawRoomAccuse = [...roomDeck].splice(randomNum0to8(), 1);
   accuseDeck = [drawCharAccuse, drawWeaponAccuse, drawRoomAccuse];
+
+  // reset players hand with new cards
 };
 
 if (startGameBtn !== null) {
@@ -765,36 +773,6 @@ submitAccuseBtn?.addEventListener('click', handlingSubmitAccuse);
 // Initialize the highscore board
 updateHighscoreBoard();
 highscoreBtns.forEach(openHighscore);
-
-// // Blanda kortleken
-// const myShuffledCardDeck = shuffle(exampleCardDeck);
-
-// /**
-//  * Vänder upp/ner på det klickade kortet genom att toggla en CSS-klass.
-//  * @param this - Det HTML-element som har klickats på
-//  * @return {void}
-//  */
-// function flipCard(this: HTMLElement): void {
-//   if (this !== undefined) {
-//     this.classList.toggle('visible');
-//   }
-// }
-
-// Printa kortleken
-// let cardString = '';
-// myShuffledCardDeck.forEach((card) => {
-//   cardString += `
-//     <button class="card">
-//       <span class="front">♠</span>
-//       <span class="back">${card}</span>
-//     </button>`;
-// });
-
-// document.querySelector<HTMLDivElement>('#app')!.innerHTML = cardString;
-
-// document.querySelectorAll('.card').forEach((card) => {
-//   card.addEventListener('click', flipCard);
-// });
 
 console.table(playerOneHand);
 console.log('player1 hand');
