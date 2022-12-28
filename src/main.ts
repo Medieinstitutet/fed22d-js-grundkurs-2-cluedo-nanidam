@@ -610,7 +610,7 @@ const player1Actions = ():void => {
       setBlue(playerYouHand, playerYouCards, guessedRoom);
     };
 
-    setTimeout(showPlayer1GuessBox1, 1000 * 6);
+    setTimeout(showPlayer1GuessBox1, 1000 * 5);
     setTimeout(highlightPlayerTwoCards, 1000 * 6);
     setTimeout(highlightUrHandFromPl1, 1000 * 6);
     setTimeout(defaultHandsAfterPl1, 1000 * 10);
@@ -649,7 +649,7 @@ const player2Actions = ():void => {
       setGreen(playerYouCards, playerYouHand.indexOf(guessedRoom));
     };
 
-    setTimeout(showPlayer2GuessBox, 1000 * 6);
+    setTimeout(showPlayer2GuessBox, 1000 * 5);
     setTimeout(highlightPlayerOneCards, 1000 * 6);
     setTimeout(highlightUrHandFromPl2, 1000 * 6);
     setTimeout(defaultHandsAfterPl2, 1000 * 10);
