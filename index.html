@@ -7,111 +7,195 @@
   <link rel="icon" type="image/ico" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Projekt</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
   
-  <script type="module" crossorigin src="/assets/index.2255ce53.js"></script>
-  <link rel="stylesheet" href="/assets/index.bffe35d7.css">
+  <script type="module" crossorigin src="/assets/index.1d310615.js"></script>
+  <link rel="stylesheet" href="/assets/index.8696b0d4.css">
 </head>
 
+<!-- //FIXME: HIDDEN CLASS EVERYWHERE -->
+
 <body>
-  <main>
+  <main class="main">
+    <div class="bg-block"></div>
     <h1>Cluedo</h1>
-    <!-- <div class="app" id="app"></div> TODO: går bra att radera -->
-    <section class="dropdown hidden">
-      <h2 class="drop-title">Take a guess</h2>
-      <div class="drop-wrapper">
-        <article class="drop-characters">
-          <h3>Who?</h3>
-          <button>Miss Scarlett</button>
-          <button>Mr. Green</button>
-          <button>Colonel Mustard</button>
-          <button>Professor Plum</button>
-          <button>Mrs. Peacock</button>
-          <button>Mrs. White</button>
-        </article>
-        <article class="drop-weapons">
-          <h3>Which weapon?</h3>
-          <button>Candlestick</button>
-          <button>Knife</button>
-          <button>Lead Pipe</button>
-          <button>Revolver</button>
-          <button>Rope</button>
-          <button>Wrench</button>
-        </article>
-        <article class="drop-rooms">
-          <h3>Which room?</h3>
-          <button>Kitchen</button>
-          <button>Ballroom</button>
-          <button>Dining Room</button>
-          <button>Billiard Room</button>
-          <button>Library</button>
-          <button>Lounge</button>
-          <button>Hall</button>
-          <button>Study</button>
-        </article>
-      </div>
-      <button>Submit guess</button>
+    <section class="intro-text">
+      <h2>Welcome to Cluedo</h2>
+      <p>
+        <span class="disclaimer-text">
+          <i>
+            This game is made primarly to work on a desktop display <br>
+          </i>
+        </span>
+        Cluedo is a classic detective game in which player try to solve a murder by identifying the culprit, weapon,
+        and location. The game includes a deck of cards that includes 6 suspects, 6 weapons, and 9 rooms. At the
+        beginning of the game, one card from each category is placed away and the remaining cards are
+        shuffled and every player are dealt 3 cards each.
+      </p>
+      <p>
+        <b>How to play Cluedo:</b>
+        The players then take turns moving around the game board, which represents the rooms of a mansion, and making
+        accusations about the hidden cards. When a player enters a room, they can make a guess about which suspect,
+        weapon, and room are involved in the crime. The other players must then show the player any cards that match the
+        suggestion, and the player can use this information to narrow down the possibilities and make more informed
+        accusations.
+      </p>
+      <p>
+        If a player makes an accusation that matches the cards that were placed away, they win the game. Otherwise, they
+        lose!<br>
+        Are you the detective that can solve Cluedo? <br>
+        The highscore is based on number of draws.
+        You are assigned to play the orange monkey.<br>
+        Good luck!
+      </p>
+      <label for="input-name" class="input-field">
+        What is your name?<br>
+        <input id="input-name" type="text" name="name"><br>
+        <span class="error-name hidden">Please enter a valid name</span><br>
+      </label>
+      <button class="start-btn">Start game</button>
     </section>
     <div class="wrapper">
       <section class="player1">
-        <h2>Player 1</h2>
+        <h2>Player
+          <img class="player-pic" src="/assets/animal-cachorro-dog-svgrepo-com.f656780a.svg" alt="A brown dog's head">
+        </h2>
         <article class="player1-hand">
-          <div class="player-card">Card 1</div>
-          <div class="player-card">Card 2</div>
-          <div class="player-card">Card 3</div>
+          <div class="player-card player1-card">Card 1</div>
+          <div class="player-card player1-card">Card 2</div>
+          <div class="player-card player1-card">Card 3</div>
         </article>
+      </section>
+      <section class="player1-guess hidden">
+        I guess <b><span class="pl1-guess-name">name</span></b>,
+        killed the victim with a <b><span class="pl1-guess-weapon">weapon</span></b>
+        in the <b><span class="pl1-guess-room">room</span></b>.
       </section>
       <section class="board">
         <article class="board-first-row">
-          <button class="room active" id="kitchen">Kitchen</button>
-          <button class="room" id="ballroom">Ballroom</button>
-          <button class="room" id="conservatory">Conservatory</button>
+          <button class="room room-btn" id="kitchen" disabled>
+            Kitchen
+          </button>
+          <button class="room room-btn" id="ballroom" disabled>
+            Ballroom
+          </button>
+          <button class="room room-btn" id="conservatory" disabled>
+            Conservatory
+          </button>
         </article>
         <article class="board-middle-row">
           <div class="room-wrapper">
-            <button class="dining-room" id="dining-room">Dining Room</button>
+            <button class="dining-room room-btn" id="dining-room" disabled>Dining Room</button>
           </div>
           <div class="board-envelope">
-            <button class="accuse-btn">Accuse</button><br>
-            <button class="guess-btn">Guess</button>
+            <button class="accuse-btn" disabled>Accuse</button><br>
+            <button class="guess-btn" disabled>Guess</button>
           </div>
           <div class="board-small-room">
-            <button class="room-small" id="billiard-room">Billiard Room</button><br>
-            <button class="room-small" id="library">Library</button>
+            <button class="room-small room-btn" id="billiard-room" disabled>Billiard Room</button><br>
+            <button class="room-small room-btn" id="library" disabled>Library</button>
           </div>
         </article>
         <article class="board-last-row">
-          <button class="room" id="lounge">Lounge</button>
-          <button class="room" id="hall">Hall</button>
-          <button class="room" id="study">Study</button>
+          <button class="room room-btn" id="lounge" disabled>Lounge</button>
+          <button class="room room-btn" id="hall" disabled>Hall</button>
+          <button class="room room-btn" id="study" disabled>Study</button>
         </article>
       </section>
       <section class="player2">
-        <h2>Player 2</h2>
+        <h2>Player
+          <img class="player-pic" src="/assets/animal-elefante-elephant-svgrepo-com.e2abb3a1.svg" alt="A grey elephant's head">
+        </h2>
         <article class="player2-hand">
-          <div class="player-card">Card 1</div>
-          <div class="player-card">Card 2</div>
-          <div class="player-card">Card 3</div>
+          <div class="player-card player2-card">Card 1</div>
+          <div class="player-card player2-card">Card 2</div>
+          <div class="player-card player2-card">Card 3</div>
         </article>
+      </section>
+      <section class="player2-guess hidden">
+        I guess <b><span class="pl2-guess-name">name</span></b>,
+        killed the victim with a <b><span class="pl2-guess-weapon">weapon</span></b>
+        in the <b><span class="pl2-guess-room">room</span></b>.
       </section>
     </div>
     <section class="dice-container">
       <button class="dice">Dice</button>
     </section>
     <section class="player-you">
-      <h2>You</h2>
+      <h2><span class="player-name">Player</span>
+        <img class="your-pic" src="/assets/animal-ape-apes-svgrepo-com.e0d73047.svg" alt="An orange ape's head">
+      </h2>
       <article class="your-hand">
         <div class="your-card">Card 1</div>
         <div class="your-card">Card 2</div>
         <div class="your-card">Card 3</div>
       </article>
     </section>
+    <section class="timer">
+      Time: <span class="current-timer">00:00</span>
+    </section>
+    <section class="commentator-box">
+      <p class="commentator-text">It's time to solve the mystery!</p>
+    </section>
+    <section class="game-over-win hidden">
+      <h2>You win!<br>You've solved it! :)</h2>
+      <p>
+        You did <span class="game-over-draws">0</span> draws!<br>
+        Your time: <span class="game-over-time">0</span> mins.
+      </p>
+      <button class="restart-game-btn">Play again</button>
+      <button class="highscore-btn">See highscore</button>
+    </section>
+    <section class="highscore hidden">
+      <h2>Highscore</h2>
+      <table class="highscore-table">
+        <thead>
+          <tr>
+            <th>Ranking*:</th>
+            <th>Name:</th>
+            <th>Draws:</th>
+            <th>Time:</th>
+          </tr>
+        </thead>
+        <tbody class="winners">
+          <tr>
+            <td><span>1</span></td>
+            <td><span>Player</span></td>
+            <td><span>11</span></td>
+            <td><span>110</span> min</td>
+          </tr>
+          <tr>
+            <td><span>2</span></td>
+            <td><span>Player</span></td>
+            <td><span>11</span></td>
+            <td><span>110</span> min</td>
+          </tr>
+          <tr>
+            <td><span>3</span></td>
+            <td><span>Player</span></td>
+            <td><span>11</span></td>
+            <td><span>110</span> min</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="disclaimer-highscore"><i>*Ranking is based on sum of draws a player makes during a won game</i></p>
+      <button class="restart-game-btn">Play again</button>
+    </section>
+    <section class="game-over-lose hidden">
+      <h2>You have lost the game! <br>Your accusation was wrong :(</h2>
+      <p>
+        The murderer is <b><span class="right-answer-name">""</span></b>
+        and used a <b><span class="right-answer-weapon">""</span></b> as a weapon
+        in the <b class="right-answer-room"><span>""</span></b>.
+      </p>
+      <button class="highscore-btn">See highscore</button>
+      <button class="restart-game-btn">Play again</button>
+    </section>
   </main>
-
-  <!-- TODO
-    - Validera HTML (kopiera den renderade HTML-koden): https://validator.w3.org/#validate_by_input
-    - Kontrollera tillgänglighet: https://www.a11yproject.com/checklist/ & Chrome Lighthouse/Firefox Accessibility Tools
-    - Validera genererade CSS: https://jigsaw.w3.org/css-validator/#validate_by_input
-    -->
+  <!-- <script type="module" src="/src/renderHTML.ts"></script> -->
   
 </body>
 
