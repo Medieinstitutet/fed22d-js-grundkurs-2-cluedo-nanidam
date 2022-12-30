@@ -1,50 +1,35 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=9553152&assignment_repo_type=AssignmentRepo)
-# FED22D JS Grundkurs Projektmall
-Mall för projektuppgiften i JavaScript Grundkurs för FED22D.
 
-Mallen innehåller:
-- Vite (för att komprimera och publicera optimerad kod)
-- ESLint, Prettier och Stylelint för kodformatering
-- TypeScript för typstöd
-- Inställningar för Visual Studio Code
+# Simplified Cluedo
 
-## Installation
-Installera "dependencies" till projektet med följande kommando i terminalen:
+This is a school project of the game Cluedo with focus on JavaScript/Typescript. This game is referenced from [Wikipedia](https://sv.wikipedia.org/wiki/Cluedo).
 
-- Med npm: `npm install`
-- Med pnpm: `pnpm install`
-- Med Yarn: `yarn install`
+In this simplified version, you will take on the role as the detective, trying to identify the suspect, weapon, and location of a hypothetical murder.
 
-För att köra projektet, använd scriptet "dev" i `package.json`:
+To make a guess, a player will choose one of the suspects, weapons, or locations that they have not yet guessed and present it to the other players. If any player has a card that matches the guess, they must reveal it to the guessing player.
 
-- Med npm: `npm run dev`
-- Med pnpm: `pnpm run dev`
-- Med Yarn: `yarn run dev`
+To win the game, a player must use their detective skills to gather as much information as possible through careful questioning and deduction. With each correct guess, players will narrow down the possible combinations of suspects, weapons, and locations, bringing them one step closer to solving the crime.
 
-## Såhär använder du mallen
-- Du arbetar primärt i mappen `src`. Där finns JavaScript och stilmallar.
-- På rotnivån i projektet hittar du `index.html`, som du kan använda såsom du använt `index.html` hittills i de olika projekten.
-- I mappen `public` lägger du alla filer som t.ex. bilder, favicons, fonter, osv. som är s.k. "static assets". T.ex. sådant du behöver länka in från SCSS.
+_Disclaimer_ This version is made to be played on a desktop layout and not for mobile and smaller tablets.
 
-### Filer du inte behöver röra
-- `src/vite-env.d.ts` - Används för att bidra med "code hinting" i editorn
-- `.gitignore` - Vilka filer som inte ska vara med i versionshanteringen
-- `tsconfig.json` - Används för att definiera hur TypeScript ska skrivas och tolkas
-- `.npmrc` - Används för att installera ev. dependencies
-- `stylelint.config.cjs` - Regler för hur SCSS ska skrivas.
-- `.pretterrc.json` - Används för att tvinga JavaScript att skrivas på ett visst sätt. Ändra om du vill göra en egen konfiguration
-- `.eslintrc.cjs` - Används för att tvinga JavaScript att skrivas på ett visst sätt. Ändra om du vill göra din egen konfiguration.
-- Mappen `.github` innehåller en s.k. action/workflow för att publicera de ändringar som pushas till main, när repot är publikt
+[Link to Cluedo](https://medieinstitutet.github.io/fed22d-js-grundkurs-2-cluedo-nanidam/)
 
-## Publicera ditt projekt
-Detta projekt innehåller en automatisk workflow/action, som fungerar såhär:
+## Tech Stack
 
-1. Varje gång du pushar till branchen `main`, så triggas ett script som heter `Deploy changes`.
-2. Detta script kör i princip kommandot `pnpm run build`. Den skapar en mapp som heter `dist`, som innehåller ditt optimerade/färdiga/publicerade projekt. Filerna i den mappen kopieras över till en ny branch, som heter `gh-pages`.
+**User interface**<br> HTML <br> CSS<br> Sass
 
-För att aktivera din sajt live behöver du:
+**Functionality**<br> JavaScript<br> TypeScript
 
-1. Gå in i filen `vite.config.js` och ändra `base` så att den heter samma som ditt repo heter.
-2. Gå in i inställningarna för ditt repo (Settings), gå till fliken "General" och längst ner på sidan i "Danger Zone" ändrar du repots "visibility" till public.
-3. I samma "Settings"-flik på ditt repo, klicka på "Pages" i menyn till vänster.
-4. I "Branch"-dropdownen väljer du `gh-pages`.
+**Versioncontroll**<br> Git
+
+**Tools** <br> Visual Studio Code <br> Eslint<br> Prettier <br> Vite
+
+## Screenshots
+
+**The Game** ![App Screenshot](./public/cluedo-printscreen1.jpg) <br/> ![App Screenshot](./public/cluedo-printscreen2.jpg) <br/> ![App Screenshot](./public/cluedo-printscreen3.jpg) <br/> ![App Screenshot](./public/cluedo-printscreen4.jpg) <br/> ![App Screenshot](./public/cluedo-printscreen5.jpg)
+
+**Lighthouse** ![App Screenshot](./reports/chrome-lighthouse-cluedo.jpg)
+
+**Validation of HTML** ![App Screenshot](./reports/cluedo-validation-html.jpg)
+
+**Validation of CSS** ![App Screenshot](./reports/cluedo-validaiton-css.jpg)
