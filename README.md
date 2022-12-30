@@ -24,7 +24,7 @@ _Disclaimer_ This version is made to be played on a desktop layout and not for m
 
 ## Screenshots
 
-**The Game** ![App Screenshot](./public/cluedo-printscreen1.jpg) ![App Screenshot](./public/cluedo-printscreen2.jpg) ![App Screenshot](./public/cluedo-printscreen3.jpg) ![App Screenshot](./public/cluedo-printscreen4.jpg) ![App Screenshot](./public/cluedo-printscreen5.jpg)
+**The Game** ![App Screenshot](./public/cluedo-printscreen1.jpg) <br> ![App Screenshot](./public/cluedo-printscreen2.jpg) <br> ![App Screenshot](./public/cluedo-printscreen3.jpg) <br> ![App Screenshot](./public/cluedo-printscreen4.jpg) <br> ![App Screenshot](./public/cluedo-printscreen5.jpg)
 
 **Lighthouse** ![App Screenshot](./reports/chrome-lighthouse-cluedo.jpg)
 
