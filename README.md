@@ -31,17 +31,3 @@ _Disclaimer_ This version is made to be played on a desktop layout and not for m
 **Validation of HTML** ![App Screenshot](./reports/cluedo-validation-html.jpg)
 
 **Validation of CSS** ![App Screenshot](./reports/cluedo-validaiton-css.jpg)
-
-## Publicera ditt projekt
-
-Detta projekt innehåller en automatisk workflow/action, som fungerar såhär:
-
-1. Varje gång du pushar till branchen `main`, så triggas ett script som heter `Deploy changes`.
-2. Detta script kör i princip kommandot `pnpm run build`. Den skapar en mapp som heter `dist`, som innehåller ditt optimerade/färdiga/publicerade projekt. Filerna i den mappen kopieras över till en ny branch, som heter `gh-pages`.
-
-För att aktivera din sajt live behöver du:
-
-1. Gå in i filen `vite.config.js` och ändra `base` så att den heter samma som ditt repo heter.
-2. Gå in i inställningarna för ditt repo (Settings), gå till fliken "General" och längst ner på sidan i "Danger Zone" ändrar du repots "visibility" till public.
-3. I samma "Settings"-flik på ditt repo, klicka på "Pages" i menyn till vänster.
-4. I "Branch"-dropdownen väljer du `gh-pages`.
