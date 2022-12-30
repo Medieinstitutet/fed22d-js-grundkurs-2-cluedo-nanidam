@@ -1,6 +1,7 @@
 import './style/style.scss';
 import createGuessAccuseBoxes from './renderHTML';
 
+// TODO: structure up the code!
 createGuessAccuseBoxes();
 
 // character deck
@@ -107,7 +108,7 @@ const winnersTable: Element | null = document.querySelector('.winners');
 type Highscore = { name: string, score: number, time: string };
 
 let highscores: Highscore[] = [
-  { name: 'Peter Pan', score: 2, time: '03:10' },
+  { name: 'Peter Pan', score: 1, time: '00:07' },
   { name: 'Wednesday', score: 37, time: '27:39' },
   { name: 'Mr. Bean', score: 74, time: '93:23' },
 ];
@@ -126,24 +127,22 @@ let drawRoomAccuse: string[] = [...roomDeck].splice(randomNum0to8(), 1);
 let accuseDeck:string[][] = [drawCharAccuse, drawWeaponAccuse, drawRoomAccuse];
 
 // players hands
-const playerOneHand: string[] = [];
-const playerTwoHand: string[] = [];
-const playerYouHand: string[] = [];
+let playerOneHand: string[] = [];
+let playerTwoHand: string[] = [];
+let playerYouHand: string[] = [];
 
-const mergedDeck: string[] = charDeck.concat(weaponDeck, roomDeck);
+let mergedDeck: string[] = charDeck.concat(weaponDeck, roomDeck);
 
 const shuffle = (array: string[]):string[] => {
   const tempArray:string[] = [...array];
   let currentIndex:number = array.length;
   let randomIndex:number;
 
-  // While there remain elements to shuffle.
+  // While there remain cards to shuffle.
   while (currentIndex !== 0) {
-    // Pick a remaining element.
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
 
-    // And swap it with the current element.
     [tempArray[currentIndex], tempArray[randomIndex]] = [
       tempArray[randomIndex], tempArray[currentIndex]];
   }
@@ -151,17 +150,16 @@ const shuffle = (array: string[]):string[] => {
   return tempArray;
 };
 
-const shuffledCard: string[] = shuffle(mergedDeck);
+let shuffledCard: string[] = shuffle(mergedDeck);
 
-// TODO: refactoring for restart game aswell?
-// const dealCards = ():void => {
-while (playerYouHand.length < 3 && shuffledCard.length) {
-  playerOneHand.push(shuffledCard.shift() as string);
-  playerTwoHand.push(shuffledCard.shift() as string);
-  playerYouHand.push(shuffledCard.shift() as string);
-}
-// };
-
+const dealCards = ():void => {
+  while (playerYouHand.length < 3 && shuffledCard.length) {
+    playerOneHand.push(shuffledCard.shift() as string);
+    playerTwoHand.push(shuffledCard.shift() as string);
+    playerYouHand.push(shuffledCard.shift() as string);
+  }
+};
+dealCards();
 const setCardText = (card: string | HTMLElement | null, text: string): void => {
   const tempCard = card;
   if (tempCard !== null && tempCard instanceof HTMLElement) {
@@ -516,31 +514,33 @@ const handlingSubmitAccuse = () => {
 
 const defaultPl1Hand = () => {
   for (let i = 0; i < playerOneHand.length; i++) {
-    playerOneCards[i].innerHTML = `Card ${i + 1}`;
+    playerOneCards[i].innerHTML = 'Cluedo';
     playerOneCards[i].classList.remove('guess-match', 'player1-match', 'player2-match');
   }
 };
 
-const defaultPl2Hand = () => {
+const defaultPl2Hand = ():void => {
   for (let i = 0; i < playerTwoHand.length; i++) {
-    playerTwoCards[i].innerHTML = `Card ${i + 1}`;
+    playerTwoCards[i].innerHTML = 'Cluedo';
     playerTwoCards[i].classList.remove('guess-match', 'player1-match', 'player2-match');
   }
 };
 
-const defaultYouHand = () => {
+const defaultYouHand = ():void => {
   for (let i = 0; i < playerYouHand.length; i++) {
     playerYouCards[i].classList.remove('guess-match', 'player1-match', 'player2-match');
   }
 };
 
 // fn to change matching card blue
-const setBlue = (hand: string[], cards: NodeListOf<Element>, tempGuess: string) => {
+const setBlue = (hand: string[], cards: NodeListOf<Element>, tempGuess: string, check?:string):boolean => {
   const index: number = hand.indexOf(tempGuess);
   if (index > -1) {
+    if (check === 'check') { return true; }
     const tempCards = cards;
     tempCards[index].classList.add('player1-match');
   }
+  return false;
 };
 
 // shows a text box of player 1's guess
@@ -604,21 +604,28 @@ const player1Actions = ():void => {
     player1GuessRoom.innerHTML = guessedRoom;
 
     // if a card from player 2's hand matches => change to blue
-    const highlightPlayerTwoCards = () => {
+    const highlightPlayerTwoCards = ():void => {
       setBlue(playerTwoHand, playerTwoCards, guessedName);
       setBlue(playerTwoHand, playerTwoCards, guessedWeapon);
       setBlue(playerTwoHand, playerTwoCards, guessedRoom);
     };
+
     // if a card form your hand matches => change to blue
-    const highlightUrHandFromPl1 = () => {
+    const highlightUrHandFromPl1 = ():void => {
       setBlue(playerYouHand, playerYouCards, guessedName);
       setBlue(playerYouHand, playerYouCards, guessedWeapon);
       setBlue(playerYouHand, playerYouCards, guessedRoom);
     };
 
+    if (setBlue(playerTwoHand, playerTwoCards, guessedName, 'check')
+      || setBlue(playerTwoHand, playerTwoCards, guessedWeapon, 'check')
+      || setBlue(playerTwoHand, playerTwoCards, guessedRoom, 'check')) {
+      setTimeout(highlightPlayerTwoCards, 1000 * 6);
+    } else {
+      setTimeout(highlightUrHandFromPl1, 1000 * 6);
+    }
+
     setTimeout(showPlayer1GuessBox1, 1000 * 4);
-    setTimeout(highlightPlayerTwoCards, 1000 * 6);
-    setTimeout(highlightUrHandFromPl1, 1000 * 6);
     setTimeout(defaultHandsAfterPl1, 1000 * 10);
   } else {
     player1Actions();
@@ -655,9 +662,13 @@ const player2Actions = ():void => {
       setGreen(playerYouCards, playerYouHand.indexOf(guessedRoom));
     };
 
+    if (playerYouHand.indexOf(guessedName) || playerYouHand.indexOf(guessedWeapon) || playerYouHand.indexOf(guessedRoom)) {
+      setTimeout(highlightUrHandFromPl2, 1000 * 6);
+    } else {
+      setTimeout(highlightPlayerOneCards, 1000 * 6);
+    }
+
     setTimeout(showPlayer2GuessBox, 1000 * 4);
-    setTimeout(highlightPlayerOneCards, 1000 * 6);
-    setTimeout(highlightUrHandFromPl2, 1000 * 6);
     setTimeout(defaultHandsAfterPl2, 1000 * 10);
   } else {
     player2Actions();
@@ -676,10 +687,10 @@ const handlingSubmitGuess = ():void => {
   const guessedName:string = document.querySelectorAll('.guess-name-btn.marked-option')[0].innerHTML;
   const guessedWeapon:string = document.querySelectorAll('.guess-weapon-btn.marked-option')[0].innerHTML;
   const guessedRoom:string = document.querySelectorAll('.guess-room-btn.marked-option')[0].innerHTML;
+  const guessedCards: string[] = [guessedName, guessedWeapon, guessedRoom];
 
   // reveal the card in player 1's hand if it matches with the guess
   const revealPlayerOneCard = (card: string, i: number) => {
-    const guessedCards: string[] = [guessedName, guessedWeapon, guessedRoom];
     if (guessedCards.includes(card)) {
       playerOneCards[i].innerHTML = playerOneHand[i];
       playerOneCards[i].classList.add('guess-match'); // change color by adding classList
@@ -687,15 +698,18 @@ const handlingSubmitGuess = ():void => {
   };
   // reveal the card in player 2's hand if it matches with the guess
   const revealPlayerTwoCard = (card: string, i: number) => {
-    const guessedCards: string[] = [guessedName, guessedWeapon, guessedRoom];
     if (guessedCards.includes(card)) {
       playerTwoCards[i].innerHTML = playerTwoHand[i];
       playerTwoCards[i].classList.add('guess-match');
     }
   };
 
-  playerOneHand.forEach(revealPlayerOneCard);
-  playerTwoHand.forEach(revealPlayerTwoCard);
+  if (playerOneHand.includes(guessedCards[0]) || playerOneHand.includes(guessedCards[1]) || playerOneHand.includes(guessedCards[2])) {
+    playerOneHand.forEach(revealPlayerOneCard);
+  } else {
+    playerTwoHand.forEach(revealPlayerTwoCard);
+  }
+
   guessNameBtns.forEach(resetGuessOption);
   guessWeaponBtns.forEach(resetGuessOption);
   guessRoomBtns.forEach(resetGuessOption);
@@ -732,17 +746,25 @@ const restartGame = (e: Event) => {
   drawWeaponAccuse = [...weaponDeck].splice(randomNum0to5(), 1);
   drawRoomAccuse = [...roomDeck].splice(randomNum0to8(), 1);
   accuseDeck = [drawCharAccuse, drawWeaponAccuse, drawRoomAccuse];
+  mergedDeck = charDeck.concat(weaponDeck, roomDeck);
 
   // reset players hand with new cards
+  playerOneHand = [];
+  playerTwoHand = [];
+  playerYouHand = [];
+  shuffledCard = shuffle(mergedDeck);
+  dealCards();
+  playerYouCards.forEach(addCardToHand);
 };
 
 if (startGameBtn !== null) {
   startGameBtn.addEventListener('click', startGame);
 }
-
-playAgainBtn.forEach((btn) => {
+const playAgainFn = (btn: HTMLButtonElement): void => {
   btn.addEventListener('click', restartGame);
-});
+};
+
+(playAgainBtn as NodeListOf<HTMLButtonElement>).forEach(playAgainFn);
 
 dice.addEventListener('click', rollDice);
 
@@ -754,6 +776,8 @@ if (guessBtn !== null) {
 //
 //
 allRooms.forEach(movePlayerForEach);
+
+// change your cards innerHTML
 playerYouCards.forEach(addCardToHand);
 
 handleClick(guessNameBtns, 'name', checkGuessMade);
@@ -773,6 +797,8 @@ submitAccuseBtn?.addEventListener('click', handlingSubmitAccuse);
 // Initialize the highscore board
 updateHighscoreBoard();
 highscoreBtns.forEach(openHighscore);
+console.table(playerYouHand);
+console.log('player YOU hand');
 
 console.table(playerOneHand);
 console.log('player1 hand');
