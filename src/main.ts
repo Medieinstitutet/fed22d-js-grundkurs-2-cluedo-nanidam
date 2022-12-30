@@ -71,7 +71,7 @@ const accuseRoomBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll
 const accuseBox: HTMLElement | null = document.querySelector('.accuse-box');
 
 // player 1
-const player1 = createPlayerPieces('player1-piece', '../public/animal-cachorro-dog-svgrepo-com.svg', 'A brown dog representing player 2 board piece');
+const player1 = createPlayerPieces('player1-piece', 'public/animal-cachorro-dog-svgrepo-com.svg', 'A brown dog representing player 2 board piece');
 const playerOneCards: NodeListOf<Element> = document.querySelectorAll('.player1-card');
 const player1GuessBox = document.querySelector('.player1-guess');
 const player1GuessName = document.querySelector('.pl1-guess-name');
