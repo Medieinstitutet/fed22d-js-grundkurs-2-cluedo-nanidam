@@ -1,7 +1,7 @@
 import './style/style.scss';
 import createGuessAccuseBoxes from './renderHTML';
 
-// TODO: structure up the code!
+// must be created first, otherwise guessBtn doesnt work
 createGuessAccuseBoxes();
 
 // character deck
@@ -17,6 +17,8 @@ const roomDeck: string[] = [
   'Kitchen', 'Ballroom', 'Conservatory', 'Dining Room', 'Billiard Room', 'Library', 'Lounge', 'Hall', 'Study',
 ];
 
+let setTimer: number;
+
 // get random nr 0-5 and random nr 0-8
 const randomNum0to5 = ():number => Math.floor(Math.random() * charDeck.length);
 const randomNum0to8 = ():number => Math.floor(Math.random() * roomDeck.length);
@@ -31,17 +33,13 @@ const accuseMade = { name: false, weapon: false, room: false };
 
 const introBox = document.querySelector('.intro-text');
 const playerInput = document.querySelector<HTMLInputElement>('#input-name');
-
 const playerName = document.querySelector('.player-name');
 const errorMsgName = document.querySelector('.error-name');
 const startGameBtn: HTMLButtonElement | null = document.querySelector('.start-btn');
 const bgBlock = document.querySelector('.bg-block');
 const allRooms: NodeListOf<HTMLButtonElement> | null = document.querySelectorAll('.room-btn');
-const playAgainBtn = document.querySelectorAll('.restart-game-btn');
-const gameOverLoseBox = document.querySelector('.game-over-lose');
-const gameOverWinBox: Element | null = document.querySelector('.game-over-win');
 
-// needs to come before "const playerYou"
+// needs to come before "const player you"
 const createPlayerPieces = (className: string, source: string, altText: string): HTMLElement => {
   // Create a div element with the "player-piece" class
   const div: HTMLDivElement = document.createElement('div');
@@ -89,14 +87,16 @@ const player2GuessRoom = document.querySelector('.pl2-guess-room');
 // dice
 const dice = document.getElementsByClassName('dice')[0] as HTMLButtonElement;
 
-// counter
+// counter time
 let minutes: number;
 let seconds: number;
 minutes = 0;
 seconds = 0;
-
-// timer
 const currentTimer: Element | null = document.querySelector('.current-timer');
+
+// counter draws
+let count: number;
+count = 0;
 
 // comentator
 const commentatorText: Element | null = document.querySelector('.commentator-text');
@@ -114,6 +114,9 @@ let highscores: Highscore[] = [
 ];
 
 // game over
+const playAgainBtn = document.querySelectorAll('.restart-game-btn');
+const gameOverLoseBox = document.querySelector('.game-over-lose');
+const gameOverWinBox: Element | null = document.querySelector('.game-over-win');
 const rightName = document.querySelector('.right-answer-name');
 const rightWeapon = document.querySelector('.right-answer-weapon');
 const rightRoom = document.querySelector('.right-answer-room');
@@ -126,13 +129,15 @@ let drawWeaponAccuse: string[] = [...weaponDeck].splice(randomNum0to5(), 1);
 let drawRoomAccuse: string[] = [...roomDeck].splice(randomNum0to8(), 1);
 let accuseDeck:string[][] = [drawCharAccuse, drawWeaponAccuse, drawRoomAccuse];
 
-// players hands
+// players hands before delt cards
 let playerOneHand: string[] = [];
 let playerTwoHand: string[] = [];
 let playerYouHand: string[] = [];
 
+// merge all card from the three categories
 let mergedDeck: string[] = charDeck.concat(weaponDeck, roomDeck);
 
+// fn for shuffle deck
 const shuffle = (array: string[]):string[] => {
   const tempArray:string[] = [...array];
   let currentIndex:number = array.length;
@@ -149,7 +154,7 @@ const shuffle = (array: string[]):string[] => {
 
   return tempArray;
 };
-
+// has to come after shuffle-fn
 let shuffledCard: string[] = shuffle(mergedDeck);
 
 const dealCards = ():void => {
@@ -159,7 +164,10 @@ const dealCards = ():void => {
     playerYouHand.push(shuffledCard.shift() as string);
   }
 };
+
+// has to come before setPl1CardTexts
 dealCards();
+
 const setCardText = (card: string | HTMLElement | null, text: string): void => {
   const tempCard = card;
   if (tempCard !== null && tempCard instanceof HTMLElement) {
@@ -174,7 +182,7 @@ const setPl1CardTxts = (): void => {
   setCardText(pl1Card3, playerOneHand[2]);
 };
 
-const timer = () => {
+const timer = ():void => {
   seconds += 1;
 
   // If the number of seconds has reached 60,
@@ -191,7 +199,7 @@ const timer = () => {
   }
 };
 
-const resetTimer = () => {
+const resetTimer = ():void => {
   minutes = 0;
   seconds = 0;
 
@@ -200,17 +208,15 @@ const resetTimer = () => {
   }
 };
 
-let setTimer: number;
-
 // player 1 is placed in a random room
-const movePlayer1 = () => {
+const movePlayer1 = ():void => {
   allRooms[randomNum0to8()].appendChild(player1);
   if (commentatorText !== null) {
     commentatorText.innerHTML = 'The dog is on the loose!';
   }
 };
 
-const movePlayer2 = () => {
+const movePlayer2 = ():void => {
   allRooms[randomNum0to8()].appendChild(player2);
   if (commentatorText !== null) {
     commentatorText.innerHTML = 'The Elephant is sprinting!';
@@ -257,18 +263,17 @@ const disableGuessAccuseBtns = ():void => {
   }
 };
 
-const startGame = () => {
+const startGame = ():void => {
   defaultDice();
   enableDice();
   setPl1CardTxts();
   disableGuessAccuseBtns();
 
-  // sets the background color of the button to grey
-  const setButtonColor = (btn: HTMLButtonElement) => {
+  // remove the marked opt for next turns guesses
+  const setButtonColor = (btn: HTMLButtonElement):void => {
     btn.classList.remove('marked-option');
   };
 
-  // Set the background color of all the buttons in the  array to grey
   accuseNameBtns.forEach(setButtonColor);
   accuseWeaponBtns.forEach(setButtonColor);
   accuseRoomBtns.forEach(setButtonColor);
@@ -277,8 +282,7 @@ const startGame = () => {
     playerName.innerHTML = playerInput.value;
     validatePlayerInput();
     resetTimer();
-    // Start a new timer
-    setTimer = setInterval(timer, 1000);
+    setTimer = setInterval(timer, 1000); // Start a new timer
 
     if (commentatorText !== null) {
       commentatorText.innerHTML = 'Roll the dice!';
@@ -295,22 +299,27 @@ const enableGuessAccuseBtns = ():void => {
   }
 };
 
-const disableRoomBtns = ():void => {
-  allRooms.forEach((button: HTMLButtonElement) => {
-    button.setAttribute('disabled', 'true');
-  });
+const handlingDisableRooms = (button: HTMLButtonElement):void => {
+  button.setAttribute('disabled', 'true');
 };
+
+const disableRoomBtns = ():void => {
+  allRooms.forEach(handlingDisableRooms);
+};
+
+const handlingEnableRooms = (button: HTMLButtonElement):void => {
+  button.removeAttribute('disabled');
+};
+
 const enableRoomBtns = ():void => {
-  allRooms.forEach((button: HTMLButtonElement) => {
-    button.removeAttribute('disabled');
-  });
+  allRooms.forEach(handlingEnableRooms);
 };
 
 // move player you to different rooms
-const movePlayer = (e: Event) => {
+const movePlayer = (e: Event):void => {
   const target: EventTarget | null = e.currentTarget;
   if (target !== null && commentatorText !== null && target instanceof HTMLElement) {
-    if (!target.contains(playerYou)) {
+    if (!target.contains(playerYou)) { // check that player isnt already in the room
       target.appendChild(playerYou);
       disableRoomBtns();
       enableGuessAccuseBtns();
@@ -330,10 +339,6 @@ const addCardToHand = (card: Element, i: number): void => {
   yourCard.innerHTML = playerYouHand[i];
 };
 
-// when dice is clicked on -> add +1 on count
-let count: number;
-count = 0;
-
 const updateCount = ():void => {
   count += 1;
 };
@@ -346,12 +351,10 @@ const removeDiceRollingClass = (diceText: HTMLElement):void => {
   diceText.classList.remove('dice-rolling');
 };
 
-const rollDice = (e: Event) => {
+const rollDice = (e: Event):void => {
   const diceText = e.target as HTMLElement;
   const diceNr = randomNum0to5() + 1;
-  const resetDice = () => {
-    removeDiceRollingClass(diceText);
-  };
+  const resetDice = ():void => { removeDiceRollingClass(diceText); };
 
   // if dice is 4 or more => enable all room so you can move to one
   if (diceNr > 3) {
@@ -383,12 +386,12 @@ const showAccuseBox = (): void => {
   }
 };
 
-const guess = () => {
+const guess = ():void => {
   guessBox?.classList.remove('hidden');
   bgBlock?.classList.remove('hidden');
 };
 
-const checkGuessMade = () => {
+const checkGuessMade = ():void => {
   if (guessMade.name === true && guessMade.weapon === true && guessMade.room === true) {
     if (submitGuessBtn !== null) {
       submitGuessBtn.disabled = false;
@@ -396,7 +399,7 @@ const checkGuessMade = () => {
   }
 };
 
-const checkAccuseMade = () => {
+const checkAccuseMade = ():void => {
   if (accuseMade.name === true && accuseMade.weapon === true && accuseMade.room === true) {
     if (submitAccuseBtn !== null) {
       submitAccuseBtn.disabled = false;
@@ -404,9 +407,9 @@ const checkAccuseMade = () => {
   }
 };
 
-// mark one answer with backgroundcolor red in each categories
-const handleClick = (btns: HTMLButtonElement[], property: 'name' | 'weapon' | 'room', checkFn: () => void) => {
-  const handleButtonClick = (e: MouseEvent) => {
+// mark one answer with a backgroundcolor in each categories
+const handleClick = (btns: HTMLButtonElement[], property: 'name' | 'weapon' | 'room', checkFn: () => void):void => {
+  const handleButtonClick = (e: MouseEvent):void => {
     const button = e.target as HTMLButtonElement;
     button.classList.add('marked-option');
     guessMade[property] = true;
@@ -430,7 +433,7 @@ const handleClick = (btns: HTMLButtonElement[], property: 'name' | 'weapon' | 'r
 };
 
 // Function to update the highscore board
-const updateHighscoreBoard = () => {
+const updateHighscoreBoard = ():void => {
   if (winnersTable !== null) {
     winnersTable.innerHTML = ''; // Clear the current highscore board
 
@@ -449,27 +452,29 @@ const updateHighscoreBoard = () => {
   }
 };
 
+const sortHighscoreFn = (a: { score: number, time:string }, b: { score: number, time:string }):number => {
+  // sort by score in descending order
+  if (a.score !== b.score) {
+    return a.score - b.score;
+  }
+  // if scores are equal, sort by time in ascending order
+  const timeA = Date.parse(a.time);
+  const timeB = Date.parse(b.time);
+  return (timeA - timeB) / 1000;
+};
+
 // add a new highscore
 const addHighscore = (name: string, score: number, time: string): void => {
   const highscore: { name: string, score: number, time: string } = { name, score, time };
   highscores.push(highscore);
 
-  highscores.sort((a: { score: number, time:string }, b: { score: number, time:string }) => {
-    // sort by score in descending order
-    if (a.score !== b.score) {
-      return a.score - b.score;
-    }
-    // if scores are equal, sort by time in ascending order
-    const timeA = Date.parse(a.time);
-    const timeB = Date.parse(b.time);
-    return (timeA - timeB) / 1000;
-  });
+  highscores.sort(sortHighscoreFn);
 
   highscores = highscores.slice(0, 3); // Keep only the top 3 highscores
   updateHighscoreBoard();
 };
 
-const handlingSubmitAccuse = () => {
+const handlingSubmitAccuse = ():void => {
   // Stop the timer
   clearInterval(setTimer);
 
@@ -490,7 +495,7 @@ const handlingSubmitAccuse = () => {
   const checkPlayerInput = playerInput !== null;
   const checkNull = checkGameOverWinBox && checkSumDraws && checkSumtime && checkCommentatorText && checkCurrentTimer && checkPlayerInput;
 
-  // If the user's accusation is correct, show the win screen and add the score to the high scores
+  // If the player's accusation is correct, show the win screen and add the score to the high scores
   if (checkAllAccuse && checkNull) {
     accuseBox?.classList.add('hidden');
     gameOverWinBox.classList.remove('hidden');
@@ -500,7 +505,7 @@ const handlingSubmitAccuse = () => {
     addHighscore(playerInput.value, count, sumTime.innerHTML);
     commentatorText.innerHTML = 'You are the next Sherlock Holmes.';
 
-    // If the user's accusation is incorrect, show the lose screen and reveal the correct answers
+    // If the player's accusation is incorrect, show the lose screen and reveal the correct answers
   } else if (rightName !== null && rightWeapon !== null && rightRoom !== null && gameOverLoseBox !== null && commentatorText !== null) {
     const [[name], [weapon], [room]] = accuseDeck;
     rightName.innerHTML = name;
@@ -512,7 +517,8 @@ const handlingSubmitAccuse = () => {
   }
 };
 
-const defaultPl1Hand = () => {
+// default player1 hand after turn
+const defaultPl1Hand = ():void => {
   for (let i = 0; i < playerOneHand.length; i++) {
     playerOneCards[i].innerHTML = 'Cluedo';
     playerOneCards[i].classList.remove('guess-match', 'player1-match', 'player2-match');
@@ -532,7 +538,7 @@ const defaultYouHand = ():void => {
   }
 };
 
-// fn to change matching card blue
+// fn to add blue border to matching card/cards
 const setBlue = (hand: string[], cards: NodeListOf<Element>, tempGuess: string, check?:string):boolean => {
   const index: number = hand.indexOf(tempGuess);
   if (index > -1) {
@@ -543,7 +549,7 @@ const setBlue = (hand: string[], cards: NodeListOf<Element>, tempGuess: string, 
   return false;
 };
 
-// shows a text box of player 1's guess
+// shows a text of player 1's guess
 const showPlayer1GuessBox1 = ():void => {
   if (player1GuessBox !== null && commentatorText !== null) {
     player1GuessBox.classList.remove('hidden');
@@ -558,7 +564,7 @@ const defaultHandsAfterPl1 = ():void => {
   defaultYouHand();
 };
 
-// fn to turn the matching card green
+// fn to add green border to matching card/cards
 const setGreen = (hand: NodeListOf<Element>, index: number):void => {
   if (index > -1) {
     const tempHand = hand;
@@ -566,7 +572,7 @@ const setGreen = (hand: NodeListOf<Element>, index: number):void => {
   }
 };
 
-// shows a text box of player 2's guess
+// shows a text of player 2's guess
 const showPlayer2GuessBox = ():void => {
   if (player2GuessBox !== null && commentatorText !== null) {
     player2GuessBox?.classList.remove('hidden');
@@ -631,6 +637,7 @@ const player1Actions = ():void => {
     player1Actions();
   }
 };
+
 // player 2 (elephant) moves after player 1 is finish with its moves
 const player2Actions = ():void => {
   const diceNr:number = randomNum0to5() + 1;
@@ -650,13 +657,14 @@ const player2Actions = ():void => {
     player2GuessRoom.innerHTML = guessedRoom;
 
     // if player 1's card matches with the guess => change to color green
-    const highlightPlayerOneCards = () => {
+    const highlightPlayerOneCards = ():void => {
       setGreen(playerOneCards, playerOneHand.indexOf(guessedName));
       setGreen(playerOneCards, playerOneHand.indexOf(guessedWeapon));
       setGreen(playerOneCards, playerOneHand.indexOf(guessedRoom));
     };
+
     // if any cards from your hand matches with the guess => change to color green
-    const highlightUrHandFromPl2 = () => {
+    const highlightUrHandFromPl2 = ():void => {
       setGreen(playerYouCards, playerYouHand.indexOf(guessedName));
       setGreen(playerYouCards, playerYouHand.indexOf(guessedWeapon));
       setGreen(playerYouCards, playerYouHand.indexOf(guessedRoom));
@@ -675,7 +683,7 @@ const player2Actions = ():void => {
   }
 };
 
-const resetGuessOption = (name: HTMLButtonElement) => {
+const resetGuessOption = (name: HTMLButtonElement):void => {
   name.classList.remove('marked-option');
 };
 
@@ -690,14 +698,14 @@ const handlingSubmitGuess = ():void => {
   const guessedCards: string[] = [guessedName, guessedWeapon, guessedRoom];
 
   // reveal the card in player 1's hand if it matches with the guess
-  const revealPlayerOneCard = (card: string, i: number) => {
+  const revealPlayerOneCard = (card: string, i: number):void => {
     if (guessedCards.includes(card)) {
       playerOneCards[i].innerHTML = playerOneHand[i];
       playerOneCards[i].classList.add('guess-match'); // change color by adding classList
     }
   };
   // reveal the card in player 2's hand if it matches with the guess
-  const revealPlayerTwoCard = (card: string, i: number) => {
+  const revealPlayerTwoCard = (card: string, i: number):void => {
     if (guessedCards.includes(card)) {
       playerTwoCards[i].innerHTML = playerTwoHand[i];
       playerTwoCards[i].classList.add('guess-match');
@@ -722,6 +730,7 @@ const handlingSubmitGuess = ():void => {
   setTimeout(player2Actions, 1000 * 12);
 };
 
+// highschore
 const showHighscore = ():void => {
   highscoreBox?.classList.remove('hidden');
   gameOverLoseBox?.classList.add('hidden');
@@ -734,14 +743,15 @@ const openHighscore = (value: Element): void => {
   highscoreBtn.addEventListener('click', showHighscore);
 };
 
-const restartGame = (e: Event) => {
+const restartGame = (e: Event):void => {
   const target = e.target as HTMLElement;
 
   if (target !== null && target.parentElement !== null) {
     target.parentElement.classList.add('hidden');
-    count = 0;
+    count = 0; // reset counter
     introBox?.classList.remove('hidden');
   }
+  // reset accuseDeck and mergedDeck
   drawCharAccuse = [...charDeck].splice(randomNum0to5(), 1);
   drawWeaponAccuse = [...weaponDeck].splice(randomNum0to5(), 1);
   drawRoomAccuse = [...roomDeck].splice(randomNum0to8(), 1);
@@ -757,29 +767,23 @@ const restartGame = (e: Event) => {
   playerYouCards.forEach(addCardToHand);
 };
 
-if (startGameBtn !== null) {
-  startGameBtn.addEventListener('click', startGame);
-}
 const playAgainFn = (btn: HTMLButtonElement): void => {
   btn.addEventListener('click', restartGame);
 };
 
-(playAgainBtn as NodeListOf<HTMLButtonElement>).forEach(playAgainFn);
+if (startGameBtn !== null) {
+  startGameBtn.addEventListener('click', startGame);
+}
 
+playerYouCards.forEach(addCardToHand);
+allRooms.forEach(movePlayerForEach);
 dice.addEventListener('click', rollDice);
 
 if (guessBtn !== null) {
   guessBtn.addEventListener('click', guess);
 }
 
-//
-//
-//
-allRooms.forEach(movePlayerForEach);
-
-// change your cards innerHTML
-playerYouCards.forEach(addCardToHand);
-
+submitGuessBtn?.addEventListener('click', handlingSubmitGuess);
 handleClick(guessNameBtns, 'name', checkGuessMade);
 handleClick(guessWeaponBtns, 'weapon', checkGuessMade);
 handleClick(guessRoomBtns, 'room', checkGuessMade);
@@ -791,18 +795,8 @@ if (accuseBtn !== null) {
   accuseBtn.addEventListener('click', showAccuseBox);
 }
 
-submitGuessBtn?.addEventListener('click', handlingSubmitGuess);
 submitAccuseBtn?.addEventListener('click', handlingSubmitAccuse);
 
-// Initialize the highscore board
 updateHighscoreBoard();
 highscoreBtns.forEach(openHighscore);
-console.table(playerYouHand);
-console.log('player YOU hand');
-
-console.table(playerOneHand);
-console.log('player1 hand');
-console.table(playerTwoHand);
-console.log('player2 hand');
-console.table(accuseDeck);
-console.log('accused deck');
+(playAgainBtn as NodeListOf<HTMLButtonElement>).forEach(playAgainFn);

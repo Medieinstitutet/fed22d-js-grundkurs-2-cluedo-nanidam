@@ -1,19 +1,12 @@
-@use "utils/a11y"; // Om det inte funkar, byt @use mot @import
+@use "utils/a11y";
 @use "vendor/reset";
 
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: rem(16px);
   line-height: 24px;
   font-weight: 400;
   color-scheme: light dark;
   color: rgb(255 255 255 / 87%);
   background-color: rgb(0 77 82);
-  font-synthesis: none;
-  text-rendering: optimizelegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-size-adjust: 100%;
 }
 
 html {
@@ -30,7 +23,6 @@ html {
 }
 
 .player1-guess {
-  // background-color: blue;
   position: absolute;
   height: 8%;
   max-width: 19%;
@@ -41,7 +33,6 @@ html {
 }
 
 .player2-guess {
-  // background-color: green;
   position: absolute;
   height: 8%;
   max-width: 19%;
@@ -51,7 +42,6 @@ html {
   padding: 10px;
   z-index: 20;
 }
-
 
 h1 {
   text-align: center;
@@ -142,7 +132,6 @@ h1 {
     .accuse-characters,
     .accuse-weapons,
     .accuse-rooms {
-      // outline: 2px solid orangered;
       display: flex;
       flex-direction: column;
       width: 32%;
@@ -202,14 +191,12 @@ h2 {
   border: 2px solid black;
 
   .board-first-row {
-    // outline: 2px solid blue;
     display: flex;
     justify-content: space-around;
     margin-top: 10px;
   }
 
   .board-middle-row {
-    // outline: 2px solid orangered;
     display: flex;
     justify-content: space-around;
     margin-top: 10px;
@@ -228,7 +215,6 @@ h2 {
     }
 
     .board-envelope {
-      //outline: 2px solid black;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -255,7 +241,6 @@ h2 {
     }
 
     .board-small-room {
-      // outline: 2px solid green;
       display: flex;
       flex-direction: column;
 
@@ -274,7 +259,6 @@ h2 {
   }
 
   .board-last-row {
-    // outline: 2px solid pink;
     display: flex;
     justify-content: space-around;
     margin-bottom: 10px;
@@ -325,13 +309,11 @@ h2 {
 }
 
 .player-you {
-  // outline: 2px solid purple;
   width: 100%;
   margin: 10px;
   font-family: 'Playfair Display', serif;
 
   .your-hand {
-    // outline: 2px solid blue;
     display: flex;
     justify-content: center;
     gap: 10px;
@@ -367,7 +349,6 @@ h2 {
 
   .player1,
   .player2 {
-    // outline: 2px solid white;
     height: 50%;
     width: 30rem;
     font-family: 'Playfair Display', serif;
@@ -423,7 +404,6 @@ h2 {
     font-weight: 900;
     color: black;
     box-shadow: 0 10px 20px rgba(0 0 0), 0 6px 6px rgba(0 0 0);
-
   }
 }
 
@@ -471,7 +451,7 @@ h2 {
   width: 750px;
   position: absolute;
   top: 30%;
-  left: 27%;
+  left: 28%;
   padding: 10px;
   text-align: center;
   z-index: 20;
@@ -486,7 +466,6 @@ h2 {
 
   &.game-over-lose {
     background-color: rgb(52 0 124);
-
   }
 
   >h2 {
@@ -544,7 +523,6 @@ h2 {
   font-family: 'Playfair Display', serif;
 }
 
-
 .commentator-box {
   position: absolute;
   bottom: -10%;
@@ -556,7 +534,7 @@ h2 {
   background-color: rgb(52 52 52);
   box-shadow: 0 10px 20px rgba(0 0 0), 0 6px 6px rgba(0 0 0);
   border-radius: 10px;
-  padding: 5 px;
+  padding: 5px;
   font-family: 'Playfair Display', serif;
   font-size: 1.2rem;
 }
