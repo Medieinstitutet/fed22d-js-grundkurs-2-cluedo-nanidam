@@ -12,15 +12,17 @@ To win the game, a player must use their detective skills to gather as much info
 
 _Disclaimer_ This version is made to be played on a desktop layout and not for mobile and smaller tablets.
 
+[Link to Cluedo](https://medieinstitutet.github.io/fed22d-js-grundkurs-2-cluedo-nanidam/)
+
 ## Tech Stack
 
-**User interface**<br> *HTML <br> *CSS<br> \*Sass
+**User interface**<br> HTML <br> CSS<br> Sass
 
-**Functionality**<br> *JavaScript<br> *TypeScript
+**Functionality**<br> JavaScript<br> TypeScript
 
 **Versioncontroll**<br> Git
 
-**Tools** <br> *Visual Studio Code <br> *Eslint<br> *Prettier <br> *Vite
+**Tools** <br> Visual Studio Code <br> Eslint<br> Prettier <br> Vite
 
 ## Screenshots
 
