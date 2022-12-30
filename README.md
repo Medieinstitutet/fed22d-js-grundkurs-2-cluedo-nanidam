@@ -14,7 +14,7 @@ _Disclaimer_ This version is made to be played on a desktop layout and not for m
 
 ## Tech Stack
 
-**User interface** HTML CSS Sass
+**User interface** HTML<br> CSS Sass
 
 **Functionality** JavaScript TypeScript
 
