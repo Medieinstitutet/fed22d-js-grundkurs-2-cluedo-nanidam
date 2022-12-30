@@ -14,17 +14,17 @@ _Disclaimer_ This version is made to be played on a desktop layout and not for m
 
 ## Tech Stack
 
-**User interface** HTML<br> CSS Sass
+**User interface**<br> HTML <br> CSS<br> Sass
 
-**Functionality** JavaScript TypeScript
+**Functionality**<br> JavaScript<br> TypeScript
 
-**Versioncontroll** Git
+**Versioncontroll**<br> Git
 
-**Tools** Visual Studio Code Eslint Prettier Vite
+**Tools** <br> Visual Studio Code <br> Eslint<br> Prettier <br> Vite
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](./public/cluedo-printscreen1.jpg) ![App Screenshot](./public/cluedo-printscreen2.jpg) ![App Screenshot](./public/cluedo-printscreen3.jpg) ![App Screenshot](./public/cluedo-printscreen4.jpg) ![App Screenshot](./public/cluedo-printscreen5.jpg)
 
 ## Publicera ditt projekt
 
