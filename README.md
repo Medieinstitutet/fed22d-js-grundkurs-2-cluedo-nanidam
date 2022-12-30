@@ -10,6 +10,8 @@ To make a guess, a player will choose one of the suspects, weapons, or locations
 
 To win the game, a player must use their detective skills to gather as much information as possible through careful questioning and deduction. With each correct guess, players will narrow down the possible combinations of suspects, weapons, and locations, bringing them one step closer to solving the crime.
 
+This game is referenced from [Wikipedia]('https://sv.wikipedia.org/wiki/Cluedo')
+
 _Disclaimer_ This version is made to be played on a desktop layout and not for mobile and smaller tablets.
 
 ## Tech Stack
