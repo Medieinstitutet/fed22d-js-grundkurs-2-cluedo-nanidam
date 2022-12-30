@@ -57,7 +57,7 @@ const createPlayerPieces = (className: string, source: string, altText: string):
 
 // player you
 // const playerYou:HTMLElement = createPlayerPieces('player-piece', 'public/animal-ape-apes-svgrepo-com.svg', 'An orange ape representing your board piece');
-const playerYou:HTMLElement = createPlayerPieces('player-piece', 'https://github.com/Medieinstitutet/fed22d-js-grundkurs-2-cluedo-nanidam/blob/main/public/animal-ape-apes-svgrepo-com.svg', 'An orange ape representing your board piece');
+const playerYou:HTMLElement = createPlayerPieces('player-piece', '../public/animal-ape-apes-svgrepo-com.svg', 'An orange ape representing your board piece');
 
 const playerYouCards:NodeListOf<Element> = document.querySelectorAll('.your-card');
 const guessNameBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll('.guess-name-btn'));
