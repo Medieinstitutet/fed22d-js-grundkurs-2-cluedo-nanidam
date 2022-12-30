@@ -56,7 +56,6 @@ const createPlayerPieces = (className: string, source: string, altText: string):
 };
 
 // player you
-// const playerYou:HTMLElement = createPlayerPieces('player-piece', 'public/animal-ape-apes-svgrepo-com.svg', 'An orange ape representing your board piece');
 const playerYou:HTMLElement = createPlayerPieces('player-piece', 'animal-ape-apes-svgrepo-com.svg', 'An orange ape representing your board piece');
 
 const playerYouCards:NodeListOf<Element> = document.querySelectorAll('.your-card');
@@ -71,7 +70,7 @@ const accuseRoomBtns: HTMLButtonElement[] = Array.from(document.querySelectorAll
 const accuseBox: HTMLElement | null = document.querySelector('.accuse-box');
 
 // player 1
-const player1 = createPlayerPieces('player1-piece', 'public/animal-cachorro-dog-svgrepo-com.svg', 'A brown dog representing player 2 board piece');
+const player1 = createPlayerPieces('player1-piece', 'animal-cachorro-dog-svgrepo-com.svg', 'A brown dog representing player 2 board piece');
 const playerOneCards: NodeListOf<Element> = document.querySelectorAll('.player1-card');
 const player1GuessBox = document.querySelector('.player1-guess');
 const player1GuessName = document.querySelector('.pl1-guess-name');
@@ -79,7 +78,7 @@ const player1GuessWeapon = document.querySelector('.pl1-guess-weapon');
 const player1GuessRoom = document.querySelector('.pl1-guess-room');
 
 // player 2
-const player2 = createPlayerPieces('player2-piece', '../public/animal-elefante-elephant-svgrepo-com.svg', 'A grey elephant representing player 2 board piece');
+const player2 = createPlayerPieces('player2-piece', 'animal-elefante-elephant-svgrepo-com.svg', 'A grey elephant representing player 2 board piece');
 const playerTwoCards: NodeListOf<Element> = document.querySelectorAll('.player2-card');
 const player2GuessBox = document.querySelector('.player2-guess');
 const player2GuessName: Element | null = document.querySelector('.pl2-guess-name');
